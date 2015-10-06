@@ -16,14 +16,24 @@ public class Spielfeld {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
+	/**
+	 * Default constructor
+	 */
 	public Spielfeld(){
 		
 	}
 	
+	/**
+	 * @param ID
+	 */
 	public Spielfeld(String ID){
 		this.setID(ID);
 	}
 	
+	/**
+	 * @param ID
+	 * @param figur
+	 */
 	public Spielfeld(String ID, Spielfigur figur){
 		this.setFigur(figur);
 		this.setID(ID);
