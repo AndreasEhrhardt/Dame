@@ -4,13 +4,6 @@
 import java.awt.*;
 
 //###########################################################
-//## Enums
-
-enum FarbEnum{
-	schwarz, weiﬂ
-}
-
-//###########################################################
 //## Class
 
 /**
@@ -78,7 +71,7 @@ public class Spielfigur {
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//++ Methods (defaults)
+	//++ Methods (Override)
 
 	@Override
 	public boolean equals(Object obj){

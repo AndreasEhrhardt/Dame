@@ -1,3 +1,5 @@
+//################################################################################
+//## Class
 
 /**
  * @author Andreas
@@ -35,7 +37,7 @@ public class Spielbrett {
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//++ Methods ( default )
+	//++ Methods ( Override )
 
 	public boolean equals(Object obj){
 		// Check for self-comparing
