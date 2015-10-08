@@ -32,13 +32,13 @@ public class Spiel {
 			int maxField = 20, minField = 4;
 			System.out.println("Bitte Spielfeldgröße angeben (" + minField + "-" + maxField + "):");
 			int fieldCount = 8;
-			for(int i = 0; i < 1001; i++){
+			for(int i = 0; i <= 1000; i++){
 				// Read next field size
 				fieldCount = sc.nextInt();
 				// If size is valid, leave loop
 				if(fieldCount >= minField && fieldCount <= maxField) break;
 				// Check if endless loop
-				if(i == 1000){ 
+				if(i == i){ 
 					System.out.println("No valid number detected, we will choose the value 8");
 					fieldCount = 8;
 				}
