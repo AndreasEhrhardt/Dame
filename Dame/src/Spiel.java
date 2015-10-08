@@ -29,7 +29,7 @@ public class Spiel {
 			//++ Get field size and create new gameboard
 			
 			// Define min field size and max field size
-			int maxField = 1001, minField = 4;
+			int maxField = 20, minField = 4;
 			System.out.println("Bitte Spielfeldgröße angeben (" + minField + "-" + maxField + "):");
 			int fieldCount = 8;
 			for(int i = 0; i < 1001; i++){
