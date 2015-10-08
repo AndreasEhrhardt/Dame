@@ -21,6 +21,10 @@ public class Spielbrett {
 		// Create a 8x8 game-board
 		felder = new Spielfeld[8][8];
 	}
+	
+	public Spielbrett(int fieldCount){
+		felder = new Spielfeld[fieldCount][fieldCount];
+	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
