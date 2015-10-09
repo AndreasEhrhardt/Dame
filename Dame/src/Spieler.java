@@ -16,6 +16,10 @@ public class Spieler {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 	
+	public Spieler(){
+		this.setName("");
+	}
+	
 	/**
 	 * @param name
 	 */
