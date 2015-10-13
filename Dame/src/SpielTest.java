@@ -17,5 +17,7 @@ public class SpielTest implements iBediener {
 			}
 		}
 	}
+	
+	public int 
 }
 
