@@ -16,7 +16,7 @@ public class Spielfigur {
 	//++ Properties
 
 	private FarbEnum color;
-	private Point position;
+	private Point position;	
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor

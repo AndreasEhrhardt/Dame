@@ -7,7 +7,7 @@ import java.util.*;
 //## Class
 
 
-public class Spiel{
+public class Spiel implements iBediener{
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
@@ -22,16 +22,15 @@ public class Spiel{
 	public Spiel(){
 		gamer = new Spieler[2];
 
-		try{			
-			// Create gameboard
-			this.createGameBoard();
+		// Create gameboard
+		this.gameboard = this.createGameBoard();
 
-			// Create gamer 1
-		}
-		catch(Exception e){
-			System.out.println("Some errors appear");
+		// Create gamer 1
+		gamer[0] = createGamer();
 
-		}
+		// Create gamer 2
+		gamer[1] = createGamer();
+
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -40,16 +39,16 @@ public class Spiel{
 	/**
 	 * 
 	 */
-	private void createGameBoard() throws Exception
+	private Spielbrett createGameBoard()
 	{
 		// Create scanner
 		Scanner sc = new Scanner(System.in);
 
 		// Get field size
-		int maxField = 20, minField = 4;
-		System.out.print("Bitte Spielfeldgröße angeben (" + minField + "-" + maxField + "):");
-		int fieldCount = 8;
+		int maxField = 20, minField = 4, fieldCount = 8;
 		for(int i = 0; i <= maxLoopCount; i++){
+			// Output information
+			System.out.print("Bitte Spielfeldgröße angeben (" + minField + "-" + maxField + "):");
 			// Read next field size
 			fieldCount = sc.nextInt();
 			// If size is valid, leave loop
@@ -59,29 +58,36 @@ public class Spiel{
 				System.out.println("No valid number detected, we will choose the value 8");
 				fieldCount = 8;
 			}
+			
+			System.out.println(i);
 		}
 
 		// Create gameboard
-		this.gameboard = new Spielbrett(fieldCount);
-
-		// Close scanner
-		sc.close();
+		return new Spielbrett(fieldCount);
 	}
 
-	private Spieler createGamer(){
+	/**
+	 * @return
+	 * @throws Exception
+	 */
+	private Spieler createGamer() {
 		//create Scanner
 		Scanner sc = new Scanner(System.in);
 
 		//create Gamer
 		int gamerID = 0;
 		for(int i = 0; i <= maxLoopCount; i++){
+			// Get gamer type
 			System.out.println("Spieler oder KI?");
 			System.out.println("Spieler = 1, KI = 2");
-
+			System.out.print("Ihre Eingabe: ");
 			gamerID = sc.nextInt();
+			System.out.println("");
 
+			// Check if type is valid
 			if(gamerID == 1 || gamerID == 2) break;
 
+			// Check if endless loop
 			if(i == maxLoopCount){
 				System.out.println("No valid number detected, we will choose KI for you");
 				gamerID = 2;
@@ -89,12 +95,13 @@ public class Spiel{
 		}
 		if(gamerID == 1){
 			String gamerName = "";
-			System.out.println("Bitte Spielername eingeben:");
 			for(int i = 0; i <= maxLoopCount; i++){
-				gamerName = sc.nextLine();
-				
+				System.out.print("Bitte Spielername eingeben:");
+				gamerName = sc.next();
+				System.out.println("");
+
 				if(!gamerName.isEmpty()) break;
-				
+
 				if(i == maxLoopCount){
 					System.out.println("No name insert, we will call you Peter");
 					gamerName = "Peter";
@@ -104,7 +111,13 @@ public class Spiel{
 		}else if(gamerID == 2){
 			return new KI();
 		}
+		else{
+			return new Spieler();
+		}
+
+
 	}
+
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
 
