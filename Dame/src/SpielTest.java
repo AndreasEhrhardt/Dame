@@ -17,7 +17,28 @@ public class SpielTest implements iBediener {
 			}
 		}
 	}
-	
-	public int 
-}
+
+	@Override
+	public void nextMove() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void outputGameboardCSV() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getGameboardSize() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Spieler getPlayer(int playerNumber) {
+		// TODO Auto-generated method stub
+		return null;
+	}}
 
