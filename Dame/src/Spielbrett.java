@@ -2,7 +2,7 @@
 //## Class
 
 /**
- * @author Andreas
+ * @author Andreas, Schie, Mintaha, Marvin
  *
  */
 public class Spielbrett {
@@ -15,13 +15,17 @@ public class Spielbrett {
 	//++ Constructor
 
 	/**
-	 * 
+	 * Constructor for a regular sized checkers game
 	 */
 	public Spielbrett(){
 		// Create a 8x8 game-board
 		felder = new Spielfeld[8][8];
 	}
 	
+	/**
+	 * @param fieldCount Saves the number of Felder for the game in an two dimensional array
+	 * Constructor for a custom sized checkers game
+	 */
 	public Spielbrett(int fieldCount){
 		felder = new Spielfeld[fieldCount][fieldCount];
 	}
@@ -29,6 +33,9 @@ public class Spielbrett {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
 
+	/**
+	 * Gets the number of Felder
+	 */
 	public Spielfeld[][] getFelder() {
 		return felder;
 	}
@@ -36,6 +43,10 @@ public class Spielbrett {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Setter)
 
+	/**
+	 * @param felder Number of Felder for the final board size
+	 * Sets the number of Felder
+	 */
 	public void setFelder(Spielfeld[][] felder) {
 		this.felder = felder;
 	}
@@ -43,6 +54,14 @@ public class Spielbrett {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Override )
 
+	/**
+	 * @param obj 
+	 * Compares if object is the same as this.
+	 * If not it is casted to an object of this class.
+	 * 
+	 * Position data will also be checked and if there's already an object on a Feld,
+	 * it will return false.
+	 */
 	public boolean equals(Object obj){
 		// Check for self-comparing
 		if(obj == this) return true;
