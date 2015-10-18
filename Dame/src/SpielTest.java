@@ -1,44 +1,61 @@
 /**
  *
  */
+import java.util.Scanner;
+
 public class SpielTest implements iBediener {
 
 	public static void main(String[] args) {
 
-		Spiel game = new Spiel();
-		Spielbrett gameboard = null;
+		Spiel spiel = new Spiel();
+		Spieler gamerName = new Spieler();
+		Spielfeld[][] felder = new Spielfeld[8][8];
 
-		for (int i = 0; i < 12; i++) {
-			for (int j = 0; j < 12; j++) {
-				if (gameboard != null) {
-					System.out.println("Zeile" + i + ", Spalte " + j
-							+ "geklickt ");
-				}
+		int zeile;
+		int spalte;
+
+		Scanner sc = new Scanner(System.in);
+		for (int i = 0; i < felder.length; i++) {
+			try {
+				System.out.println(" ");
+				System.out.println("Spieler" + gamerName.name);
+				System.out.println("Zeile eingeben: ");
+				zeile = sc.nextInt();
+
+				System.out.println("Spalte eingeben: ");
+				spalte = sc.nextInt();
+				System.out.println("Spieler" + gamerName.name + " hat Zeile "
+						+ zeile + " ,Spalte " + spalte + " ausgewählt !");
+			} catch (Exception e) {
+				System.out.println("");
+				sc.nextLine();
+
 			}
 		}
 	}
 
 	@Override
 	public void nextMove() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void outputGameboardCSV() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public int getGameboardSize() {
-		// TODO Auto-generated method stub
+
 		return 0;
+
 	}
 
 	@Override
 	public Spieler getPlayer(int playerNumber) {
-		// TODO Auto-generated method stub
-		return null;
-	}}
+
+		return new Spieler();
+	}
+
+}
 
