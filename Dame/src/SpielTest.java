@@ -1,6 +1,7 @@
 /**
  *
  */
+
 import java.util.Scanner;
 
 public class SpielTest implements iBediener {
@@ -8,42 +9,60 @@ public class SpielTest implements iBediener {
 	public static void main(String[] args) {
 
 		Spiel spiel = new Spiel();
-		Spieler gamerName = new Spieler();
+
 		Spielfeld[][] felder = new Spielfeld[8][8];
+
+		// Attribute
 
 		int zeile;
 		int spalte;
 
+		// create Scanner
 		Scanner sc = new Scanner(System.in);
+
+		// Get gamer position
+
 		for (int i = 0; i < felder.length; i++) {
+			for(int j=0;j<felder[i].length;j++){
 			try {
 				System.out.println(" ");
-				System.out.println("Spieler" + gamerName.name);
-				System.out.println("Zeile eingeben: ");
+				System.out.println("Spieler");
+				System.out.print("Zeile eingeben: ");
 				zeile = sc.nextInt();
 
-				System.out.println("Spalte eingeben: ");
+				System.out.print("Spalte eingeben: ");
 				spalte = sc.nextInt();
-				System.out.println("Spieler" + gamerName.name + " hat Zeile "
-						+ zeile + " ,Spalte " + spalte + " ausgewählt !");
+				System.out.println("Spieler hat Zeile " + zeile + " ,Spalte "
+						+ spalte + " ausgewÃ¤hlt !");
 			} catch (Exception e) {
 				System.out.println("");
 				sc.nextLine();
 
 			}
+
+		}
 		}
 	}
 
+	/**
+	 * @param
+	 */
 	@Override
 	public void nextMove() {
 
 	}
 
+	/**
+	 * @param
+	 */
 	@Override
 	public void outputGameboardCSV() {
 
 	}
 
+	/**
+	 * @return
+	 */
 	@Override
 	public int getGameboardSize() {
 
@@ -51,6 +70,9 @@ public class SpielTest implements iBediener {
 
 	}
 
+	/**
+	 * @return
+	 */
 	@Override
 	public Spieler getPlayer(int playerNumber) {
 
@@ -58,4 +80,3 @@ public class SpielTest implements iBediener {
 	}
 
 }
-
