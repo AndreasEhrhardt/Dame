@@ -2,6 +2,7 @@
 //###########################################################
 //## Imports
 
+import java.io.*;
 import java.util.*;
 
 //###########################################################
@@ -25,16 +26,32 @@ public class Spiel implements iBediener {
 		// Create gameboard
 		this.gameboard = this.createGameBoard();
 
-		// Create gamer 1
-		gamer[0] = getPlayer(1);
+		if(askNewGame()){
+			// Create gamer 1
+			gamer[0] = getPlayer(1);
 
-		// Create gamer 2
-		gamer[1] = getPlayer(2);
-
+			// Create gamer 2
+			gamer[1] = getPlayer(2);
+		}
+		else{
+			this.loadGame();
+		}
+		
+		// Start game-loop
+		this.gameLoop();
 	}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods
+	
+	/**
+	 * 
+	 */
+	private void gameLoop(){
+		while(!gameFinished()){
+			
+		}
+	}
 
 	/**
 	 * 
@@ -125,6 +142,10 @@ public class Spiel implements iBediener {
 			}
 
 		}
+		
+		// Create temp-reference
+		Spieler newGamer;
+		
 		if (gamerID == 1) {
 			String gamerName = "";
 			for (int i = 0; i <= maxLoopCount; i++) {
@@ -140,13 +161,23 @@ public class Spiel implements iBediener {
 					gamerName = "Peter";
 				}
 			}
-			return new Spieler(gamerName);
+			
+			// Create new normal player
+			newGamer =  new Spieler(gamerName);
 		} else if (gamerID == 2) {
-			return new KI();
+			// Create new KI-Player
+			newGamer = new KI();
 		} else {
-			return new Spieler();
+			// Create a default player
+			newGamer = new Spieler();
 		}
-
+		
+		// Set player color
+		if(playerNumber == 1) newGamer.setColor(FarbEnum.weiß);
+		else newGamer.setColor(FarbEnum.schwarz);
+		
+		// Return new gamer
+		return newGamer;
 	}
 
 
@@ -160,5 +191,103 @@ public class Spiel implements iBediener {
 	public void outputGameboardCSV()
 	{
 
+	}
+
+	@Override
+	public void loadingScreen() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void loadGame() {
+		try{
+			// Open file stream
+			FileInputStream f_in = new FileInputStream("./savegame.data");
+			ObjectInputStream obj_in = new ObjectInputStream (f_in);
+
+			// Read object
+			Object obj = obj_in.readObject();
+
+			// Check if object is from same class
+			if(obj.getClass() == Spiel.class){
+				// Parse object
+				Spiel lastGame = (Spiel)obj;
+				
+				// Get game-data
+				this.gamer[0] = lastGame.gamer[0];
+				this.gamer[1] = lastGame.gamer[1];
+				this.gameboard = lastGame.gameboard;
+				this.currentGamer = lastGame.currentGamer;
+			}
+		}
+		catch(IOException | ClassNotFoundException e){
+			// Output error message
+			System.out.println("Savegame is corrupt");
+
+			// Exit game
+			System.exit(-1);
+		}
+	}
+
+	@Override
+	public void saveGame() {
+		try{
+			// Save game state
+			FileOutputStream game = new FileOutputStream("savegame.data");
+			ObjectOutputStream gameObjStream = new ObjectOutputStream (game);
+			gameObjStream.writeObject(this);
+
+			// Close file handle
+			gameObjStream.close();
+		}
+		catch(IOException e){
+			// File save error
+			System.out.println("Cant save game - state");
+		}
+	}
+
+	@Override
+	public boolean gameFinished() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean askNewGame() {
+		// Create help variables
+		int gameType = 0;
+		Scanner sc = new Scanner(System.in);
+
+		// Get gametype
+		for (int i = 0; i <= maxLoopCount; i++) {
+			try{
+				// Ask for new game / load game
+				System.out.print("Create nwe game (1) or load game (2): ");
+
+				// Get result
+				gameType = sc.nextInt();
+
+				// Go to next line
+				System.out.println("");
+
+				// Check if result is valid
+				if(gameType  == 1 || gameType == 2) break;
+
+			}catch(NoSuchElementException | IllegalStateException e ){
+				// Clear input buffer
+				sc.nextLine();
+			} finally{
+				// Check if endless loop
+				if (i == maxLoopCount) {
+					System.out.println("No valid number detected, we will choose 'new game'");
+					gameType = 1;
+				}
+			}
+		}
+
+		// Return result
+		if(gameType == 1) return true;
+		else return false;
 	}
 }
