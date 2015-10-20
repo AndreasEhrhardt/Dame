@@ -16,7 +16,6 @@ public class Spielfigur {
 	//++ Properties
 
 	private FarbEnum color;
-	private Point position;	
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
@@ -25,11 +24,10 @@ public class Spielfigur {
 	 * @param color
 	 * @param position
 	 */
-	public Spielfigur(FarbEnum color, Point position)
+	public Spielfigur(FarbEnum color)
 	{
 		// Set values
 		this.setColor(color);
-		this.setPosition(position);
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -44,15 +42,6 @@ public class Spielfigur {
 		return color;
 	}
 
-	/**
-	 * Getter method of "position"
-	 * Return a reference of position
-	 * @return position
-	 */
-	public Point getPosition(){
-		return position;
-	}
-
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Setter)
 
@@ -61,13 +50,6 @@ public class Spielfigur {
 	 */
 	public void setColor(FarbEnum color){
 		this.color = color;
-	}
-
-	/**
-	 * @param position
-	 */
-	public void setPosition(Point position){
-		this.position = position;
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

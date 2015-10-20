@@ -11,7 +11,7 @@ public class Spielfeld {
 	//++ Properties
 
 	private String ID;
-	private Spielfigur figur;
+	private Spielfigur figur = null;
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor

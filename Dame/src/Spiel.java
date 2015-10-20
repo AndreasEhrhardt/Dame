@@ -218,7 +218,64 @@ public class Spiel implements iBediener {
 
 	@Override
 	public void outputGameboardCSV(){
+		// Get gameboard fields
+		Spielfeld felder[][] = this.gameboard.getFelder();
 
+		// Define start variable
+		char currentRow = (char)(65 + felder.length - 1);
+		int currentColumn = 1;
+		
+		// Create empty line
+		System.out.println("");
+
+		// For every row - DESC
+		for(int i = felder.length - 1; i >= 0; i--){
+			currentColumn = 1;
+			
+			// Write colum name
+			System.out.print(currentRow);
+
+			// For every column
+			for(int j = felder[i].length - 1; j >= 0; j--){
+				// Get figur of field
+				Spielfigur currentFigur = felder[i][j].getFigur();
+				
+				// Write seperator
+				System.out.print(";");
+				
+				// Check if field have figur or not
+				if(currentFigur == null) System.out.print("  ");
+				else{ 
+					if(currentFigur.getColor() == FarbEnum.weiﬂ) 
+						System.out.print(" W");
+					else
+						System.out.print(" S");
+				}
+
+				// Increase column value
+				currentColumn++;
+			}
+			
+			// End of line
+			System.out.println("");
+
+			// Increase row value
+			int ascii = currentRow;
+			currentRow = (char)--ascii;
+		}
+		
+		// Draw column names
+		for(int i = 0; i <= felder.length; i++){
+			if(i == 0) System.out.print(" ");
+			else{
+				System.out.print(";");
+				System.out.print(String.format("%02d",i));
+			}
+		}
+		System.out.println("");
+		
+		// Create empty line
+		System.out.println("");
 	}
 
 	@Override

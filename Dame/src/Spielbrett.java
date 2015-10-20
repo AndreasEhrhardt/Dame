@@ -21,7 +21,7 @@ public class Spielbrett {
 		// Create a 8x8 game-board
 		this.createField(8);
 	}
-	
+
 	/**
 	 * @param fieldCount Saves the number of Felder for the game in an two dimensional array
 	 * Constructor for a custom sized checkers game
@@ -29,20 +29,65 @@ public class Spielbrett {
 	public Spielbrett(int fieldCount){
 		this.createField(fieldCount);
 	}
-	
+
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods
-	
+
 	private void createField(int size){
 		// Create field
 		felder = new Spielfeld[size][size];
+
+		// Fill "felder"
+		for(int i = 0; i < this.felder.length; i++){
+			for(int j = 0; j < this.felder[i].length; j++){
+				this.felder[i][j] = new Spielfeld();
+			}
+		}
 		
-		// Set field-color
-		this.setColors();
+		// Add gmae figurs
+		this.addFigure();
+		
+		// Set IDs
+		this.setID();
 	}
 	
-	private void setColors(){
-		for()
+	private void addFigure(){
+		int xPos = 0;
+		
+		// Add white figures
+		for(int i = this.felder.length - 4; i < this.felder.length; i++){
+			for(int j = xPos; j < this.felder.length; j = j + 2){
+				this.felder[i][j].setFigur(new Spielfigur());
+			}
+		}
+	}
+
+	private void setID(){
+		// Define start variable
+		char currentRow = (char)65;
+		int currentColumn = 1;
+
+		// For every row - DESC
+		for(int i = this.felder.length - 1; i >= 0; i--){
+			currentColumn = 1;
+
+			// For every column
+			for(int j = this.felder[i].length - 1; j >= 0; j--){
+				// Create new ID-Name
+				StringBuilder fieldName = new StringBuilder();
+				fieldName.append(currentRow);
+				fieldName.append(currentColumn);
+
+				// Set field names
+				this.felder[i][j].setID(fieldName.toString());
+
+				// Increase column value
+				currentColumn++;
+			}
+
+			// Increase row value
+			currentRow = currentRow++;
+		}
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
