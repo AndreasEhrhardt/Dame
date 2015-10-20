@@ -25,6 +25,7 @@ public class Spieler {
 	 */
 	public Spieler(KI ki_player, FarbEnum color){
 		setKI(ki_player);
+		this.setColor(color);
 	}
 	
 	/**
