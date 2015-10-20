@@ -12,7 +12,7 @@ public class Spieler {
 
 	String name;
 	FarbEnum color;
-
+	KI ki_player = null;
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 	
@@ -23,8 +23,8 @@ public class Spieler {
 	/**
 	 * @param name
 	 */
-	public Spieler(String name){
-		this.setName(name);
+	public Spieler(KI ki_player){
+		setKI(ki_player);
 	}
 	
 	/**
@@ -36,6 +36,8 @@ public class Spieler {
 		this.setColor(color);
 	}
 	
+	
+	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods
 	
@@ -45,6 +47,10 @@ public class Spieler {
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
+	
+	public KI getKi(){
+		return this.ki_player;
+	}
 
 	/**
 	 * @return
@@ -63,6 +69,9 @@ public class Spieler {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Setter)
 
+	public void setKI(KI ki_player){
+		this.ki_player = ki_player;
+	}
 	/**
 	 * @param name
 	 */

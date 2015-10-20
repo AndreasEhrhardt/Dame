@@ -8,7 +8,7 @@ public class KI_Dame extends KI{
 	}
 	
 	
-	//Getter and Setter
+	//Getter and Setter	
 	public void setKi_Dame(){
 		this.ki_Dame = new KI();
 	}
