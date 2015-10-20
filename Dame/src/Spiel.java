@@ -59,7 +59,9 @@ public class Spiel implements iBediener {
 	 * The loop checks for finished
 	 */
 	private void gameLoop(){
-		while(!gameFinished()){
+		int loopBreak = 5;
+		while(!gameFinished() && loopBreak > 0){
+			loopBreak--;
 
 			// Output current gameboard
 			this.outputGameboardCSV();
@@ -199,7 +201,7 @@ public class Spiel implements iBediener {
 			}
 
 			// Create new normal player
-			newGamer =  new Spieler(gamerName,color);
+			newGamer =  new Spieler(gamerName, color);
 		} else if (gamerID == 2) {
 			// Create new KI-Player
 			newGamer = new Spieler(new KI_Dame(), color);
@@ -238,7 +240,7 @@ public class Spiel implements iBediener {
 			System.out.print(currentRow);
 
 			// For every column
-			for(int j = felder[i].length - 1; j >= 0; j--){
+			for(int j = 0; j < felder.length; j++){
 				// Get figur of field
 				Spielfigur currentFigur = felder[i][j].getFigur();
 
