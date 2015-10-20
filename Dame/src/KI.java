@@ -32,5 +32,10 @@ public class KI extends Spieler {
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods (Override)
+	
+	@Override
+	protected void move(){
+		
+	}
 
 }
