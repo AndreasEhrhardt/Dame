@@ -1,7 +1,7 @@
 
 public class KI_Dame extends KI{
 	//Properties
-	private KI ki_Dame;
+	private KI ki;
 	//Constructor
 	public KI_Dame(){
 		setKi_Dame();
@@ -10,7 +10,7 @@ public class KI_Dame extends KI{
 	
 	//Getter and Setter	
 	public void setKi_Dame(){
-		this.ki_Dame = new KI();
+		this.ki = new KI();
 	}
 	
 	//methods
