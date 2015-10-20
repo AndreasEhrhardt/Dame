@@ -111,8 +111,10 @@ public class Spiel implements iBediener {
 				// Read next field size
 				fieldCount = sc.nextInt();
 				// If size is valid, leave loop
-				if (fieldCount >= minField && fieldCount <= maxField)
-					break;
+				if (fieldCount >= minField && fieldCount <= maxField){
+					if(fieldCount % 2 == 0) break;
+					else System.out.println("Nur gerade Spielfeldgrößen sind erlaubt!");
+				}
 			}
 			catch(NoSuchElementException | IllegalStateException e ){
 				// Clear input buffer

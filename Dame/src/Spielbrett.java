@@ -19,7 +19,7 @@ public class Spielbrett {
 	 */
 	public Spielbrett(){
 		// Create a 8x8 game-board
-		felder = new Spielfeld[8][8];
+		this.createField(8);
 	}
 	
 	/**
@@ -27,7 +27,22 @@ public class Spielbrett {
 	 * Constructor for a custom sized checkers game
 	 */
 	public Spielbrett(int fieldCount){
-		felder = new Spielfeld[fieldCount][fieldCount];
+		this.createField(fieldCount);
+	}
+	
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Methods
+	
+	private void createField(int size){
+		// Create field
+		felder = new Spielfeld[size][size];
+		
+		// Set field-color
+		this.setColors();
+	}
+	
+	private void setColors(){
+		for()
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
