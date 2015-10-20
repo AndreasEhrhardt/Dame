@@ -43,22 +43,36 @@ public class Spielbrett {
 				this.felder[i][j] = new Spielfeld();
 			}
 		}
-		
+
 		// Add gmae figurs
 		this.addFigure();
-		
+
 		// Set IDs
 		this.setID();
 	}
-	
+
 	private void addFigure(){
 		int xPos = 0;
-		
+
 		// Add white figures
-		for(int i = this.felder.length - 4; i < this.felder.length; i++){
+		for(int i = 0; i < 3; i++){
 			for(int j = xPos; j < this.felder.length; j = j + 2){
 				this.felder[i][j].setFigur(new Spielfigur(FarbEnum.weiß));
+				System.out.println(i + " " + j);
 			}
+
+			xPos = ++xPos % 2;
+		}
+
+		xPos = 1;
+		
+		// Add black figures
+		for(int i = felder.length - 1; i >= felder.length - 3; i--){
+			for(int j = xPos; j < this.felder.length; j = j + 2){
+				this.felder[i][j].setFigur(new Spielfigur(FarbEnum.schwarz));
+			}
+
+			xPos = ++xPos % 2;
 		}
 	}
 
