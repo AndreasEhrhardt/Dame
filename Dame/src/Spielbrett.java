@@ -57,7 +57,7 @@ public class Spielbrett {
 		// Add white figures
 		for(int i = this.felder.length - 4; i < this.felder.length; i++){
 			for(int j = xPos; j < this.felder.length; j = j + 2){
-				this.felder[i][j].setFigur(new Spielfigur());
+				this.felder[i][j].setFigur(new Spielfigur(FarbEnum.weiß));
 			}
 		}
 	}

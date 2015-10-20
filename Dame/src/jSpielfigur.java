@@ -8,6 +8,6 @@ public class jSpielfigur {
 	@Test
 	public void constructors(){
 		FarbEnum farbe = FarbEnum.weiﬂ;
-		Spielfigur figur = new Spielfigur(farbe, new Point());
+		Spielfigur figur = new Spielfigur(farbe);
 	}
 }
