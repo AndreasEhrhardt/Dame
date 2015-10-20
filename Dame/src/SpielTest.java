@@ -79,4 +79,34 @@ public class SpielTest implements iBediener {
 		return new Spieler();
 	}
 
+	@Override
+	public void loadingScreen() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void loadGame() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void saveGame() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean gameFinished() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean askNewGame() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
