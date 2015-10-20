@@ -69,7 +69,7 @@ public class Spielfigur {
 		// Check for same color
 		if(this.color == SpielfigurObj.color){
 			// Check for same position
-			if(this.position.equals(SpielfigurObj.position)){
+			if(this.equals(SpielfigurObj)){
 				return true;
 			}
 		}
@@ -79,12 +79,12 @@ public class Spielfigur {
 
 	@Override
 	public String toString() {
-		return "Spielfigur [color=" + color + ", position=" + position + "]";
+		return "Spielfigur [color=" + color +  "]";
 	}	
 
 	@Override
 	public Spielfigur clone(){
-		Spielfigur newObj = new Spielfigur(this.getColor(),this.getPosition());
+		Spielfigur newObj = new Spielfigur(this.getColor());
 		return newObj;
 	}
 }
