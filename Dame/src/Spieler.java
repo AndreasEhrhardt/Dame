@@ -23,7 +23,7 @@ public class Spieler {
 	/**
 	 * @param name
 	 */
-	public Spieler(KI ki_player){
+	public Spieler(KI ki_player, FarbEnum color){
 		setKI(ki_player);
 	}
 	
