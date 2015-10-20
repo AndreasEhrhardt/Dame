@@ -176,6 +176,12 @@ public class Spiel implements iBediener {
 		// Create temp-reference
 		Spieler newGamer;
 
+		// Set player color
+		FarbEnum color;
+		if(playerNumber == 1) color = FarbEnum.weiﬂ;
+		else color = FarbEnum.schwarz;
+
+		// Create player
 		if (gamerID == 1) {
 			String gamerName = "";
 			for (int i = 0; i <= maxLoopCount; i++) {
@@ -193,18 +199,14 @@ public class Spiel implements iBediener {
 			}
 
 			// Create new normal player
-			newGamer =  new Spieler(gamerName);
+			newGamer =  new Spieler(gamerName,color);
 		} else if (gamerID == 2) {
 			// Create new KI-Player
-			newGamer = new KI();
+			newGamer = new Spieler(new KI_Dame(), color);
 		} else {
 			// Create a default player
 			newGamer = new Spieler();
 		}
-
-		// Set player color
-		if(playerNumber == 1) newGamer.setColor(FarbEnum.weiﬂ);
-		else newGamer.setColor(FarbEnum.schwarz);
 
 		// Return new gamer
 		return newGamer;
@@ -224,14 +226,14 @@ public class Spiel implements iBediener {
 		// Define start variable
 		char currentRow = (char)(65 + felder.length - 1);
 		int currentColumn = 1;
-		
+
 		// Create empty line
 		System.out.println("");
 
 		// For every row - DESC
 		for(int i = felder.length - 1; i >= 0; i--){
 			currentColumn = 1;
-			
+
 			// Write colum name
 			System.out.print(currentRow);
 
@@ -239,10 +241,10 @@ public class Spiel implements iBediener {
 			for(int j = felder[i].length - 1; j >= 0; j--){
 				// Get figur of field
 				Spielfigur currentFigur = felder[i][j].getFigur();
-				
+
 				// Write seperator
 				System.out.print(";");
-				
+
 				// Check if field have figur or not
 				if(currentFigur == null) System.out.print("  ");
 				else{ 
@@ -255,7 +257,7 @@ public class Spiel implements iBediener {
 				// Increase column value
 				currentColumn++;
 			}
-			
+
 			// End of line
 			System.out.println("");
 
@@ -263,7 +265,7 @@ public class Spiel implements iBediener {
 			int ascii = currentRow;
 			currentRow = (char)--ascii;
 		}
-		
+
 		// Draw column names
 		for(int i = 0; i <= felder.length; i++){
 			if(i == 0) System.out.print(" ");
@@ -273,7 +275,7 @@ public class Spiel implements iBediener {
 			}
 		}
 		System.out.println("");
-		
+
 		// Create empty line
 		System.out.println("");
 	}
