@@ -3,6 +3,4 @@
 
 public enum FarbEnum {
 	schwarz, weiﬂ
-	
-	syso
 }
