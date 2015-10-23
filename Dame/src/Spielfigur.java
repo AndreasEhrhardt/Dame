@@ -1,3 +1,7 @@
+//###########################################################
+//## Import
+
+import java.awt.*;
 
 //###########################################################
 //## Class
@@ -12,7 +16,8 @@ public class Spielfigur {
 	//++ Properties
 
 	private FarbEnum color;
-
+	private Point pos;
+	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
@@ -20,7 +25,17 @@ public class Spielfigur {
 	 * @param color
 	 * @param position
 	 */
-	public Spielfigur(FarbEnum color)
+	private Spielfigur(FarbEnum color)
+	{
+		// Set values
+		this.setColor(color);
+	}
+	
+	/**
+	 * @param color
+	 * @param pos
+	 */
+	public Spielfigur(FarbEnum color, Point pos)
 	{
 		// Set values
 		this.setColor(color);
@@ -37,6 +52,13 @@ public class Spielfigur {
 	public FarbEnum getColor(){
 		return color;
 	}
+	
+	/**
+	 * @return
+	 */
+	public Point getPosiiton(){
+		return this.pos;
+	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Setter)
@@ -47,10 +69,20 @@ public class Spielfigur {
 	public void setColor(FarbEnum color){
 		this.color = color;
 	}
+	
+	/**
+	 * @param pos
+	 */
+	public void setPoint(Point pos){
+		this.pos = pos;
+	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods (Override)
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj){
 		// Check for self-comparing
@@ -73,11 +105,17 @@ public class Spielfigur {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Spielfigur [color=" + color +  "]";
 	}	
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
 	@Override
 	public Spielfigur clone(){
 		Spielfigur newObj = new Spielfigur(this.getColor());

@@ -1,4 +1,9 @@
 //################################################################################
+//## Imports
+
+import java.awt.*;
+
+//################################################################################
 //## Class
 
 /**
@@ -57,8 +62,7 @@ public class Spielbrett {
 		// Add white figures
 		for(int i = 0; i < 3; i++){
 			for(int j = xPos; j < this.felder.length; j = j + 2){
-				this.felder[i][j].setFigur(new Spielfigur(FarbEnum.weiß));
-				System.out.println(i + " " + j);
+				this.felder[i][j].setFigur(new Spielfigur(FarbEnum.weiß,new Point(i,j)));
 			}
 
 			xPos = ++xPos % 2;
@@ -69,7 +73,7 @@ public class Spielbrett {
 		// Add black figures
 		for(int i = felder.length - 1; i >= felder.length - 3; i--){
 			for(int j = xPos; j < this.felder.length; j = j + 2){
-				this.felder[i][j].setFigur(new Spielfigur(FarbEnum.schwarz));
+				this.felder[i][j].setFigur(new Spielfigur(FarbEnum.schwarz, new Point(i,j)));
 			}
 
 			xPos = ++xPos % 2;
