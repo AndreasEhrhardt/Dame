@@ -90,7 +90,7 @@ public class Spielbrett {
 			currentColumn = 1;
 
 			// For every column
-			for(int j = this.felder[i].length - 1; j >= 0; j--){
+			for(int j = 0; j < this.felder[i].length; j++){
 				// Create new ID-Name
 				StringBuilder fieldName = new StringBuilder();
 				fieldName.append(currentRow);
@@ -114,8 +114,12 @@ public class Spielbrett {
 	/**
 	 * Gets the number of Felder
 	 */
-	public Spielfeld[][] getFelder() {
+	public Spielfeld[][] getFields() {
 		return felder;
+	}
+	
+	public Spielfeld getField(int x, int y){
+		return this.felder[x][y];
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -46,42 +46,69 @@ public class Spieler {
 
 	protected void move(Spiel game){	
 		System.out.println("");
-		System.out.println("Spieler " + "" + " (" + FarbEnum.getColorName(this.color) + ") ist am Zug");
-		
+		System.out.println("Spieler '" + this.getName() + "' (" + FarbEnum.getColorName(this.color) + ") ist am Zug");
+
 		Point fromPoint = null;
 		Point toPoint = null;
-		
+
 		do{
 			try{
-				System.out.print("Bitte Spielfigur auswählen: ");
+				System.out.print("Bitte Spielfigur eingeben: ");
 				fromPoint = inputPosition();
+				
+				System.out.print("Bitte neues Spielfeld eingeben: ");
+				toPoint = inputPosition();
 			}
 			catch(eInvalidPointException e){
-				System.out.println("Ungültige Positions-Eingab");
+				System.out.println("Ungültige Positions-Eingabe");
 				continue;
 			}
-		}while(game.checkMove(fromPoint, toPoint));
+		}while(!game.moveIsValid(fromPoint, toPoint));
 	}
-	
+
 	private Point inputPosition() throws eInvalidPointException{
 		// Create keyboard reader
 		Scanner scanner = new Scanner(System.in);
-		
+
 		// Read next line
-		String point = scanner.nextLine();
-		
+		String sPoint = scanner.nextLine();
+
 		// Input to upper
-		point = point.toUpperCase();
-		
+		sPoint = sPoint.toUpperCase();
+
 		// Check if 3 chars are typed in
-		if(point.length() != 3){
+		if(sPoint.length() != 3){
 			// Not enough or to many chars -> Invalid input
 			throw new eInvalidPointException();
 		}
 		else{
 			// Check if first char is a letter
-			if(point.charAt(0) >= 65 && point.charAt(0) <= 90){
-				
+			if(sPoint.charAt(0) >= 65 && sPoint.charAt(0) <= 90){
+				Point point = new Point();
+				int x = sPoint.charAt(0) - 65;
+
+				if(sPoint.charAt(1) >= 48 && sPoint.charAt(1) <= 57){
+					int y = -1;
+					y = (sPoint.charAt(1) - 48) * 10;
+
+					if(sPoint.charAt(2) >= 48 && sPoint.charAt(2) <= 57){
+						y += (sPoint.charAt(2) - 48) - 1;
+						
+						if(x < 0 || y < 0) throw new eInvalidPointException();
+						
+						point.setLocation(x, y);
+						
+						return point;
+					}
+					else{
+						throw new eInvalidPointException();
+					}
+
+				}
+				else{
+					throw new eInvalidPointException();
+				}
+
 			}
 			else{
 				throw new eInvalidPointException();

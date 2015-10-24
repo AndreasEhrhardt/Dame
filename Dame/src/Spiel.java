@@ -83,8 +83,24 @@ public class Spiel implements iBediener {
 	 * @param from
 	 * @param to
 	 */
-	public boolean checkMove(Point fromPoint, Point toPoint){
+	public boolean moveIsValid(Point fromPoint, Point toPoint){
+		
+		this.move(fromPoint, toPoint);
 		return true;
+	}
+	
+	public void move(Point fromPoint, Point toPoint){		
+		Spielfeld fromField = this.gameboard.getField((int)fromPoint.getX(), (int)fromPoint.getY());
+		Spielfeld toField = this.gameboard.getField((int)toPoint.getX(), (int)toPoint.getY());
+		
+		Spielfigur gameFigur = fromField.getFigur();
+		
+		System.out.println(fromField.getID());
+		
+		gameFigur.setPoint(toPoint);
+		toField.setFigur(gameFigur);
+		
+		fromField.removeFigur();
 	}
 
 	/**
@@ -231,7 +247,7 @@ public class Spiel implements iBediener {
 	@Override
 	public void outputGameboardCSV(){
 		// Get gameboard fields
-		Spielfeld felder[][] = this.gameboard.getFelder();
+		Spielfeld felder[][] = this.gameboard.getFields();
 
 		// Define start variable
 		char currentRow = (char)(65 + felder.length - 1);
