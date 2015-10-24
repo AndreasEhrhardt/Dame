@@ -1,9 +1,9 @@
-
 //###########################################################
 //## Imports
 
 import java.io.*;
 import java.util.*;
+import java.awt.*;
 
 //###########################################################
 //## Class
@@ -67,7 +67,7 @@ public class Spiel implements iBediener {
 			this.outputGameboardCSV();
 
 			// Current player have to move
-			this.currentGamer.move();
+			this.currentGamer.move(this);
 
 			// Set next player
 			if(this.currentGamer == this.gamer[0])
@@ -77,6 +77,14 @@ public class Spiel implements iBediener {
 
 
 		}
+	}
+	
+	/**
+	 * @param from
+	 * @param to
+	 */
+	public boolean checkMove(Point fromPoint, Point toPoint){
+		return true;
 	}
 
 	/**

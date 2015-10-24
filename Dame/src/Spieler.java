@@ -1,6 +1,8 @@
 //###########################################################
 //## Imports
 
+import java.util.Scanner;
+import java.awt.*;
 
 //###########################################################
 //## Class
@@ -15,11 +17,11 @@ public class Spieler {
 	KI ki_player = null;
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
-	
+
 	public Spieler(){
 		this.setName("");
 	}
-	
+
 	/**
 	 * @param name
 	 */
@@ -27,7 +29,7 @@ public class Spieler {
 		setKI(ki_player);
 		this.setColor(color);
 	}
-	
+
 	/**
 	 * @param name
 	 * @param color
@@ -36,19 +38,60 @@ public class Spieler {
 		this.setName(name);
 		this.setColor(color);
 	}
-	
-	
-	
+
+
+
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods
-	
-	protected void move(){
+
+	protected void move(Spiel game){	
+		System.out.println("");
+		System.out.println("Spieler " + "" + " (" + FarbEnum.getColorName(this.color) + ") ist am Zug");
 		
+		Point fromPoint = null;
+		Point toPoint = null;
+		
+		do{
+			try{
+				System.out.print("Bitte Spielfigur auswählen: ");
+				fromPoint = inputPosition();
+			}
+			catch(eInvalidPointException e){
+				System.out.println("Ungültige Positions-Eingab");
+				continue;
+			}
+		}while(game.checkMove(fromPoint, toPoint));
+	}
+	
+	private Point inputPosition() throws eInvalidPointException{
+		// Create keyboard reader
+		Scanner scanner = new Scanner(System.in);
+		
+		// Read next line
+		String point = scanner.nextLine();
+		
+		// Input to upper
+		point = point.toUpperCase();
+		
+		// Check if 3 chars are typed in
+		if(point.length() != 3){
+			// Not enough or to many chars -> Invalid input
+			throw new eInvalidPointException();
+		}
+		else{
+			// Check if first char is a letter
+			if(point.charAt(0) >= 65 && point.charAt(0) <= 90){
+				
+			}
+			else{
+				throw new eInvalidPointException();
+			}
+		}
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
-	
+
 	public KI getKi(){
 		return this.ki_player;
 	}
@@ -59,7 +102,7 @@ public class Spieler {
 	public String getName(){
 		return this.name;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -79,7 +122,7 @@ public class Spieler {
 	public void setName(String name){
 		this.name = name;
 	}
-	
+
 	/**
 	 * @param color
 	 */
