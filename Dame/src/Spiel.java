@@ -9,6 +9,15 @@ import java.awt.*;
 //## Class
 
 public class Spiel implements iBediener {
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ 
+
+	class eNoDiagonalMoveException extends Exception{}
+	class eInvalidPointException extends Exception{}
+	class eSamePositionException extends Exception{}
+	class eOutOfGameboardException extends Exception{}
+	class eDestinationPointIsBlockedException extends Exception{}
+	class eNoFigurFoundOnFieldException extends Exception {}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Properties
@@ -78,29 +87,55 @@ public class Spiel implements iBediener {
 
 		}
 	}
-	
+
 	/**
 	 * @param from
 	 * @param to
 	 */
-	public boolean moveIsValid(Point fromPoint, Point toPoint){
-		
-		this.move(fromPoint, toPoint);
-		return true;
-	}
-	
-	public void move(Point fromPoint, Point toPoint){		
+	public boolean moveIsValid(Point fromPoint, Point toPoint) throws Exception {
+		int diffX = (int) (fromPoint.getX() - toPoint.getX());
+		int diffY = (int) (fromPoint.getY() - toPoint.getY());
+
+		int boardSize = this.gameboard.getFields().length;
+
+		// Check if both fields are the same
+		if(fromPoint.equals(toPoint)) throw new Spiel.eSamePositionException();
+
+		// Check if move is diagonal
+		if(diffX != diffY) throw new Spiel.eNoDiagonalMoveException();
+
+		// Check if toPoint and fromPoint are valid fields
+		if(fromPoint.getX() < 0 || fromPoint.getX() >= boardSize ||
+				fromPoint.getY() < 0 || fromPoint.getY() >= boardSize ||
+				toPoint.getX() < 0 || toPoint.getX() >= boardSize ||
+				toPoint.getY() < 0 || toPoint.getY() >= boardSize)
+			throw new Spiel.eOutOfGameboardException();
+
 		Spielfeld fromField = this.gameboard.getField((int)fromPoint.getX(), (int)fromPoint.getY());
 		Spielfeld toField = this.gameboard.getField((int)toPoint.getX(), (int)toPoint.getY());
-		
+
 		Spielfigur gameFigur = fromField.getFigur();
-		
-		System.out.println(fromField.getID());
-		
-		gameFigur.setPoint(toPoint);
-		toField.setFigur(gameFigur);
-		
-		fromField.removeFigur();
+
+		return true;
+	}
+
+	public void move(Point fromPoint, Point toPoint) throws Exception{		
+		if(this.moveIsValid(fromPoint, toPoint)){
+			Spielfeld fromField = this.gameboard.getField((int)fromPoint.getX(), (int)fromPoint.getY());
+			Spielfeld toField = this.gameboard.getField((int)toPoint.getX(), (int)toPoint.getY());
+
+			Spielfigur gameFigur = fromField.getFigur();
+
+			System.out.println(fromField.getID());
+
+			gameFigur.setPoint(toPoint);
+			toField.setFigur(gameFigur);
+
+			fromField.removeFigur();
+		}
+		else{
+			throw new Exception();
+		}
 	}
 
 	/**

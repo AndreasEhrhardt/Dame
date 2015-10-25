@@ -51,22 +51,27 @@ public class Spieler {
 		Point fromPoint = null;
 		Point toPoint = null;
 
+		boolean success;
 		do{
+			success = true;
 			try{
 				System.out.print("Bitte Spielfigur eingeben: ");
 				fromPoint = inputPosition();
 				
 				System.out.print("Bitte neues Spielfeld eingeben: ");
 				toPoint = inputPosition();
+				
+				game.move(fromPoint, toPoint);
 			}
-			catch(eInvalidPointException e){
+			catch(Spiel.eInvalidPointException e){
 				System.out.println("Ungültige Positions-Eingabe");
+				success = false;
 				continue;
 			}
-		}while(!game.moveIsValid(fromPoint, toPoint));
+		}while(!success);
 	}
 
-	private Point inputPosition() throws eInvalidPointException{
+	private Point inputPosition() throws Spiel.eInvalidPointException{
 		// Create keyboard reader
 		Scanner scanner = new Scanner(System.in);
 
