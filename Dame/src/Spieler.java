@@ -69,11 +69,40 @@ public class Spieler {
 				toPoint = inputPosition();
 
 				game.move(fromPoint, toPoint);
-			} catch (Spiel.eInvalidPointException e) {
+			}catch (Spiel.eInvalidPointException e) {
 				System.out.println("Ungültige Positions-Eingabe");
 				success = false;
 				continue;
+			}catch (Spiel.eSomeOtherMoveErrors e) {
+				System.out.println("Unbekannter Fehler. sorry");
+				success = false;
+				continue;
+			}catch (Spiel.eDestinationPointIsBlockedException e) {
+				System.out.println("Ziel-Feld ist blockiert");
+				success = false;
+				continue;
+			}catch (Spiel.eNoDiagonalMoveException e) {
+				System.out.println("Ungültige Bewegungsrichtung (nur diagonal ist erlaubt)");
+				success = false;
+				continue;
+			}catch (Spiel.eNoFigurFoundOnFieldException e) {
+				System.out.println("Feld hat keine gültige Spielfigur");
+				success = false;
+				continue;
+			}catch (Spiel.eOutOfGameboardException e) {
+				System.out.println("Position ist außerhalb des Spielfeldes");
+				success = false;
+				continue;
+			}catch (Spiel.eSamePositionException e) {
+				System.out.println("Spielfigur-Feld und Ziel-Feld sind identisch");
+				success = false;
+				continue;
+			}catch (Exception e){
+				System.out.println("ERROR");
+				success = false;
+				continue;
 			}
+			
 		} while (!success);
 	}
 
@@ -95,7 +124,7 @@ public class Spieler {
 		// Check if 3 chars are typed in
 		if (sPoint.length() != 3) {
 			// Not enough or to many chars -> Invalid input
-			throw new eInvalidPointException();
+			throw new Spiel.eInvalidPointException();
 		} else {
 			// Check if first char is a letter
 			if (sPoint.charAt(0) >= 65 && sPoint.charAt(0) <= 90) {
@@ -110,21 +139,21 @@ public class Spieler {
 						y += (sPoint.charAt(2) - 48) - 1;
 
 						if (x < 0 || y < 0)
-							throw new eInvalidPointException();
+							throw new Spiel.eInvalidPointException();
 
 						point.setLocation(x, y);
 
 						return point;
 					} else {
-						throw new eInvalidPointException();
+						throw new Spiel.eInvalidPointException();
 					}
 
 				} else {
-					throw new eInvalidPointException();
+					throw new Spiel.eInvalidPointException();
 				}
 
 			} else {
-				throw new eInvalidPointException();
+				throw new Spiel.eInvalidPointException();
 			}
 		}
 	}

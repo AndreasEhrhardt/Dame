@@ -12,12 +12,15 @@ public class Spiel implements iBediener {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ 
 
-	class eNoDiagonalMoveException extends Exception{}
-	class eInvalidPointException extends Exception{}
-	class eSamePositionException extends Exception{}
-	class eOutOfGameboardException extends Exception{}
-	class eDestinationPointIsBlockedException extends Exception{}
-	class eNoFigurFoundOnFieldException extends Exception {}
+	static class eNoDiagonalMoveException extends Exception{}
+	static class eInvalidPointException extends Exception{}
+	static class eSamePositionException extends Exception{}
+	static class eOutOfGameboardException extends Exception{}
+	static class eDestinationPointIsBlockedException extends Exception{}
+	static class eNoFigurFoundOnFieldException extends Exception {}
+	static class eSomeOtherMoveErrors extends Exception {}
+	static class eEnemyFigurSelected extends Exception {}
+	static class eDistanceToFar extends Exception {}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Properties
@@ -95,22 +98,34 @@ public class Spiel implements iBediener {
 	}
 
 	/**
-	 * @param from
-	 * @param to
-	 * @return true
 	 * Checks if move is valid else it will throw exceptions
+	 * 
+	 * @param fromPoint
+	 * @param toPoint
+	 * @return True if move is valid
+	 * @throws Spiel.eSamePositionException
+	 * @throws Spiel.eNoDiagonalMoveException
+	 * @throws Spiel.eOutOfGameboardException
+	 * @throws Spiel.eNoFigurFoundOnFieldException
+	 * @throws Spiel.eDestinationPointIsBlockedException
 	 */
-	public boolean moveIsValid(Point fromPoint, Point toPoint) throws Exception {
+	public boolean moveIsValid(Point fromPoint, Point toPoint) 
+			throws Spiel.eSamePositionException, Spiel.eNoDiagonalMoveException, Spiel.eOutOfGameboardException,
+			Spiel.eNoFigurFoundOnFieldException, Spiel.eDestinationPointIsBlockedException
+	{
 		int diffX = (int) (fromPoint.getX() - toPoint.getX());
 		int diffY = (int) (fromPoint.getY() - toPoint.getY());
 
 		int boardSize = this.gameboard.getFields().length;
 
+		Spielfeld fromField = this.gameboard.getField((int)fromPoint.getX(), (int)fromPoint.getY());
+		Spielfeld toField = this.gameboard.getField((int)toPoint.getX(), (int)toPoint.getY());
+
 		// Check if both fields are the same
 		if(fromPoint.equals(toPoint)) throw new Spiel.eSamePositionException();
 
 		// Check if move is diagonal
-		if(diffX != diffY) throw new Spiel.eNoDiagonalMoveException();
+		if(!(diffX == diffY || (diffX * (-1) == diffY))) throw new Spiel.eNoDiagonalMoveException();
 
 		// Check if toPoint and fromPoint are valid fields
 		if(fromPoint.getX() < 0 || fromPoint.getX() >= boardSize ||
@@ -119,23 +134,36 @@ public class Spiel implements iBediener {
 				toPoint.getY() < 0 || toPoint.getY() >= boardSize)
 			throw new Spiel.eOutOfGameboardException();
 
-		Spielfeld fromField = this.gameboard.getField((int)fromPoint.getX(), (int)fromPoint.getY());
-		Spielfeld toField = this.gameboard.getField((int)toPoint.getX(), (int)toPoint.getY());
-
+		// Check if field have figur
 		Spielfigur gameFigur = fromField.getFigur();
+		if(gameFigur == null) throw new Spiel.eNoFigurFoundOnFieldException();
+
+		// Check if destination have already a destination
+		Spielfigur destinationFigur = toField.getFigur();
+		if(destinationFigur != null) throw new Spiel.eDestinationPointIsBlockedException();
 
 		return true;
 	}
 
+	
 	/**
-	 * @param from
-	 * @param to
-	 * 
 	 * Method for moving on the board, but before it actually moves it calls the moveIsValid 
 	 * function to check if the move is valid.
 	 * If you ate a token from the opponent, the token will be removed from the board.
+	 * 
+	 * @param fromPoint
+	 * @param toPoint
+	 * @throws Spiel.eSamePositionException
+	 * @throws Spiel.eNoDiagonalMoveException
+	 * @throws Spiel.eOutOfGameboardException
+	 * @throws Spiel.eNoFigurFoundOnFieldException
+	 * @throws Spiel.eDestinationPointIsBlockedException
+	 * @throws Spiel.eSomeOtherMoveErrors
 	 */
-	public void move(Point fromPoint, Point toPoint) throws Exception{		
+	public void move(Point fromPoint, Point toPoint)
+			throws Spiel.eSamePositionException, Spiel.eNoDiagonalMoveException, Spiel.eOutOfGameboardException,
+			Spiel.eNoFigurFoundOnFieldException, Spiel.eDestinationPointIsBlockedException, Spiel.eSomeOtherMoveErrors
+	{		
 		if(this.moveIsValid(fromPoint, toPoint)){
 			Spielfeld fromField = this.gameboard.getField((int)fromPoint.getX(), (int)fromPoint.getY());
 			Spielfeld toField = this.gameboard.getField((int)toPoint.getX(), (int)toPoint.getY());
@@ -150,7 +178,7 @@ public class Spiel implements iBediener {
 			fromField.removeFigur();
 		}
 		else{
-			throw new Exception();
+			throw new eSomeOtherMoveErrors();
 		}
 	}
 
@@ -175,10 +203,10 @@ public class Spiel implements iBediener {
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods (Override)
 
-/**
- * Forces the user to enter game board size and checks if number is even.
- * If user fails to enter valid size multiple times, the size is set to 8x8
- */
+	/**
+	 * Forces the user to enter game board size and checks if number is even.
+	 * If user fails to enter valid size multiple times, the size is set to 8x8
+	 */
 	@Override
 	public int getGameboardSize() {
 		// Create scanner
@@ -305,9 +333,9 @@ public class Spiel implements iBediener {
 	public void nextMove()	{
 
 	}
-/**
- * This method is used to save the game to a CSV file
- */
+	/**
+	 * This method is used to save the game to a CSV file
+	 */
 	@Override
 	public void outputGameboardCSV(){
 		// Get gameboard fields
@@ -430,18 +458,18 @@ public class Spiel implements iBediener {
 		}
 	}
 
-/**
- * This checks if game is finished
- */
+	/**
+	 * This checks if game is finished
+	 */
 	@Override
 	public boolean gameFinished() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-/**
- * This method is used to ask if user wants to start a new game or continue playing from a saved game
- */
+	/**
+	 * This method is used to ask if user wants to start a new game or continue playing from a saved game
+	 */
 	@Override
 	public boolean askNewGame() {
 		// Create help variables
