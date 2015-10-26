@@ -28,7 +28,8 @@ public class Spielbrett {
 	}
 
 	/**
-	 * @param fieldCount Saves the number of Felder for the game in an two dimensional array
+	 * @param fieldCount 
+	 * Saves the number of Felder for the game in an two dimensional array
 	 * Constructor for a custom sized checkers game
 	 */
 	public Spielbrett(int fieldCount){
@@ -126,7 +127,8 @@ public class Spielbrett {
 	//++ Methods ( Setter)
 
 	/**
-	 * @param felder Number of Felder for the final board size
+	 * @param felder 
+	 * Number of Felder for the final board size
 	 * Sets the number of Felder
 	 */
 	public void setFelder(Spielfeld[][] felder) {

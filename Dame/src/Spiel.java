@@ -31,6 +31,9 @@ public class Spiel implements iBediener {
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Constructor
 
+	/**
+	 * Constructor
+	 */
 	public Spiel() {
 		// Initialize game
 		this.initialize();
@@ -42,6 +45,9 @@ public class Spiel implements iBediener {
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods
 
+	/**
+	 * Initializes new game and creates a new gameboard and two new players.
+	 */
 	private void initialize(){
 		gamer = new Spieler[2];
 
@@ -91,6 +97,8 @@ public class Spiel implements iBediener {
 	/**
 	 * @param from
 	 * @param to
+	 * @return true
+	 * Checks if move is valid else it will throw exceptions
 	 */
 	public boolean moveIsValid(Point fromPoint, Point toPoint) throws Exception {
 		int diffX = (int) (fromPoint.getX() - toPoint.getX());
@@ -119,6 +127,14 @@ public class Spiel implements iBediener {
 		return true;
 	}
 
+	/**
+	 * @param from
+	 * @param to
+	 * 
+	 * Method for moving on the board, but before it actually moves it calls the moveIsValid 
+	 * function to check if the move is valid.
+	 * If you ate a token from the opponent, the token will be removed from the board.
+	 */
 	public void move(Point fromPoint, Point toPoint) throws Exception{		
 		if(this.moveIsValid(fromPoint, toPoint)){
 			Spielfeld fromField = this.gameboard.getField((int)fromPoint.getX(), (int)fromPoint.getY());
@@ -139,7 +155,8 @@ public class Spiel implements iBediener {
 	}
 
 	/**
-	 * 
+	 * Method for creating variable sized board.
+	 * Gets the size and then creates the gameboard.
 	 */
 	private Spielbrett createGameBoard() {
 		// Get gameboard size
@@ -158,6 +175,10 @@ public class Spiel implements iBediener {
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods (Override)
 
+/**
+ * Forces the user to enter game board size and checks if number is even.
+ * If user fails to enter valid size multiple times, the size is set to 8x8
+ */
 	@Override
 	public int getGameboardSize() {
 		// Create scanner
@@ -195,10 +216,16 @@ public class Spiel implements iBediener {
 		return fieldCount;
 	}
 
-	@Override
 	/**
+	 * @param playerNumber
 	 * @return
+	 * 
+	 * This method is used to check if players are human or KIs and asks for the name of human players.
+	 * If all entry is valid, it starts the game with the given data.
+	 * If user fails to properly decide if player is human or KI multiple times, it is set to KI automatically
+	 * If user fails to enter a proper name multiple times, it is set to Peter automatically
 	 */
+	@Override
 	public Spieler getPlayer(int playerNumber) {
 		// create Scanner
 		Scanner sc = new Scanner(System.in);
@@ -278,7 +305,9 @@ public class Spiel implements iBediener {
 	public void nextMove()	{
 
 	}
-
+/**
+ * This method is used to save the game to a CSV file
+ */
 	@Override
 	public void outputGameboardCSV(){
 		// Get gameboard fields
@@ -347,6 +376,9 @@ public class Spiel implements iBediener {
 
 	}
 
+	/**
+	 * This method is used to read a CSV to continue playing where left off
+	 */
 	@Override
 	public void loadGame() {
 		try{
@@ -378,6 +410,9 @@ public class Spiel implements iBediener {
 		}
 	}
 
+	/**
+	 * This saves the the game
+	 */
 	@Override
 	public void saveGame() {
 		try{
@@ -395,12 +430,18 @@ public class Spiel implements iBediener {
 		}
 	}
 
+/**
+ * This checks if game is finished
+ */
 	@Override
 	public boolean gameFinished() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+/**
+ * This method is used to ask if user wants to start a new game or continue playing from a saved game
+ */
 	@Override
 	public boolean askNewGame() {
 		// Create help variables
@@ -417,7 +458,7 @@ public class Spiel implements iBediener {
 		for (int i = 0; i <= maxLoopCount; i++) {
 			try{
 				// Ask for new game / load game
-				System.out.print("Create nwe game (1) or load game (2): ");
+				System.out.print("Create new game (1) or load game (2): ");
 
 				// Get result
 				gameType = sc.nextInt();

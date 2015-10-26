@@ -6,6 +6,11 @@ import java.util.Scanner;
 
 public class SpielTest implements iBediener {
 
+	/**
+	 * @param args Kommandozeilenparameter
+	 * 
+	 * This uses the scanner function to position the tokens.
+	 */
 	public static void main(String[] args) {
 
 		Spiel spiel = new Spiel();

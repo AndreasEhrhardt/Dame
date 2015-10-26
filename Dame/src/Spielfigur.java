@@ -11,93 +11,99 @@ import java.awt.*;
  *
  */
 public class Spielfigur {
-	
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//++ Properties
+
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// ++ Properties
 
 	private FarbEnum color;
 	private Point pos;
-	
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//++ Constructor
+
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// ++ Constructor
 
 	/**
-	 * @param color
-	 * @param position
+	 * @param color Color input
+	 *            Sets the color of the token
 	 */
-	private Spielfigur(FarbEnum color)
-	{
-		// Set values
-		this.setColor(color);
-	}
-	
-	/**
-	 * @param color
-	 * @param pos
-	 */
-	public Spielfigur(FarbEnum color, Point pos)
-	{
+	private Spielfigur(FarbEnum color) {
 		// Set values
 		this.setColor(color);
 	}
 
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//++ Methods ( Getter)
+	/**
+	 * @param color Color input
+	 * @param pos Position input
+	 * 
+	 *            Sets the color and the position of the token
+	 */
+	public Spielfigur(FarbEnum color, Point pos) {
+		// Set values
+		this.setColor(color);
+	}
+
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// ++ Methods ( Getter)
 
 	/**
-	 * Getter method of "color"
-	 * Return a reference of color
+	 * Getter method of "color" Return a reference of color
+	 * 
 	 * @return color
 	 */
-	public FarbEnum getColor(){
+	public FarbEnum getColor() {
 		return color;
 	}
-	
+
 	/**
-	 * @return
+	 * @return Returns the position
 	 */
-	public Point getPosiiton(){
+	public Point getPosiiton() {
 		return this.pos;
 	}
 
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//++ Methods ( Setter)
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// ++ Methods ( Setter)
 
 	/**
-	 * @param color
+	 * @param color Color 
+	 *            Method for setting the color of the token
 	 */
-	public void setColor(FarbEnum color){
+	public void setColor(FarbEnum color) {
 		this.color = color;
 	}
-	
+
 	/**
-	 * @param pos
+	 * @param pos Position data
+	 *            Method for setting the position of the token
 	 */
-	public void setPoint(Point pos){
+	public void setPoint(Point pos) {
 		this.pos = pos;
 	}
 
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//++ Methods (Override)
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// ++ Methods (Override)
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj){
+	public boolean equals(Object obj) {
 		// Check for self-comparing
-		if(obj == this) return true;
+		if (obj == this)
+			return true;
 
 		// Check for same class
-		if ( obj == null || obj.getClass() != this.getClass() ) return false;
+		if (obj == null || obj.getClass() != this.getClass())
+			return false;
 
 		// Cast object to same class
-		Spielfigur SpielfigurObj = (Spielfigur)obj;
+		Spielfigur SpielfigurObj = (Spielfigur) obj;
 
 		// Check for same color
-		if(this.color == SpielfigurObj.color){
+		if (this.color == SpielfigurObj.color) {
 			// Check for same position
-			if(this.equals(SpielfigurObj)){
+			if (this.equals(SpielfigurObj)) {
 				return true;
 			}
 		}
@@ -105,19 +111,23 @@ public class Spielfigur {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "Spielfigur [color=" + color +  "]";
-	}	
+		return "Spielfigur [color=" + color + "]";
+	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
-	public Spielfigur clone(){
+	public Spielfigur clone() {
 		Spielfigur newObj = new Spielfigur(this.getColor());
 		return newObj;
 	}
