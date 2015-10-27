@@ -24,9 +24,10 @@ public class Spieler {
 	}
 
 	/**
+	 * Constructor for the KI
+	 * 
 	 * @param ki_player
 	 * @param color
-	 *            Constructor for the KI
 	 */
 	public Spieler(KI ki_player, FarbEnum color) {
 		setKI(ki_player);
@@ -34,9 +35,10 @@ public class Spieler {
 	}
 
 	/**
+	 * Constructor for a human player
+	 * 
 	 * @param name
 	 * @param color
-	 *            Constructor for a human player
 	 */
 	public Spieler(String name, FarbEnum color) {
 		this.setName(name);
@@ -46,9 +48,10 @@ public class Spieler {
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods
 	/**
+	 * This method will move the tokens on the board and also checks
+	 * if movement is valid.
+	 * 
 	 * @param game
-	 *            This method will move the tokens on the board and also checks
-	 *            if movement is valid.
 	 */
 	protected void move(Spiel game) {
 		System.out.println("");
@@ -107,9 +110,10 @@ public class Spieler {
 	}
 
 	/**
-	 * @return point 
 	 * This method is used for positioning the tokens and throws
-	 *         exception if position data is invalid
+	 * exception if position data is invalid
+	 * 
+	 * @return point 
 	 */
 	private Point inputPosition() throws Spiel.eInvalidPointException {
 		// Create keyboard reader
@@ -162,8 +166,9 @@ public class Spieler {
 	// ++ Methods ( Getter)
 
 	/**
-	 * @return
 	 * Gets if it's a KI
+	 * 
+	 * @return
 	 */
 	public KI getKi() {
 		return this.ki_player;
@@ -178,8 +183,9 @@ public class Spieler {
 	}
 
 	/**
-	 * @return
 	 * Gets the color
+	 * 
+	 * @return
 	 */
 	public FarbEnum getColor() {
 		return this.color;
@@ -189,24 +195,27 @@ public class Spieler {
 	// ++ Methods ( Setter)
 
 	/**
-	 * @param ki_player
 	 * Sets the player as KI
+	 * 
+	 * @param ki_player
 	 */
 	public void setKI(KI ki_player) {
 		this.ki_player = ki_player;
 	}
 
 	/**
-	 * @param name
 	 * Sets the name
+	 * 
+	 * @param name
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * @param color
 	 * Sets the color
+	 * 
+	 * @param color
 	 */
 	public void setColor(FarbEnum color) {
 		this.color = color;

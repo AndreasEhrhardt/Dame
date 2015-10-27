@@ -22,8 +22,9 @@ public class Spielfigur {
 	// ++ Constructor
 
 	/**
+	 * Sets the color of the token
+	 * 
 	 * @param color Color input
-	 *            Sets the color of the token
 	 */
 	private Spielfigur(FarbEnum color) {
 		// Set values
@@ -31,10 +32,10 @@ public class Spielfigur {
 	}
 
 	/**
+	 * Sets the color and the position of the token
+	 * 
 	 * @param color Color input
 	 * @param pos Position input
-	 * 
-	 *            Sets the color and the position of the token
 	 */
 	public Spielfigur(FarbEnum color, Point pos) {
 		// Set values
@@ -45,7 +46,7 @@ public class Spielfigur {
 	// ++ Methods ( Getter)
 
 	/**
-	 * Getter method of "color" Return a reference of color
+	 * Getter method of "color" Returns a reference of color
 	 * 
 	 * @return color
 	 */
@@ -54,7 +55,9 @@ public class Spielfigur {
 	}
 
 	/**
-	 * @return Returns the position
+	 * Returns the position
+	 * 
+	 * @return 
 	 */
 	public Point getPosiiton() {
 		return this.pos;
@@ -64,16 +67,18 @@ public class Spielfigur {
 	// ++ Methods ( Setter)
 
 	/**
-	 * @param color Color 
-	 *            Method for setting the color of the token
+	 * Method for setting the color of the token
+	 * 
+	 * @param color
 	 */
 	public void setColor(FarbEnum color) {
 		this.color = color;
 	}
 
 	/**
-	 * @param pos Position data
-	 *            Method for setting the position of the token
+	 * Method for setting the position of the token
+	 * 
+	 * @param pos
 	 */
 	public void setPoint(Point pos) {
 		this.pos = pos;

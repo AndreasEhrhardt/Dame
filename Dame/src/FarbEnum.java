@@ -12,8 +12,8 @@ public enum FarbEnum {
 	// ## Methods
 
 	/**
+	 * Checks the color of the token and returns it.
 	 * @param color
-	 *            Checks the color of the token and returns it.
 	 */
 
 	public static String getColorName(FarbEnum color) {

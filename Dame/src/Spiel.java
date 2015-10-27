@@ -245,13 +245,14 @@ public class Spiel implements iBediener {
 	}
 
 	/**
-	 * @param playerNumber
-	 * @return
-	 * 
 	 * This method is used to check if players are human or KIs and asks for the name of human players.
 	 * If all entry is valid, it starts the game with the given data.
 	 * If user fails to properly decide if player is human or KI multiple times, it is set to KI automatically
 	 * If user fails to enter a proper name multiple times, it is set to Peter automatically
+	 * 
+	 * @param playerNumber
+	 * @return
+	 * 
 	 */
 	@Override
 	public Spieler getPlayer(int playerNumber) {

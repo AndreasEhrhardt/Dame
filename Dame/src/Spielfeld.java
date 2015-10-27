@@ -24,9 +24,9 @@ public class Spielfeld {
 
 	/**
 	 * Constructor 2
+	 * Sets the ID
 	 * 
 	 * @param ID
-	 *            Sets the ID
 	 */
 	public Spielfeld(String ID) {
 		this.setID(ID);
@@ -34,10 +34,10 @@ public class Spielfeld {
 
 	/**
 	 * Constructor 3
+	 * Sets the token and the ID on the game board
 	 * 
 	 * @param ID
 	 * @param figur
-	 *            Sets the token and the ID on the game board
 	 */
 	public Spielfeld(String ID, Spielfigur figur) {
 		this.setFigur(figur);
@@ -58,14 +58,18 @@ public class Spielfeld {
 	// ++ Methods ( Getter)
 
 	/**
-	 * @return Returns the token on the board
+	 * Returns the token on the board
+	 * 
+	 * @return 
 	 */
 	public Spielfigur getFigur() {
 		return this.figur;
 	}
 
 	/**
-	 * @return Returns the ID
+	 * Returns the ID
+	 * 
+	 * @return 
 	 */
 	public String getID() {
 		return this.ID;
@@ -75,16 +79,18 @@ public class Spielfeld {
 	// ++ Methods ( Setter)
 
 	/**
+	 *  This Method sets the token on the game board
+	 * 
 	 * @param figur
-	 *            This Method sets the token on the game board
 	 */
 	public void setFigur(Spielfigur figur) {
 		this.figur = figur;
 	}
 
 	/**
+	 * This Method sets the ID
+	 * 
 	 * @param ID
-	 *            This Method sets the ID
 	 */
 	public void setID(String ID) {
 		this.ID = ID;

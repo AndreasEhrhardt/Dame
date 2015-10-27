@@ -28,9 +28,10 @@ public class Spielbrett {
 	}
 
 	/**
-	 * @param fieldCount 
 	 * Saves the number of Felder for the game in an two dimensional array
 	 * Constructor for a custom sized checkers game
+	 * 
+	 * @param fieldCount 
 	 */
 	public Spielbrett(int fieldCount){
 		this.createField(fieldCount);
@@ -127,9 +128,10 @@ public class Spielbrett {
 	//++ Methods ( Setter)
 
 	/**
-	 * @param felder 
 	 * Number of Felder for the final board size
 	 * Sets the number of Felder
+	 * 
+	 * @param felder 
 	 */
 	public void setFelder(Spielfeld[][] felder) {
 		this.felder = felder;
@@ -139,12 +141,13 @@ public class Spielbrett {
 	//++ Methods ( Override )
 
 	/**
-	 * @param obj 
 	 * Compares if object is the same as this.
 	 * If not it is casted to an object of this class.
 	 * 
 	 * Position data will also be checked and if there's already an object on a Feld,
 	 * it will return false.
+	 * 
+	 * @param obj 
 	 */
 	public boolean equals(Object obj){
 		// Check for self-comparing

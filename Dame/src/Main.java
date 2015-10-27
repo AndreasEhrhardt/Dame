@@ -1,8 +1,8 @@
 public class Main {
 
 	/**
+	 * Kommandozeilenparameter
 	 * @param args
-	 *            Kommandozeilenparameter
 	 */
 
 	public static void main(String[] args) {
