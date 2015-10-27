@@ -30,6 +30,7 @@ public class Spieler {
 	 * @param color
 	 */
 	public Spieler(KI ki_player, FarbEnum color) {
+		this.setName("NPC");
 		setKI(ki_player);
 		this.setColor(color);
 	}
@@ -63,7 +64,7 @@ public class Spieler {
 
 		boolean success;
 		do {
-			success = true;
+			success = false;
 			try {
 				System.out.print("Bitte Spielfigur eingeben: ");
 				fromPoint = inputPosition();
@@ -72,40 +73,25 @@ public class Spieler {
 				toPoint = inputPosition();
 
 				game.move(fromPoint, toPoint);
+				
+				success = true;
 			}catch (Spiel.eInvalidPointException e) {
 				System.out.println("Ungültige Positions-Eingabe");
-				success = false;
-				continue;
 			}catch (Spiel.eSomeOtherMoveErrors e) {
 				System.out.println("Unbekannter Fehler. sorry");
-				success = false;
-				continue;
 			}catch (Spiel.eDestinationPointIsBlockedException e) {
 				System.out.println("Ziel-Feld ist blockiert");
-				success = false;
-				continue;
 			}catch (Spiel.eNoDiagonalMoveException e) {
 				System.out.println("Ungültige Bewegungsrichtung (nur diagonal ist erlaubt)");
-				success = false;
-				continue;
 			}catch (Spiel.eNoFigurFoundOnFieldException e) {
 				System.out.println("Feld hat keine gültige Spielfigur");
-				success = false;
-				continue;
 			}catch (Spiel.eOutOfGameboardException e) {
 				System.out.println("Position ist außerhalb des Spielfeldes");
-				success = false;
-				continue;
 			}catch (Spiel.eSamePositionException e) {
 				System.out.println("Spielfigur-Feld und Ziel-Feld sind identisch");
-				success = false;
-				continue;
 			}catch (Exception e){
-				System.out.println("ERROR");
-				success = false;
-				continue;
-			}
-			
+				System.out.println("Sry, some other problems ");
+			}			
 		} while (!success);
 	}
 
