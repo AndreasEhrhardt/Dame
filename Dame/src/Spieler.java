@@ -89,6 +89,10 @@ public class Spieler {
 				System.out.println("Position ist außerhalb des Spielfeldes");
 			}catch (Spiel.eSamePositionException e) {
 				System.out.println("Spielfigur-Feld und Ziel-Feld sind identisch");
+			}catch (Spiel.eDistanceToFarException e){
+				System.out.println("Bauern dürfen nur 1 Feld weit springen");
+			}catch(Spiel.eEnemyFigurSelectedException e){
+				System.out.println("Es ist nicht erlaubt die Spielfigur des Gegners zu verschieben");
 			}catch (Exception e){
 				System.out.println("Sry, some other problems ");
 			}			

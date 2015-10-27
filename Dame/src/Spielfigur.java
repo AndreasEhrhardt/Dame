@@ -17,16 +17,24 @@ public class Spielfigur {
 
 	private FarbEnum color;
 	private Point pos;
+	private boolean dame;
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Constructor
 
+	private Spielfigur(){
+		this.setDame(false);
+	}
+	
 	/**
 	 * Sets the color of the token
 	 * 
 	 * @param color Color input
 	 */
 	private Spielfigur(FarbEnum color) {
+		// Call default constructor
+		this();
+		
 		// Set values
 		this.setColor(color);
 	}
@@ -38,14 +46,34 @@ public class Spielfigur {
 	 * @param pos Position input
 	 */
 	public Spielfigur(FarbEnum color, Point pos) {
+		// Call default constructor
+		this();
+		
 		// Set values
 		this.setColor(color);
 	}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	// ++ Methods ( Getter)
-
+	// ++ Methods
+	
 	/**
+	 * @return
+	 */
+	public boolean isDame(){
+		return this.dame;
+	}
+	
+	/**
+	 * @param isDame
+	 */
+	public void setDame(boolean isDame){
+		this.dame = isDame;
+	}
+	
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// ++ Methods (Getter)
+	
+	/**11
 	 * Getter method of "color" Returns a reference of color
 	 * 
 	 * @return color

@@ -10,17 +10,19 @@ import java.awt.*;
 
 public class Spiel implements iBediener {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//++ 
+	//++ Exceptions
 
 	static class eNoDiagonalMoveException extends Exception{}
 	static class eInvalidPointException extends Exception{}
 	static class eSamePositionException extends Exception{}
 	static class eOutOfGameboardException extends Exception{}
 	static class eDestinationPointIsBlockedException extends Exception{}
-	static class eNoFigurFoundOnFieldException extends Exception {}
-	static class eSomeOtherMoveErrors extends Exception {}
-	static class eEnemyFigurSelected extends Exception {}
-	static class eDistanceToFar extends Exception {}
+	static class eNoFigurFoundOnFieldException extends Exception{}
+	static class eSomeOtherMoveErrors extends Exception{}
+	static class eEnemyFigurSelectedException extends Exception{}
+	static class eDistanceToFarException extends Exception{}
+	static class eNoBackJumpExcpetion extends Exception{}
+	static class eWayIsBlocked extends Exception{}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Properties
@@ -73,7 +75,7 @@ public class Spiel implements iBediener {
 	}
 
 	/**
-	 * The game-loop is the mein loop of the application.
+	 * The game-loop is the main loop of the application.
 	 * The loop checks for finished
 	 */
 	private void gameLoop(){
@@ -111,7 +113,8 @@ public class Spiel implements iBediener {
 	 */
 	public boolean moveIsValid(Point fromPoint, Point toPoint) 
 			throws Spiel.eSamePositionException, Spiel.eNoDiagonalMoveException, Spiel.eOutOfGameboardException,
-			Spiel.eNoFigurFoundOnFieldException, Spiel.eDestinationPointIsBlockedException
+			Spiel.eNoFigurFoundOnFieldException, Spiel.eDestinationPointIsBlockedException,
+			Spiel.eDistanceToFarException, Spiel.eEnemyFigurSelectedException
 	{
 		int diffX = (int) (fromPoint.getX() - toPoint.getX());
 		int diffY = (int) (fromPoint.getY() - toPoint.getY());
@@ -142,10 +145,21 @@ public class Spiel implements iBediener {
 		Spielfigur destinationFigur = toField.getFigur();
 		if(destinationFigur != null) throw new Spiel.eDestinationPointIsBlockedException();
 
+		// Check if figur is jumping to far
+		Spielfigur midFigur = this.gameboard.getField(diffX / 2,diffY / 2).getFigur();
+		if(!gameFigur.isDame() && 
+				((diffX > 1 || (diffX * (-1)) > 1) || 
+				((diffX == 2 || (diffX * (-1)) == 2) && midFigur != null && midFigur.getColor() != this.currentGamer.getColor()))){
+			throw new Spiel.eDistanceToFarException();
+		}
+
+		// Check if figur is from enemy team
+		if(gameFigur.getColor() != this.currentGamer.getColor()) throw new Spiel.eEnemyFigurSelectedException();
+
 		return true;
 	}
 
-	
+
 	/**
 	 * Method for moving on the board, but before it actually moves it calls the moveIsValid 
 	 * function to check if the move is valid.
@@ -162,7 +176,8 @@ public class Spiel implements iBediener {
 	 */
 	public void move(Point fromPoint, Point toPoint)
 			throws Spiel.eSamePositionException, Spiel.eNoDiagonalMoveException, Spiel.eOutOfGameboardException,
-			Spiel.eNoFigurFoundOnFieldException, Spiel.eDestinationPointIsBlockedException, Spiel.eSomeOtherMoveErrors
+			Spiel.eNoFigurFoundOnFieldException, Spiel.eDestinationPointIsBlockedException, Spiel.eSomeOtherMoveErrors,
+			Spiel.eDistanceToFarException, Spiel.eEnemyFigurSelectedException
 	{		
 		if(this.moveIsValid(fromPoint, toPoint)){
 			Spielfeld fromField = this.gameboard.getField((int)fromPoint.getX(), (int)fromPoint.getY());
@@ -196,7 +211,7 @@ public class Spiel implements iBediener {
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods ( Getter)
-	
+
 	/**
 	 * @return
 	 */
