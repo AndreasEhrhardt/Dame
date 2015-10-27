@@ -1,86 +1,102 @@
 //###########################################################
 //## Imports
 
-
 //###########################################################
 //## Class
 
 public class Spielfeld {
 
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//++ Properties
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// ++ Properties
 
 	private String ID;
 	private Spielfigur figur = null;
 
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//++ Constructor
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// ++ Constructor
 
 	/**
 	 * Default constructor
 	 */
-	public Spielfeld(){
-		
+	public Spielfeld() {
+
 	}
-	
+
 	/**
+	 * Constructor 2
+	 * Sets the ID
+	 * 
 	 * @param ID
 	 */
-	public Spielfeld(String ID){
+	public Spielfeld(String ID) {
 		this.setID(ID);
 	}
-	
+
 	/**
+	 * Constructor 3
+	 * Sets the token and the ID on the game board
+	 * 
 	 * @param ID
 	 * @param figur
 	 */
-	public Spielfeld(String ID, Spielfigur figur){
+	public Spielfeld(String ID, Spielfigur figur) {
 		this.setFigur(figur);
 		this.setID(ID);
 	}
-	
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//++ Methods
 
-	public void removeFigur(){
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// ++ Methods
+
+	/**
+	 * Removes the token from the board
+	 */
+	public void removeFigur() {
 		this.figur = null;
 	}
-	
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//++ Methods ( Getter)
+
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// ++ Methods ( Getter)
 
 	/**
-	 * @return
+	 * Returns the token on the board
+	 * 
+	 * @return 
 	 */
-	public Spielfigur getFigur(){
+	public Spielfigur getFigur() {
 		return this.figur;
 	}
-	
+
 	/**
-	 * @return
+	 * Returns the ID
+	 * 
+	 * @return 
 	 */
-	public String getID(){
+	public String getID() {
 		return this.ID;
 	}
 
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//++ Methods ( Setter)
-	
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// ++ Methods ( Setter)
+
 	/**
+	 *  This Method sets the token on the game board
+	 * 
 	 * @param figur
 	 */
-	public void setFigur(Spielfigur figur){
+	public void setFigur(Spielfigur figur) {
 		this.figur = figur;
 	}
 
 	/**
+	 * This Method sets the ID
+	 * 
 	 * @param ID
 	 */
-	public void setID(String ID){
+	public void setID(String ID) {
 		this.ID = ID;
 	}
 
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//++ Methods (Override)
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// ++ Methods (Override)
 
 }
