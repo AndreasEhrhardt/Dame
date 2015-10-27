@@ -151,6 +151,13 @@ public class Spiel implements iBediener {
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods ( Getter)
+	
+	/**
+	 * @return
+	 */
+	public Spielbrett getGameboard(){
+		return this.gameboard;
+	}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods ( Setter)
