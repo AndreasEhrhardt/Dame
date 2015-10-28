@@ -64,7 +64,7 @@ public class Spielbrett {
 		// Add white figures
 		for(int i = 0; i < 3; i++){
 			for(int j = xPos; j < this.felder.length; j = j + 2){
-				this.felder[i][j].setFigur(new Spielfigur(FarbEnum.weiß,new Point(i,j)));
+				this.felder[j][i].setFigur(new Spielfigur(FarbEnum.weiß,new Point(i,j)));
 			}
 
 			xPos = ++xPos % 2;
@@ -75,7 +75,7 @@ public class Spielbrett {
 		// Add black figures
 		for(int i = felder.length - 1; i >= felder.length - 3; i--){
 			for(int j = xPos; j < this.felder.length; j = j + 2){
-				this.felder[i][j].setFigur(new Spielfigur(FarbEnum.schwarz, new Point(i,j)));
+				this.felder[j][i].setFigur(new Spielfigur(FarbEnum.schwarz, new Point(i,j)));
 			}
 
 			xPos = ++xPos % 2;
@@ -99,7 +99,7 @@ public class Spielbrett {
 				fieldName.append(currentColumn);
 
 				// Set field names
-				this.felder[i][j].setID(fieldName.toString());
+				this.felder[j][i].setID(fieldName.toString());
 
 				// Increase column value
 				currentColumn++;

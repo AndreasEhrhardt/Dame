@@ -123,14 +123,14 @@ public class Spieler {
 			// Check if first char is a letter
 			if (sPoint.charAt(0) >= 65 && sPoint.charAt(0) <= 90) {
 				Point point = new Point();
-				int x = sPoint.charAt(0) - 65;
+				int y = sPoint.charAt(0) - 65;
 
 				if (sPoint.charAt(1) >= 48 && sPoint.charAt(1) <= 57) {
-					int y = -1;
-					y = (sPoint.charAt(1) - 48) * 10;
+					int x = -1;
+					x = (sPoint.charAt(1) - 48) * 10;
 
 					if (sPoint.charAt(2) >= 48 && sPoint.charAt(2) <= 57) {
-						y += (sPoint.charAt(2) - 48) - 1;
+						x += (sPoint.charAt(2) - 48) - 1;
 
 						if (x < 0 || y < 0)
 							throw new Spiel.eInvalidPointException();

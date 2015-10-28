@@ -116,8 +116,8 @@ public class Spiel implements iBediener {
 			Spiel.eNoFigurFoundOnFieldException, Spiel.eDestinationPointIsBlockedException,
 			Spiel.eDistanceToFarException, Spiel.eEnemyFigurSelectedException
 	{
-		int diffX = (int) (fromPoint.getX() - toPoint.getX());
-		int diffY = (int) (fromPoint.getY() - toPoint.getY());
+		int diffX = (int)(toPoint.getX() - fromPoint.getX());
+		int diffY = (int)(toPoint.getY() - fromPoint.getY());
 
 		int boardSize = this.gameboard.getFields().length;
 
@@ -146,11 +146,20 @@ public class Spiel implements iBediener {
 		if(destinationFigur != null) throw new Spiel.eDestinationPointIsBlockedException();
 
 		// Check if figur is jumping to far
-		Spielfigur midFigur = this.gameboard.getField(diffX / 2,diffY / 2).getFigur();
-		if(!gameFigur.isDame() && 
-				((diffX > 1 || (diffX * (-1)) > 1) || 
-				((diffX == 2 || (diffX * (-1)) == 2) && midFigur != null && midFigur.getColor() != this.currentGamer.getColor()))){
-			throw new Spiel.eDistanceToFarException();
+		if(!gameFigur.isDame()){
+			if(diffX > 1 || (diffX * (-1)) > 1){
+				if(!((diffX == 2 || (diffX * (-1)) == 2))){
+					throw new Spiel.eDistanceToFarException();
+				}
+				else{
+					System.out.println(((diffX / 2)));
+					Spielfigur midFigur = this.gameboard.getField((int)fromPoint.getX() + (diffX / 2),(int)fromPoint.getY() + (diffY / 2)).getFigur();
+					System.out.println("TEST2");
+					if(midFigur == null || midFigur.getColor() == this.currentGamer.getColor()){
+						throw new Spiel.eDistanceToFarException();
+					}
+				}
+			}
 		}
 
 		// Check if figur is from enemy team
@@ -381,7 +390,7 @@ public class Spiel implements iBediener {
 			// For every column
 			for(int j = 0; j < felder.length; j++){
 				// Get figur of field
-				Spielfigur currentFigur = felder[i][j].getFigur();
+				Spielfigur currentFigur = felder[j][i].getFigur();
 
 				// Write seperator
 				System.out.print(";");
@@ -389,10 +398,17 @@ public class Spiel implements iBediener {
 				// Check if field have figur or not
 				if(currentFigur == null) System.out.print("  ");
 				else{ 
-					if(currentFigur.getColor() == FarbEnum.weiß) 
-						System.out.print(" W");
+					if(currentFigur.getColor() == FarbEnum.weiß) {
+						if(currentFigur.isDame())
+							System.out.print("W+");
+						else
+						System.out.print("W ");
+					}
 					else
-						System.out.print(" S");
+						if(currentFigur.isDame())
+							System.out.print("S+");
+						else
+						System.out.print("S ");
 				}
 
 				// Increase column value
