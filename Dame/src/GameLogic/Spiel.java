@@ -125,8 +125,6 @@ public class Spiel implements iBediener {
 		int diffX = (int)(toPoint.getX() - fromPoint.getX());
 		int diffY = (int)(toPoint.getY() - fromPoint.getY());
 
-		int boardSize = this.gameboard.getFields().length;
-
 		Spielfeld fromField = this.gameboard.getField((int)fromPoint.getX(), (int)fromPoint.getY());
 		Spielfeld toField = this.gameboard.getField((int)toPoint.getX(), (int)toPoint.getY());
 
@@ -137,11 +135,7 @@ public class Spiel implements iBediener {
 		if(!(diffX == diffY || (diffX * (-1) == diffY))) throw new Spiel.eNoDiagonalMoveException();
 
 		// Check if toPoint and fromPoint are valid fields
-		if(fromPoint.getX() < 0 || fromPoint.getX() >= boardSize ||
-				fromPoint.getY() < 0 || fromPoint.getY() >= boardSize ||
-				toPoint.getX() < 0 || toPoint.getX() >= boardSize ||
-				toPoint.getY() < 0 || toPoint.getY() >= boardSize)
-			throw new Spiel.eOutOfGameboardException();
+		if(this.isValidField(fromPoint, toPoint)) throw new Spiel.eOutOfGameboardException();
 
 		// Check if field have figure
 		Spielfigur gameFigure = fromField.getFigure();
@@ -174,6 +168,19 @@ public class Spiel implements iBediener {
 		return true;
 	}
 
+	private boolean isValidField(Point fromPoint, Point toPoint){
+		int boardSize = this.gameboard.getFields().length;
+
+		if(fromPoint.getX() < 0 || fromPoint.getX() >= boardSize ||
+				fromPoint.getY() < 0 || fromPoint.getY() >= boardSize ||
+				toPoint.getX() < 0 || toPoint.getX() >= boardSize ||
+				toPoint.getY() < 0 || toPoint.getY() >= boardSize)
+		{
+			return false;
+		}else{
+			return true;
+		}
+	}
 
 	/**
 	 * Method for moving on the board, but before it actually moves it calls the moveIsValid 
@@ -205,21 +212,24 @@ public class Spiel implements iBediener {
 			// Remove every figure on the move-line
 			boolean removed = this.removeFigures(fromPoint, toPoint);
 
-			// Check for the "blwoing"-rule
+			// Check for the "blowing"-rule
 			if(!removed) this.checkForBlowing();
-			
-			// Set new coordinations to figure
-			gameFigure.setPoint(toPoint);
 
-			// Remove figure from old field and set to new field
-			toField.setFigure(gameFigure);
-			fromField.removeFigure();
+			// Check if figure is after blowing already exist
+			if(fromField.getFigure() == gameFigure){
+				// Set new coordinations to figure
+				gameFigure.setPoint(toPoint);
+				
+				// Remove figure from old field and set to new field
+				toField.setFigure(gameFigure);
+				fromField.removeFigure();
+			}
 		}
 		else{
 			throw new eSomeOtherMoveErrors();
 		}
 	}
-	
+
 	private void checkForBlowing(){
 		
 	}
@@ -227,7 +237,7 @@ public class Spiel implements iBediener {
 	private boolean removeFigures(Point fromPoint, Point toPoint){
 		int moveX, moveY, currentX = (int)fromPoint.getX(), currentY = (int)fromPoint.getY();
 		boolean removed = false;
-		
+
 		if(fromPoint.getX() < toPoint.getX()) moveX = 1;
 		else moveX = -1;
 
@@ -245,11 +255,11 @@ public class Spiel implements iBediener {
 				if(currentFigure.getColor() == this.currentGamer.getColor()) throw new RuntimeException();
 
 				currentField.removeFigure();
-				
+
 				removed = true;
 			}
 		}while(currentX != toPoint.getX() & currentY != toPoint.getY());
-		
+
 		return removed;
 	}
 

@@ -5,6 +5,10 @@ package GameLogic;
 //###########################################################
 //## Class
 
+/**
+ * @author ehrha
+ *
+ */
 public class Spielfeld {
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -34,11 +38,8 @@ public class Spielfeld {
 	}
 
 	/**
-	 * Constructor 3
-	 * Sets the token and the ID on the game board
-	 * 
 	 * @param ID
-	 * @param figur
+	 * @param figure
 	 */
 	public Spielfeld(String ID, Spielfigur figure) {
 		this.setFigure(figure);

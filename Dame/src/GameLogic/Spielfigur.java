@@ -60,14 +60,18 @@ public class Spielfigur {
 	// ++ Methods
 	
 	/**
-	 * @return
+	 * Get the state of the figure. Is the figure a "dame" or "normal"
+	 * 
+	 * @return Return property "dame"
 	 */
 	public boolean isDame(){
 		return this.dame;
 	}
 	
 	/**
-	 * @param isDame
+	 * Changed figure to "dame" or to "normal"
+	 * 
+	 * @param isDame Set to "dame" or to "normal"
 	 */
 	public void setDame(boolean isDame){
 		this.dame = isDame;
@@ -76,10 +80,10 @@ public class Spielfigur {
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods (Getter)
 	
-	/**11
+	/**
 	 * Getter method of "color" Returns a reference of color
 	 * 
-	 * @return color
+	 * @return color Get the current color of the figure
 	 */
 	public FarbEnum getColor() {
 		return color;
@@ -88,7 +92,7 @@ public class Spielfigur {
 	/**
 	 * Returns the position
 	 * 
-	 * @return 
+	 * @return Returns the current position of the figure
 	 */
 	public Point getPosiiton() {
 		return this.pos;
@@ -100,7 +104,7 @@ public class Spielfigur {
 	/**
 	 * Method for setting the color of the token
 	 * 
-	 * @param color
+	 * @param color Set the color of the figure to "color"
 	 */
 	public void setColor(FarbEnum color) {
 		this.color = color;
@@ -109,7 +113,7 @@ public class Spielfigur {
 	/**
 	 * Method for setting the position of the token
 	 * 
-	 * @param pos
+	 * @param pos The new position of the figure
 	 */
 	public void setPoint(Point pos) {
 		this.pos = pos;
