@@ -1,3 +1,6 @@
+package Interfaces;
+import GameLogic.Spieler;
+
 public interface iBediener {
 	void nextMove();
 	

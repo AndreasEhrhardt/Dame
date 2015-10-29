@@ -1,4 +1,8 @@
+package KI;
 import java.awt.*;
+
+import GameLogic.Spiel;
+import GameLogic.Spieler;
 
 public class KI_Dame extends KI{
 	//Properties

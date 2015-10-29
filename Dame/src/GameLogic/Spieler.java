@@ -1,7 +1,12 @@
+package GameLogic;
 //###########################################################
 //## Imports
 
 import java.util.Scanner;
+
+import Enumerations.FarbEnum;
+import KI.KI;
+
 import java.awt.*;
 
 //###########################################################
@@ -83,7 +88,7 @@ public class Spieler {
 				System.out.println("Ziel-Feld ist blockiert");
 			}catch (Spiel.eNoDiagonalMoveException e) {
 				System.out.println("Ungültige Bewegungsrichtung (nur diagonal ist erlaubt)");
-			}catch (Spiel.eNoFigurFoundOnFieldException e) {
+			}catch (Spiel.eNoFigureFoundOnFieldException e) {
 				System.out.println("Feld hat keine gültige Spielfigur");
 			}catch (Spiel.eOutOfGameboardException e) {
 				System.out.println("Position ist außerhalb des Spielfeldes");
@@ -91,7 +96,7 @@ public class Spieler {
 				System.out.println("Spielfigur-Feld und Ziel-Feld sind identisch");
 			}catch (Spiel.eDistanceToFarException e){
 				System.out.println("Bauern dürfen nur 1 Feld weit springen");
-			}catch(Spiel.eEnemyFigurSelectedException e){
+			}catch(Spiel.eEnemyFigureSelectedException e){
 				System.out.println("Es ist nicht erlaubt die Spielfigur des Gegners zu verschieben");
 			}catch (Exception e){
 				System.out.println("Sry, some other problems ");

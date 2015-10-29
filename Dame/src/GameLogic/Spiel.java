@@ -1,8 +1,14 @@
+package GameLogic;
 //###########################################################
 //## Imports
 
 import java.io.*;
 import java.util.*;
+
+import Enumerations.FarbEnum;
+import Interfaces.iBediener;
+import KI.KI_Dame;
+
 import java.awt.*;
 
 //###########################################################
@@ -17,9 +23,9 @@ public class Spiel implements iBediener {
 	static class eSamePositionException extends Exception{}
 	static class eOutOfGameboardException extends Exception{}
 	static class eDestinationPointIsBlockedException extends Exception{}
-	static class eNoFigurFoundOnFieldException extends Exception{}
+	static class eNoFigureFoundOnFieldException extends Exception{}
 	static class eSomeOtherMoveErrors extends Exception{}
-	static class eEnemyFigurSelectedException extends Exception{}
+	static class eEnemyFigureSelectedException extends Exception{}
 	static class eDistanceToFarException extends Exception{}
 	static class eNoBackJumpExcpetion extends Exception{}
 	static class eWayIsBlocked extends Exception{}
@@ -108,13 +114,13 @@ public class Spiel implements iBediener {
 	 * @throws Spiel.eSamePositionException
 	 * @throws Spiel.eNoDiagonalMoveException
 	 * @throws Spiel.eOutOfGameboardException
-	 * @throws Spiel.eNoFigurFoundOnFieldException
+	 * @throws Spiel.eNoFigureFoundOnFieldException
 	 * @throws Spiel.eDestinationPointIsBlockedException
 	 */
 	public boolean moveIsValid(Point fromPoint, Point toPoint) 
 			throws Spiel.eSamePositionException, Spiel.eNoDiagonalMoveException, Spiel.eOutOfGameboardException,
-			Spiel.eNoFigurFoundOnFieldException, Spiel.eDestinationPointIsBlockedException,
-			Spiel.eDistanceToFarException, Spiel.eEnemyFigurSelectedException
+			Spiel.eNoFigureFoundOnFieldException, Spiel.eDestinationPointIsBlockedException,
+			Spiel.eDistanceToFarException, Spiel.eEnemyFigureSelectedException
 	{
 		int diffX = (int)(toPoint.getX() - fromPoint.getX());
 		int diffY = (int)(toPoint.getY() - fromPoint.getY());
@@ -137,33 +143,33 @@ public class Spiel implements iBediener {
 				toPoint.getY() < 0 || toPoint.getY() >= boardSize)
 			throw new Spiel.eOutOfGameboardException();
 
-		// Check if field have figur
-		Spielfigur gameFigur = fromField.getFigur();
-		if(gameFigur == null) throw new Spiel.eNoFigurFoundOnFieldException();
+		// Check if field have figure
+		Spielfigur gameFigure = fromField.getFigure();
+		if(gameFigure == null) throw new Spiel.eNoFigureFoundOnFieldException();
 
 		// Check if destination have already a destination
-		Spielfigur destinationFigur = toField.getFigur();
-		if(destinationFigur != null) throw new Spiel.eDestinationPointIsBlockedException();
+		Spielfigur destinationfigure = toField.getFigure();
+		if(destinationfigure != null) throw new Spiel.eDestinationPointIsBlockedException();
 
-		// Check if figur is jumping to far
-		if(!gameFigur.isDame()){
+		// Check if figure is jumping to far
+		if(!gameFigure.isDame()){
 			if(diffX > 1 || (diffX * (-1)) > 1){
 				if(!((diffX == 2 || (diffX * (-1)) == 2))){
 					throw new Spiel.eDistanceToFarException();
 				}
 				else{
 					System.out.println(((diffX / 2)));
-					Spielfigur midFigur = this.gameboard.getField((int)fromPoint.getX() + (diffX / 2),(int)fromPoint.getY() + (diffY / 2)).getFigur();
+					Spielfigur midfigure = this.gameboard.getField((int)fromPoint.getX() + (diffX / 2),(int)fromPoint.getY() + (diffY / 2)).getFigure();
 					System.out.println("TEST2");
-					if(midFigur == null || midFigur.getColor() == this.currentGamer.getColor()){
+					if(midfigure == null || midfigure.getColor() == this.currentGamer.getColor()){
 						throw new Spiel.eDistanceToFarException();
 					}
 				}
 			}
 		}
 
-		// Check if figur is from enemy team
-		if(gameFigur.getColor() != this.currentGamer.getColor()) throw new Spiel.eEnemyFigurSelectedException();
+		// Check if figure is from enemy team
+		if(gameFigure.getColor() != this.currentGamer.getColor()) throw new Spiel.eEnemyFigureSelectedException();
 
 		return true;
 	}
@@ -179,31 +185,72 @@ public class Spiel implements iBediener {
 	 * @throws Spiel.eSamePositionException
 	 * @throws Spiel.eNoDiagonalMoveException
 	 * @throws Spiel.eOutOfGameboardException
-	 * @throws Spiel.eNoFigurFoundOnFieldException
+	 * @throws Spiel.eNoFigureFoundOnFieldException
 	 * @throws Spiel.eDestinationPointIsBlockedException
 	 * @throws Spiel.eSomeOtherMoveErrors
 	 */
 	public void move(Point fromPoint, Point toPoint)
 			throws Spiel.eSamePositionException, Spiel.eNoDiagonalMoveException, Spiel.eOutOfGameboardException,
-			Spiel.eNoFigurFoundOnFieldException, Spiel.eDestinationPointIsBlockedException, Spiel.eSomeOtherMoveErrors,
-			Spiel.eDistanceToFarException, Spiel.eEnemyFigurSelectedException
+			Spiel.eNoFigureFoundOnFieldException, Spiel.eDestinationPointIsBlockedException, Spiel.eSomeOtherMoveErrors,
+			Spiel.eDistanceToFarException, Spiel.eEnemyFigureSelectedException
 	{		
 		if(this.moveIsValid(fromPoint, toPoint)){
+			// Get fields
 			Spielfeld fromField = this.gameboard.getField((int)fromPoint.getX(), (int)fromPoint.getY());
 			Spielfeld toField = this.gameboard.getField((int)toPoint.getX(), (int)toPoint.getY());
 
-			Spielfigur gameFigur = fromField.getFigur();
+			// Get moveable figure
+			Spielfigur gameFigure = fromField.getFigure();
 
-			System.out.println(fromField.getID());
+			// Remove every figure on the move-line
+			boolean removed = this.removeFigures(fromPoint, toPoint);
 
-			gameFigur.setPoint(toPoint);
-			toField.setFigur(gameFigur);
+			// Check for the "blwoing"-rule
+			if(!removed) this.checkForBlowing();
+			
+			// Set new coordinations to figure
+			gameFigure.setPoint(toPoint);
 
-			fromField.removeFigur();
+			// Remove figure from old field and set to new field
+			toField.setFigure(gameFigure);
+			fromField.removeFigure();
 		}
 		else{
 			throw new eSomeOtherMoveErrors();
 		}
+	}
+	
+	private void checkForBlowing(){
+		
+	}
+
+	private boolean removeFigures(Point fromPoint, Point toPoint){
+		int moveX, moveY, currentX = (int)fromPoint.getX(), currentY = (int)fromPoint.getY();
+		boolean removed = false;
+		
+		if(fromPoint.getX() < toPoint.getX()) moveX = 1;
+		else moveX = -1;
+
+		if(fromPoint.getY() < toPoint.getY()) moveY = 1;
+		else moveY = -1;
+
+		do{
+			currentX += moveX;
+			currentY += moveY;
+
+			Spielfeld currentField = this.gameboard.getField(currentX, currentY);
+			Spielfigur currentFigure = currentField.getFigure();
+
+			if(currentFigure != null){
+				if(currentFigure.getColor() == this.currentGamer.getColor()) throw new RuntimeException();
+
+				currentField.removeFigure();
+				
+				removed = true;
+			}
+		}while(currentX != toPoint.getX() & currentY != toPoint.getY());
+		
+		return removed;
 	}
 
 	/**
@@ -389,26 +436,26 @@ public class Spiel implements iBediener {
 
 			// For every column
 			for(int j = 0; j < felder.length; j++){
-				// Get figur of field
-				Spielfigur currentFigur = felder[j][i].getFigur();
+				// Get figure of field
+				Spielfigur currentFigure = felder[j][i].getFigure();
 
 				// Write seperator
 				System.out.print(";");
 
-				// Check if field have figur or not
-				if(currentFigur == null) System.out.print("  ");
+				// Check if field have figure or not
+				if(currentFigure == null) System.out.print("  ");
 				else{ 
-					if(currentFigur.getColor() == FarbEnum.weiß) {
-						if(currentFigur.isDame())
+					if(currentFigure.getColor() == FarbEnum.weiß) {
+						if(currentFigure.isDame())
 							System.out.print("W+");
 						else
-						System.out.print("W ");
+							System.out.print("W ");
 					}
 					else
-						if(currentFigur.isDame())
+						if(currentFigure.isDame())
 							System.out.print("S+");
 						else
-						System.out.print("S ");
+							System.out.print("S ");
 				}
 
 				// Increase column value

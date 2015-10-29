@@ -1,3 +1,6 @@
+package Main;
+import GameLogic.Spiel;
+
 public class Main {
 
 	/**

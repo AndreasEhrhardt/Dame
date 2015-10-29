@@ -1,3 +1,4 @@
+package GameLogic;
 //###########################################################
 //## Imports
 
@@ -10,7 +11,7 @@ public class Spielfeld {
 	// ++ Properties
 
 	private String ID;
-	private Spielfigur figur = null;
+	private Spielfigur figure = null;
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Constructor
@@ -39,8 +40,8 @@ public class Spielfeld {
 	 * @param ID
 	 * @param figur
 	 */
-	public Spielfeld(String ID, Spielfigur figur) {
-		this.setFigur(figur);
+	public Spielfeld(String ID, Spielfigur figure) {
+		this.setFigure(figure);
 		this.setID(ID);
 	}
 
@@ -50,8 +51,8 @@ public class Spielfeld {
 	/**
 	 * Removes the token from the board
 	 */
-	public void removeFigur() {
-		this.figur = null;
+	public void removeFigure() {
+		this.figure = null;
 	}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -62,8 +63,8 @@ public class Spielfeld {
 	 * 
 	 * @return 
 	 */
-	public Spielfigur getFigur() {
-		return this.figur;
+	public Spielfigur getFigure() {
+		return this.figure;
 	}
 
 	/**
@@ -81,10 +82,10 @@ public class Spielfeld {
 	/**
 	 *  This Method sets the token on the game board
 	 * 
-	 * @param figur
+	 * @param figure
 	 */
-	public void setFigur(Spielfigur figur) {
-		this.figur = figur;
+	public void setFigure(Spielfigur figure) {
+		this.figure = figure;
 	}
 
 	/**

@@ -1,8 +1,14 @@
+package Main;
 /**
  *
  */
 
 import java.util.Scanner;
+
+import GameLogic.Spiel;
+import GameLogic.Spieler;
+import GameLogic.Spielfeld;
+import Interfaces.iBediener;
 
 public class SpielTest implements iBediener {
 
