@@ -4,6 +4,7 @@ package GameLogic;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.SynchronousQueue;
 
 import Enumerations.FarbEnum;
 import Interfaces.iBediener;
@@ -29,6 +30,7 @@ public class Spiel implements iBediener {
 	static class eDistanceToFarException extends Exception{}
 	static class eNoBackJumpExcpetion extends Exception{}
 	static class eWayIsBlockedException extends Exception{}
+	static class eOwnFigureIsBlockingException extends Exception{}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Properties
@@ -101,6 +103,28 @@ public class Spiel implements iBediener {
 	}
 
 	/**
+	 * 
+	 */
+	private void checkForNewDames(){
+		Spielfeld felder[][] = this.gameboard.getFields();
+
+		// Check if field is valid
+		if(felder.length > 2){
+
+			// Check for new black dames
+			for(int i = 0; i < felder.length; i++){
+				Spielfigur currentFigure = felder[i][0].getFigure();
+				if(currentFigure != null && currentFigure.getColor() == FarbEnum.schwarz && !currentFigure.isDame())
+					currentFigure.setDame(true);
+
+				currentFigure = felder[i][felder[i].length - 1].getFigure();
+				if(currentFigure != null && currentFigure.getColor() == FarbEnum.weiﬂ && !currentFigure.isDame())
+					currentFigure.setDame(true);
+			}
+		}
+	}
+
+	/**
 	 * Checks if move is valid else it will throw exceptions
 	 * 
 	 * @param fromPoint
@@ -115,7 +139,8 @@ public class Spiel implements iBediener {
 	public boolean moveIsValid(Point fromPoint, Point toPoint) 
 			throws Spiel.eSamePositionException, Spiel.eNoDiagonalMoveException, Spiel.eOutOfGameboardException,
 			Spiel.eNoFigureFoundOnFieldException, Spiel.eDestinationPointIsBlockedException,
-			Spiel.eDistanceToFarException, Spiel.eEnemyFigureSelectedException, Spiel.eNoBackJumpExcpetion
+			Spiel.eDistanceToFarException, Spiel.eEnemyFigureSelectedException, Spiel.eNoBackJumpExcpetion,
+			eOwnFigureIsBlockingException
 	{
 		int diffX = (int)(toPoint.getX() - fromPoint.getX());
 		int diffY = (int)(toPoint.getY() - fromPoint.getY());
@@ -131,12 +156,12 @@ public class Spiel implements iBediener {
 
 		// Check if toPoint and fromPoint are valid fields
 		if(!this.isValidField(fromPoint, toPoint)) throw new Spiel.eOutOfGameboardException();
-		
+
 		// Check if field have figure
 		Spielfigur gameFigure = fromField.getFigure();
 		if(gameFigure == null) throw new Spiel.eNoFigureFoundOnFieldException();
 
-		// Check if destination have already a destination
+		// Check if destination have already a figure
 		Spielfigur destinationfigure = toField.getFigure();
 		if(destinationfigure != null) throw new Spiel.eDestinationPointIsBlockedException();
 
@@ -147,16 +172,18 @@ public class Spiel implements iBediener {
 					throw new Spiel.eDistanceToFarException();
 				}
 				else{
-					System.out.println(((diffX / 2)));
 					Spielfigur midfigure = this.gameboard.getField((int)fromPoint.getX() + (diffX / 2),(int)fromPoint.getY() + (diffY / 2)).getFigure();
 					if(midfigure == null || midfigure.getColor() == this.currentGamer.getColor()){
-						throw new Spiel.eDistanceToFarException();
+						throw new Spiel.eOwnFigureIsBlockingException();
 					}
 				}
 			}else{
 				if(gameFigure.getColor() == FarbEnum.schwarz && diffY > 0) throw new Spiel.eNoBackJumpExcpetion();
 				else if(gameFigure.getColor() == FarbEnum.weiﬂ && diffY < 0) throw new Spiel.eNoBackJumpExcpetion();
 			}
+		}
+		else{
+
 		}
 
 		// Check if figure is from enemy team
@@ -201,7 +228,8 @@ public class Spiel implements iBediener {
 	public void move(Point fromPoint, Point toPoint)
 			throws Spiel.eSamePositionException, Spiel.eNoDiagonalMoveException, Spiel.eOutOfGameboardException,
 			Spiel.eNoFigureFoundOnFieldException, Spiel.eDestinationPointIsBlockedException, Spiel.eSomeOtherMoveErrorsException,
-			Spiel.eDistanceToFarException, Spiel.eEnemyFigureSelectedException, Spiel.eNoBackJumpExcpetion
+			Spiel.eDistanceToFarException, Spiel.eEnemyFigureSelectedException, Spiel.eNoBackJumpExcpetion,
+			eOwnFigureIsBlockingException
 	{		
 		if(this.moveIsValid(fromPoint, toPoint)){
 			// Get fields
@@ -225,6 +253,9 @@ public class Spiel implements iBediener {
 				// Remove figure from old field and set to new field
 				toField.setFigure(gameFigure);
 				fromField.removeFigure();
+
+				// Check for new dame
+				checkForNewDames();
 
 				// Check if figure can jump again
 				if(removed && this.canDestroyOtherFigures(toPoint)){
@@ -271,11 +302,99 @@ public class Spiel implements iBediener {
 				}
 			}
 		}
+
 		return false;
 	}
+	
+	private int figureCount(Point fromPoint, Point toPoint) throws eOwnFigureIsBlockingException{
+		int moveX, moveY, currentX = (int)fromPoint.getX(), currentY = (int)fromPoint.getY();
+		int figures = 0;
 
-	private void checkForBlowing(){
+		if(fromPoint.getX() < toPoint.getX()) moveX = 1;
+		else moveX = -1;
 
+		if(fromPoint.getY() < toPoint.getY()) moveY = 1;
+		else moveY = -1;
+
+		do{
+			currentX += moveX;
+			currentY += moveY;
+
+			Spielfeld currentField = this.gameboard.getField(currentX, currentY);
+			Spielfigur currentFigure = currentField.getFigure();
+
+			if(currentFigure != null){
+				if(currentFigure.getColor() == this.currentGamer.getColor()) throw new eOwnFigureIsBlockingException();
+
+				figures++;
+			}
+		}while(currentX != toPoint.getX() & currentY != toPoint.getY());
+		
+		return figures;
+	}
+
+	private void checkForBlowing(){		
+		// Create blowing list
+		ArrayList <Spielfigur> figures = new ArrayList<>();
+
+		// Detect every stone
+		Spielfeld felder[][] = this.gameboard.getFields();
+		for(int i = 0; i < felder.length; i++){
+			for(int j = 0; j < felder[i].length; j++){
+				Spielfigur currentFigure = felder[i][j].getFigure();
+				if(currentFigure != null && currentFigure.getColor() == this.currentGamer.getColor()){
+					if(canDestroyOtherFigures(currentFigure.getPosiiton())){
+						if(!figures.contains(currentFigure)) figures.add(currentFigure);
+					}
+				}
+			}
+		}
+
+		Point removePosition = null;
+
+		if(figures.size() > 0){
+			System.out.println("");
+			System.out.println("Pusten-Regel tritt in Kraft!");
+			if(figures.size() == 1){
+				removePosition = figures.get(0).getPosiiton();
+			}
+			else{
+				Point position = null;
+				do{
+					removePosition = null;
+					
+					System.out.println("Es stehen folgende Spielfiguren zur Auswahl:");
+					for(int i = 0; i < figures.size(); i++){
+						if(i != 0) System.out.print("; ");
+						System.out.print(i + ". " + this.currentGamer.posToString(figures.get(i).getPosiiton()));
+					}
+					System.out.println("");
+					System.out.print("Bitte Spielfigur eingeben: ");
+
+					try{
+						position = this.currentGamer.inputPosition();
+						
+						for(Spielfigur figure: figures){
+							if(figure.getPosiiton() == position) removePosition = position;
+						}
+						
+						if(removePosition == null) System.out.println("Fehler bei der Eingabe!");
+					}
+					catch(Exception e){
+						position = null;
+					}
+				}while(position == null && removePosition == null);
+			}
+		}
+		
+		if(removePosition != null){
+			int currentX = (int)removePosition.getX();
+			int currentY = (int)removePosition.getY();
+	
+			this.gameboard.getField(currentX, currentY).removeFigure();
+			
+			System.out.println("[Pusten] Folgende Spielfigur wird entfern: " + this.currentGamer.posToString(removePosition));
+		}
 	}
 
 	private boolean removeFigures(Point fromPoint, Point toPoint){

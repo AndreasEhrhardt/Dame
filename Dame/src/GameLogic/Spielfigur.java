@@ -54,6 +54,9 @@ public class Spielfigur {
 		
 		// Set values
 		this.setColor(color);
+		
+		// Set position
+		this.setPoint(pos);
 	}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -130,12 +133,10 @@ public class Spielfigur {
 	@Override
 	public boolean equals(Object obj) {
 		// Check for self-comparing
-		if (obj == this)
-			return true;
+		if (obj == this) return true;
 
 		// Check for same class
-		if (obj == null || obj.getClass() != this.getClass())
-			return false;
+		if (obj == null || obj.getClass() != this.getClass()) return false;
 
 		// Cast object to same class
 		Spielfigur SpielfigurObj = (Spielfigur) obj;
@@ -143,9 +144,7 @@ public class Spielfigur {
 		// Check for same color
 		if (this.color == SpielfigurObj.color) {
 			// Check for same position
-			if (this.equals(SpielfigurObj)) {
-				return true;
-			}
+			if (this.pos.equals(SpielfigurObj.getPosiiton())) return true;
 		}
 
 		return false;

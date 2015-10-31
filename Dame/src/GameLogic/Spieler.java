@@ -101,6 +101,8 @@ public class Spieler {
 				System.out.println("Bauern dürfen nur 1 Feld weit springen");
 			}catch(Spiel.eEnemyFigureSelectedException e){
 				System.out.println("Es ist nicht erlaubt die Spielfigur des Gegners zu verschieben");
+			}catch(Spiel.eOwnFigureIsBlockingException e){
+				System.out.println("Kann keine eigenen Steine überspringen");
 			}catch(Spiel.eNoBackJumpExcpetion e){
 				System.out.println("Falsche Richtung. Nur erlaubt beim Schlagen einer Figur oder als Dame");
 			}catch (Exception e){
@@ -115,7 +117,7 @@ public class Spieler {
 	 * 
 	 * @return point 
 	 */
-	private Point inputPosition() throws Spiel.eInvalidPointException {
+	public Point inputPosition() throws Spiel.eInvalidPointException {
 		// Create keyboard reader
 		Scanner scanner = new Scanner(System.in);
 
@@ -160,6 +162,16 @@ public class Spieler {
 				throw new Spiel.eInvalidPointException();
 			}
 		}
+	}
+	
+	public String posToString(Point position){
+		char firstLetter = (char)(65 + position.getX());
+		
+		StringBuilder returnValue = new StringBuilder();
+		returnValue.append(firstLetter);
+		returnValue.append((int)position.getY());
+		 
+		return returnValue.toString();
 	}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
