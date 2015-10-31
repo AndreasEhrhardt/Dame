@@ -59,20 +59,23 @@ public class Spieler {
 	 * 
 	 * @param game
 	 */
-	protected void move(Spiel game) {
+	protected void move(Spiel game, Point fromPoint) {
 		System.out.println("");
 		System.out.println("Spieler '" + this.getName() + "' ("
 				+ FarbEnum.getColorName(this.color) + ") ist am Zug");
 
-		Point fromPoint = null;
+		boolean fromAlreadyExist = false;
+		if(fromPoint != null) fromAlreadyExist = true;
 		Point toPoint = null;
 
 		boolean success;
 		do {
 			success = false;
 			try {
-				System.out.print("Bitte Spielfigur eingeben: ");
-				fromPoint = inputPosition();
+				if(fromAlreadyExist == false){
+					System.out.print("Bitte Spielfigur eingeben: ");
+					fromPoint = inputPosition();
+				}
 
 				System.out.print("Bitte neues Spielfeld eingeben: ");
 				toPoint = inputPosition();
@@ -82,7 +85,7 @@ public class Spieler {
 				success = true;
 			}catch (Spiel.eInvalidPointException e) {
 				System.out.println("Ungültige Positions-Eingabe");
-			}catch (Spiel.eSomeOtherMoveErrors e) {
+			}catch (Spiel.eSomeOtherMoveErrorsException e) {
 				System.out.println("Unbekannter Fehler. sorry");
 			}catch (Spiel.eDestinationPointIsBlockedException e) {
 				System.out.println("Ziel-Feld ist blockiert");
@@ -98,6 +101,8 @@ public class Spieler {
 				System.out.println("Bauern dürfen nur 1 Feld weit springen");
 			}catch(Spiel.eEnemyFigureSelectedException e){
 				System.out.println("Es ist nicht erlaubt die Spielfigur des Gegners zu verschieben");
+			}catch(Spiel.eNoBackJumpExcpetion e){
+				System.out.println("Falsche Richtung. Nur erlaubt beim Schlagen einer Figur oder als Dame");
 			}catch (Exception e){
 				System.out.println("Sry, some other problems ");
 			}			

@@ -24,11 +24,11 @@ public class Spiel implements iBediener {
 	static class eOutOfGameboardException extends Exception{}
 	static class eDestinationPointIsBlockedException extends Exception{}
 	static class eNoFigureFoundOnFieldException extends Exception{}
-	static class eSomeOtherMoveErrors extends Exception{}
+	static class eSomeOtherMoveErrorsException extends Exception{}
 	static class eEnemyFigureSelectedException extends Exception{}
 	static class eDistanceToFarException extends Exception{}
 	static class eNoBackJumpExcpetion extends Exception{}
-	static class eWayIsBlocked extends Exception{}
+	static class eWayIsBlockedException extends Exception{}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Properties
@@ -90,7 +90,7 @@ public class Spiel implements iBediener {
 			this.outputGameboardCSV();
 
 			// Current player have to move
-			this.currentGamer.move(this);
+			this.currentGamer.move(this, null);
 
 			// Set next player
 			if(this.currentGamer == this.gamer[0])
@@ -115,7 +115,7 @@ public class Spiel implements iBediener {
 	public boolean moveIsValid(Point fromPoint, Point toPoint) 
 			throws Spiel.eSamePositionException, Spiel.eNoDiagonalMoveException, Spiel.eOutOfGameboardException,
 			Spiel.eNoFigureFoundOnFieldException, Spiel.eDestinationPointIsBlockedException,
-			Spiel.eDistanceToFarException, Spiel.eEnemyFigureSelectedException
+			Spiel.eDistanceToFarException, Spiel.eEnemyFigureSelectedException, Spiel.eNoBackJumpExcpetion
 	{
 		int diffX = (int)(toPoint.getX() - fromPoint.getX());
 		int diffY = (int)(toPoint.getY() - fromPoint.getY());
@@ -140,7 +140,7 @@ public class Spiel implements iBediener {
 		Spielfigur destinationfigure = toField.getFigure();
 		if(destinationfigure != null) throw new Spiel.eDestinationPointIsBlockedException();
 
-		// Check if figure is jumping to far
+		// Check if figure is jumping to far or in wrong way
 		if(!gameFigure.isDame()){
 			if(diffX > 1 || (diffX * (-1)) > 1){
 				if(!((diffX == 2 || (diffX * (-1)) == 2))){
@@ -149,11 +149,13 @@ public class Spiel implements iBediener {
 				else{
 					System.out.println(((diffX / 2)));
 					Spielfigur midfigure = this.gameboard.getField((int)fromPoint.getX() + (diffX / 2),(int)fromPoint.getY() + (diffY / 2)).getFigure();
-					System.out.println("TEST2");
 					if(midfigure == null || midfigure.getColor() == this.currentGamer.getColor()){
 						throw new Spiel.eDistanceToFarException();
 					}
 				}
+			}else{
+				if(gameFigure.getColor() == FarbEnum.schwarz && diffY > 0) throw new Spiel.eNoBackJumpExcpetion();
+				else if(gameFigure.getColor() == FarbEnum.weiﬂ && diffY < 0) throw new Spiel.eNoBackJumpExcpetion();
 			}
 		}
 
@@ -198,8 +200,8 @@ public class Spiel implements iBediener {
 	 */
 	public void move(Point fromPoint, Point toPoint)
 			throws Spiel.eSamePositionException, Spiel.eNoDiagonalMoveException, Spiel.eOutOfGameboardException,
-			Spiel.eNoFigureFoundOnFieldException, Spiel.eDestinationPointIsBlockedException, Spiel.eSomeOtherMoveErrors,
-			Spiel.eDistanceToFarException, Spiel.eEnemyFigureSelectedException
+			Spiel.eNoFigureFoundOnFieldException, Spiel.eDestinationPointIsBlockedException, Spiel.eSomeOtherMoveErrorsException,
+			Spiel.eDistanceToFarException, Spiel.eEnemyFigureSelectedException, Spiel.eNoBackJumpExcpetion
 	{		
 		if(this.moveIsValid(fromPoint, toPoint)){
 			// Get fields
@@ -224,18 +226,23 @@ public class Spiel implements iBediener {
 				toField.setFigure(gameFigure);
 				fromField.removeFigure();
 
-
-				if(this.canDestroyOtherFigures(toPoint)){
-
+				// Check if figure can jump again
+				if(removed && this.canDestroyOtherFigures(toPoint)){
+					// Do next jump
+					this.currentGamer.move(this, toPoint);
 				}
-
 			}
 		}
 		else{
-			throw new eSomeOtherMoveErrors();
+			// Some strange errors appears
+			throw new eSomeOtherMoveErrorsException();
 		}
 	}
 
+	/**
+	 * @param point
+	 * @return
+	 */
 	private boolean canDestroyOtherFigures(Point point){
 		int xCurrent = (int)point.getX(), yCurrent = (int)point.getY();
 
