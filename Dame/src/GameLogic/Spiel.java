@@ -130,8 +130,8 @@ public class Spiel implements iBediener {
 		if(!(diffX == diffY || (diffX * (-1) == diffY))) throw new Spiel.eNoDiagonalMoveException();
 
 		// Check if toPoint and fromPoint are valid fields
-		if(this.isValidField(fromPoint, toPoint)) throw new Spiel.eOutOfGameboardException();
-
+		if(!this.isValidField(fromPoint, toPoint)) throw new Spiel.eOutOfGameboardException();
+		
 		// Check if field have figure
 		Spielfigur gameFigure = fromField.getFigure();
 		if(gameFigure == null) throw new Spiel.eNoFigureFoundOnFieldException();
@@ -163,6 +163,11 @@ public class Spiel implements iBediener {
 		return true;
 	}
 
+	/**
+	 * @param fromPoint
+	 * @param toPoint
+	 * @return
+	 */
 	private boolean isValidField(Point fromPoint, Point toPoint){
 		int boardSize = this.gameboard.getFields().length;
 
