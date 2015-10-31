@@ -85,10 +85,7 @@ public class Spiel implements iBediener {
 	 * The loop checks for finished
 	 */
 	private void gameLoop(){
-		int loopBreak = 5;
-		while(!gameFinished() && loopBreak > 0){
-			loopBreak--;
-
+		while(!gameFinished()){
 			// Output current gameboard
 			this.outputGameboardCSV();
 
@@ -100,8 +97,6 @@ public class Spiel implements iBediener {
 				this.currentGamer = this.gamer[1];
 			else
 				this.currentGamer = this.gamer[0];
-
-
 		}
 	}
 
@@ -219,10 +214,16 @@ public class Spiel implements iBediener {
 			if(fromField.getFigure() == gameFigure){
 				// Set new coordinations to figure
 				gameFigure.setPoint(toPoint);
-				
+
 				// Remove figure from old field and set to new field
 				toField.setFigure(gameFigure);
 				fromField.removeFigure();
+
+
+				if(this.canDestroyOtherFigures(toPoint)){
+
+				}
+
 			}
 		}
 		else{
@@ -230,8 +231,39 @@ public class Spiel implements iBediener {
 		}
 	}
 
+	private boolean canDestroyOtherFigures(Point point){
+		int xCurrent = (int)point.getX(), yCurrent = (int)point.getY();
+
+		Spielfeld felder[][] = this.gameboard.getFields();
+		for(int i = 0; i < felder.length; i++){
+			for(int j = 0; j < felder[i].length; j++){
+				Spielfigur figure = felder[i][j].getFigure();
+				if(figure != null){
+					if(figure.getColor() != this.currentGamer.getColor()){
+						Point movePoint = new Point(i,j);
+						if(xCurrent < (int)movePoint.getX()) 
+							movePoint.setLocation(movePoint.getX() + 1, movePoint.getY());
+						else 
+							movePoint.setLocation(movePoint.getX() - 1, movePoint.getY());
+
+						if(yCurrent < (int)movePoint.getY()) 
+							movePoint.setLocation(movePoint.getX(), movePoint.getY() + 1);
+						else 
+							movePoint.setLocation(movePoint.getX(), movePoint.getY() - 1);
+
+						try{
+							if(moveIsValid(point,movePoint)) return true;
+						}
+						catch(Exception e){}
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 	private void checkForBlowing(){
-		
+
 	}
 
 	private boolean removeFigures(Point fromPoint, Point toPoint){
@@ -422,6 +454,7 @@ public class Spiel implements iBediener {
 	public void nextMove()	{
 
 	}
+
 	/**
 	 * This method is used to save the game to a CSV file
 	 */
@@ -559,8 +592,31 @@ public class Spiel implements iBediener {
 	 */
 	@Override
 	public boolean gameFinished() {
-		// TODO Auto-generated method stub
-		return false;
+		int whiteFigures = 0, blackFigures = 0;
+
+		Spielfeld felder[][] = this.gameboard.getFields();
+		for(int i = 0; i < felder.length; i++){
+			for(int j = 0; j < felder[i].length; j++){
+				Spielfigur figure = felder[i][j].getFigure();
+				if(figure != null){
+					if(figure.getColor() == FarbEnum.schwarz) blackFigures++;
+					else if(figure.getColor() == FarbEnum.weiß) whiteFigures++;
+				}
+			}
+		}
+
+		if(whiteFigures == 0 || blackFigures == 0){
+			String winName;
+			if(whiteFigures == 0) winName = FarbEnum.getColorName(FarbEnum.schwarz);
+			else winName = FarbEnum.getColorName(FarbEnum.weiß);
+
+			System.out.println("Herzlichen Glückwunsch " + winName + "! Sie haben gewonnen");
+
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	/**
