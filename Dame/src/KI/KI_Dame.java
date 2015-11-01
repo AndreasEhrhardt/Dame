@@ -12,14 +12,13 @@ public class KI_Dame extends KI{
 		setKiPlayer();
 	}
 	//getter/Setter
-	
-	
 	private void setKiPlayer(){
 		this.kiPlayer = new Spieler();
 	}
+	
 	//methods
+	//take start stone
 	//pusten
-	//public 
 	//check if move is valid
 	public boolean isFree(){
 		
@@ -27,11 +26,12 @@ public class KI_Dame extends KI{
 	}
 	
 	//move to empty space
-	public void move(Spiel game){
+	public void move(Spiel game, Point pos){
 		//exception abfangen
 		//if position != free -> nextPosition
 		//if position == free -> setze stein 
 		//spiel.move
+		
 		
 	}
 }
