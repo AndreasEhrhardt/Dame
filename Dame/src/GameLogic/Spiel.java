@@ -19,18 +19,18 @@ public class Spiel implements iBediener {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Exceptions
 
-	static class eNoDiagonalMoveException extends Exception{}
-	static class eInvalidPointException extends Exception{}
-	static class eSamePositionException extends Exception{}
-	static class eOutOfGameboardException extends Exception{}
-	static class eDestinationPointIsBlockedException extends Exception{}
-	static class eNoFigureFoundOnFieldException extends Exception{}
-	static class eSomeOtherMoveErrorsException extends Exception{}
-	static class eEnemyFigureSelectedException extends Exception{}
-	static class eDistanceToFarException extends Exception{}
-	static class eNoBackJumpExcpetion extends Exception{}
-	static class eWayIsBlockedException extends Exception{}
-	static class eOwnFigureIsBlockingException extends Exception{}
+	public static class eNoDiagonalMoveException extends Exception{}
+	public static class eInvalidPointException extends Exception{}
+	public static class eSamePositionException extends Exception{}
+	public static class eOutOfGameboardException extends Exception{}
+	public static class eDestinationPointIsBlockedException extends Exception{}
+	public static class eNoFigureFoundOnFieldException extends Exception{}
+	public static class eSomeOtherMoveErrorsException extends Exception{}
+	public static class eEnemyFigureSelectedException extends Exception{}
+	public static class eDistanceToFarException extends Exception{}
+	public static class eNoBackJumpExcpetion extends Exception{}
+	public static class eWayIsBlockedException extends Exception{}
+	public static class eOwnFigureIsBlockingException extends Exception{}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Properties
@@ -87,10 +87,10 @@ public class Spiel implements iBediener {
 	 * The loop checks for finished
 	 */
 	private void gameLoop(){
-		while(!gameFinished()){
-			// Output current gameboard
-			this.outputGameboardCSV();
+		// Output start gameboard
+		this.outputGameboardCSV();
 
+		while(!gameFinished()){
 			// Current player have to move
 			this.currentGamer.move(this, null);
 
@@ -99,6 +99,9 @@ public class Spiel implements iBediener {
 				this.currentGamer = this.gamer[1];
 			else
 				this.currentGamer = this.gamer[0];
+
+			// Output current gameboard
+			this.outputGameboardCSV();
 		}
 	}
 
@@ -184,7 +187,10 @@ public class Spiel implements iBediener {
 		}
 		else{
 			// Check for double stones
-			doubleFiguresFound();
+			if(doubleFiguresFound(fromPoint, toPoint)) throw new Spiel.eWayIsBlockedException();
+
+			// Check if blocked by own figure
+			this.blockedByOwnFigure(fromPoint, toPoint);
 		}
 
 		// Check if figure is from enemy team
@@ -192,7 +198,12 @@ public class Spiel implements iBediener {
 
 		return true;
 	}
-	
+
+	/**
+	 * @param fromPoint
+	 * @param toPoint
+	 * @return
+	 */
 	private boolean doubleFiguresFound(Point fromPoint, Point toPoint){
 		int moveX, moveY, currentX = (int)fromPoint.getX(), currentY = (int)fromPoint.getY();
 
@@ -208,7 +219,7 @@ public class Spiel implements iBediener {
 
 			Spielfeld currentField = this.gameboard.getField(currentX, currentY);
 			Spielfigur currentFigure = currentField.getFigure();
-			
+
 			Spielfeld nextField = this.gameboard.getField(currentX + moveX, currentY + moveY);
 			Spielfigur nextFigure = nextField.getFigure();
 
@@ -216,7 +227,36 @@ public class Spiel implements iBediener {
 				return true;
 			}
 		}while(currentX != toPoint.getX() - moveX & currentY != toPoint.getY() - moveY);
-		
+
+		return false;
+	}
+
+	/**
+	 * @param fromPoint
+	 * @param toPoint
+	 * @return
+	 */
+	private boolean blockedByOwnFigure(Point fromPoint, Point toPoint){
+		int moveX, moveY, currentX = (int)fromPoint.getX(), currentY = (int)fromPoint.getY();
+
+		if(fromPoint.getX() < toPoint.getX()) moveX = 1;
+		else moveX = -1;
+
+		if(fromPoint.getY() < toPoint.getY()) moveY = 1;
+		else moveY = -1;
+
+		do{
+			currentX += moveX;
+			currentY += moveY;
+
+			Spielfeld currentField = this.gameboard.getField(currentX, currentY);
+			Spielfigur currentFigure = currentField.getFigure();
+
+			if(currentFigure != null && currentFigure.getColor() == this.currentGamer.getColor()){
+				return true;
+			}
+		}while(currentX != toPoint.getX() & currentY != toPoint.getY());
+
 		return false;
 	}
 
@@ -286,9 +326,9 @@ public class Spiel implements iBediener {
 				checkForNewDames();
 
 				// Check if figure can jump again
-				if(removed && this.canDestroyOtherFigures(toPoint)){
+				if(removed && this.canDestroyOtherFigures(toPoint).size() > 0){
 					// Do next jump
-					this.currentGamer.move(this, toPoint);
+					currentGamer.move(this, toPoint);
 				}
 			}
 		}
@@ -302,8 +342,10 @@ public class Spiel implements iBediener {
 	 * @param point
 	 * @return
 	 */
-	private boolean canDestroyOtherFigures(Point point){
+	public ArrayList<Point> canDestroyOtherFigures(Point point){
 		int xCurrent = (int)point.getX(), yCurrent = (int)point.getY();
+
+		ArrayList <Point> blowable = new ArrayList<>();
 
 		Spielfeld felder[][] = this.gameboard.getFields();
 		for(int i = 0; i < felder.length; i++){
@@ -323,7 +365,7 @@ public class Spiel implements iBediener {
 							movePoint.setLocation(movePoint.getX(), movePoint.getY() - 1);
 
 						try{
-							if(moveIsValid(point,movePoint)) return true;
+							if(moveIsValid(point,movePoint)) blowable.add(movePoint);
 						}
 						catch(Exception e){}
 					}
@@ -331,9 +373,9 @@ public class Spiel implements iBediener {
 			}
 		}
 
-		return false;
+		return blowable;
 	}
-	
+
 	private int figureCount(Point fromPoint, Point toPoint) throws eOwnFigureIsBlockingException{
 		int moveX, moveY, currentX = (int)fromPoint.getX(), currentY = (int)fromPoint.getY();
 		int figures = 0;
@@ -357,7 +399,7 @@ public class Spiel implements iBediener {
 				figures++;
 			}
 		}while(currentX != toPoint.getX() & currentY != toPoint.getY());
-		
+
 		return figures;
 	}
 
@@ -371,7 +413,7 @@ public class Spiel implements iBediener {
 			for(int j = 0; j < felder[i].length; j++){
 				Spielfigur currentFigure = felder[i][j].getFigure();
 				if(currentFigure != null && currentFigure.getColor() == this.currentGamer.getColor()){
-					if(canDestroyOtherFigures(currentFigure.getPosiiton())){
+					if(canDestroyOtherFigures(currentFigure.getPosiiton()).size() > 0){
 						if(!figures.contains(currentFigure)) figures.add(currentFigure);
 					}
 				}
@@ -390,7 +432,7 @@ public class Spiel implements iBediener {
 				Point position = null;
 				do{
 					removePosition = null;
-					
+
 					System.out.println("Es stehen folgende Spielfiguren zur Auswahl:");
 					for(int i = 0; i < figures.size(); i++){
 						if(i != 0) System.out.print("; ");
@@ -401,11 +443,11 @@ public class Spiel implements iBediener {
 
 					try{
 						position = this.currentGamer.inputPosition();
-						
+
 						for(Spielfigur figure: figures){
 							if(figure.getPosiiton() == position) removePosition = position;
 						}
-						
+
 						if(removePosition == null) System.out.println("Fehler bei der Eingabe!");
 					}
 					catch(Exception e){
@@ -414,13 +456,13 @@ public class Spiel implements iBediener {
 				}while(position == null && removePosition == null);
 			}
 		}
-		
+
 		if(removePosition != null){
 			int currentX = (int)removePosition.getX();
 			int currentY = (int)removePosition.getY();
-	
+
 			this.gameboard.getField(currentX, currentY).removeFigure();
-			
+
 			System.out.println("[Pusten] Folgende Spielfigur wird entfern: " + this.currentGamer.posToString(removePosition));
 		}
 	}

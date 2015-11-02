@@ -60,6 +60,11 @@ public class Spieler {
 	 * @param game
 	 */
 	protected void move(Spiel game, Point fromPoint) {
+		if(this.ki_player != null){
+			this.ki_player.move(game, this);
+			return;
+		}
+		
 		System.out.println("");
 		System.out.println("Spieler '" + this.getName() + "' ("
 				+ FarbEnum.getColorName(this.color) + ") ist am Zug");
@@ -105,6 +110,8 @@ public class Spieler {
 				System.out.println("Kann keine eigenen Steine überspringen");
 			}catch(Spiel.eNoBackJumpExcpetion e){
 				System.out.println("Falsche Richtung. Nur erlaubt beim Schlagen einer Figur oder als Dame");
+			}catch(Spiel.eWayIsBlockedException e){
+				System.out.println("Es dürfen keine 2 Stein gleichzeitig übersürungen werden");
 			}catch (Exception e){
 				System.out.println("Sry, some other problems ");
 			}			

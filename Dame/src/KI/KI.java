@@ -1,5 +1,7 @@
 package KI;
 import GameLogic.Spiel;
+import GameLogic.Spieler;
+
 import java.awt.*;
 
 //###########################################################
@@ -24,7 +26,9 @@ public abstract class KI{
 	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods
-	public abstract void move(Spiel game, Point pos);
+	
+	public abstract void move(Spiel game, Spieler player);
+	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
 
