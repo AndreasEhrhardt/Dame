@@ -4,13 +4,9 @@ import GameLogic.Spiel;
 public class Main {
 
 	/**
-	 * Kommandozeilenparameter
-	 * @param args
+	 * @param args Command line arguments
 	 */
-
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		Spiel game = new Spiel();
 	}
-
 }

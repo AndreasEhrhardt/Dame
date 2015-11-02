@@ -140,7 +140,7 @@ public class Spiel implements iBediener {
 			throws Spiel.eSamePositionException, Spiel.eNoDiagonalMoveException, Spiel.eOutOfGameboardException,
 			Spiel.eNoFigureFoundOnFieldException, Spiel.eDestinationPointIsBlockedException,
 			Spiel.eDistanceToFarException, Spiel.eEnemyFigureSelectedException, Spiel.eNoBackJumpExcpetion,
-			eOwnFigureIsBlockingException
+			eOwnFigureIsBlockingException, eWayIsBlockedException
 	{
 		int diffX = (int)(toPoint.getX() - fromPoint.getX());
 		int diffY = (int)(toPoint.getY() - fromPoint.getY());
@@ -183,13 +183,41 @@ public class Spiel implements iBediener {
 			}
 		}
 		else{
-
+			// Check for double stones
+			doubleFiguresFound();
 		}
 
 		// Check if figure is from enemy team
 		if(gameFigure.getColor() != this.currentGamer.getColor()) throw new Spiel.eEnemyFigureSelectedException();
 
 		return true;
+	}
+	
+	private boolean doubleFiguresFound(Point fromPoint, Point toPoint){
+		int moveX, moveY, currentX = (int)fromPoint.getX(), currentY = (int)fromPoint.getY();
+
+		if(fromPoint.getX() < toPoint.getX()) moveX = 1;
+		else moveX = -1;
+
+		if(fromPoint.getY() < toPoint.getY()) moveY = 1;
+		else moveY = -1;
+
+		do{
+			currentX += moveX;
+			currentY += moveY;
+
+			Spielfeld currentField = this.gameboard.getField(currentX, currentY);
+			Spielfigur currentFigure = currentField.getFigure();
+			
+			Spielfeld nextField = this.gameboard.getField(currentX + moveX, currentY + moveY);
+			Spielfigur nextFigure = nextField.getFigure();
+
+			if(currentFigure != null && nextFigure != null){
+				return true;
+			}
+		}while(currentX != toPoint.getX() - moveX & currentY != toPoint.getY() - moveY);
+		
+		return false;
 	}
 
 	/**
@@ -229,7 +257,7 @@ public class Spiel implements iBediener {
 			throws Spiel.eSamePositionException, Spiel.eNoDiagonalMoveException, Spiel.eOutOfGameboardException,
 			Spiel.eNoFigureFoundOnFieldException, Spiel.eDestinationPointIsBlockedException, Spiel.eSomeOtherMoveErrorsException,
 			Spiel.eDistanceToFarException, Spiel.eEnemyFigureSelectedException, Spiel.eNoBackJumpExcpetion,
-			eOwnFigureIsBlockingException
+			eOwnFigureIsBlockingException, eWayIsBlockedException
 	{		
 		if(this.moveIsValid(fromPoint, toPoint)){
 			// Get fields
