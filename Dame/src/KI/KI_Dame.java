@@ -21,11 +21,6 @@ public class KI_Dame extends KI{
 
 	//move to empty space
 	public void move(Spiel game, Spieler player){
-		//exception abfangen
-		//if position != free -> nextPosition
-		//if position == free -> setze stein 
-		//spiel.move
-
 		try{
 			System.out.print("("+ player.getName() + ")" + " Thinking");
 			int sleepTime = 200;
