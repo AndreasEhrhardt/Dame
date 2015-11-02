@@ -2,6 +2,7 @@ package KI;
 import java.awt.*;
 import java.util.ArrayList;
 
+import Enumerations.FarbEnum;
 import GameLogic.Spiel;
 import GameLogic.Spieler;
 import GameLogic.Spielfeld;
@@ -22,7 +23,7 @@ public class KI_Dame extends KI{
 	//move to empty space
 	public void move(Spiel game, Spieler player){
 		try{
-			System.out.print("("+ player.getName() + ")" + " Thinking");
+			System.out.print("("+ player.getName() + " - " + FarbEnum.getColorName(player.getColor()) + ")" + " Thinking");
 			int sleepTime = 200;
 			Thread.sleep(sleepTime * 1);
 			System.out.print(".");
