@@ -1,103 +1,12 @@
 package Main;
-/**
- *
- */
-
-import java.util.Scanner;
-
 import GameLogic.Spiel;
-import GameLogic.Spieler;
-import GameLogic.Spielfeld;
-import Interfaces.iBediener;
 
-public class SpielTest implements iBediener {
-
+public class SpielTest {
 	/**
-	 * This uses the scanner function to position the tokens.
-	 * 
-	 * @param args Kommandozeilenparameter
+	 * @param args Command line arguments
 	 */
 	public static void main(String[] args) {
-
-		Spiel spiel = new Spiel();
-
-		Spielfeld[][] felder = new Spielfeld[8][8];
-
-		// Attribute
-
-		int zeile;
-		int spalte;
-
-		// create Scanner
-		Scanner sc = new Scanner(System.in);
-
-		// Get gamer position
-
-		for (int i = 0; i < felder.length; i++) {
-			for(int j=0;j<felder[i].length;j++){
-			try {
-				System.out.println(" ");
-				System.out.println("Spieler");
-				System.out.print("Zeile eingeben: ");
-				zeile = sc.nextInt();
-
-				System.out.print("Spalte eingeben: ");
-				spalte = sc.nextInt();
-				System.out.println("Spieler hat Zeile " + zeile + " ,Spalte "
-						+ spalte + " ausgewählt !");
-			} catch (Exception e) {
-				System.out.println("");
-				sc.nextLine();
-
-			}
-
-		}
-		}
+		Spiel game = new Spiel();
+		game.gameLoop();
 	}
-
-	/**
-	 * @param
-	 */
-	@Override
-	public void outputGameboardCSV() {
-
-	}
-
-	/**
-	 * @return
-	 */
-	@Override
-	public int getGameboardSize() {
-
-		return 0;
-
-	}
-
-	/**
-	 * @return
-	 */
-	@Override
-	public Spieler getPlayer(int playerNumber) {
-
-		return new Spieler();
-	}
-
-	@Override
-	public void loadingScreen() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean gameFinished() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean askNewGame() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }

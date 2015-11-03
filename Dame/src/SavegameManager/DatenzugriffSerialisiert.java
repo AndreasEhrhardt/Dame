@@ -19,10 +19,11 @@ public class DatenzugriffSerialisiert implements iDatenzugriff{
 
 			// Close file handle
 			gameObjStream.close();
+			gameOS.close();
 		}
 		catch(IOException e){
 			// File save error
-			System.out.println("Cant save game - state");
+			System.out.println("Cant save game-state: " + e.toString());
 		}
 	}
 

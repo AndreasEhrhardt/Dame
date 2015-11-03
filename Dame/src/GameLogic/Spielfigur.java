@@ -3,6 +3,7 @@ package GameLogic;
 //## Import
 
 import java.awt.*;
+import java.io.Serializable;
 
 import Enumerations.FarbEnum;
 
@@ -13,7 +14,7 @@ import Enumerations.FarbEnum;
  * @author Andreas
  *
  */
-public class Spielfigur {
+public class Spielfigur implements Serializable  {
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Properties

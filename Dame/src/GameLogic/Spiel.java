@@ -9,13 +9,14 @@ import java.util.*;
 import Enumerations.FarbEnum;
 import Interfaces.iBediener;
 import KI.KI_Dame;
+import SavegameManager.DatenzugriffSerialisiert;
 
 import java.awt.*;
 
 //###########################################################
 //## Class
 
-public class Spiel implements iBediener {
+public class Spiel implements iBediener, Serializable {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Exceptions
 
@@ -89,7 +90,8 @@ public class Spiel implements iBediener {
 			gamer[1] = createNewPlayer(2);
 		}
 		else{
-			//this.loadGame();
+			DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
+			serial.loadGame(this);
 		}
 
 		// Set start player
@@ -108,7 +110,15 @@ public class Spiel implements iBediener {
 		boolean firstRun = true;
 
 		while(!gameFinished()){
-			// if(!firstRun) 
+			if(!firstRun){
+				// Save serialized
+				DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
+				serial.saveGame(this);
+				
+				// Ask for other save-methods
+				this.askForSaving();
+			}
+			else firstRun = false;
 
 			// Current player have to move
 			this.currentGamer.move(this, null);
@@ -121,6 +131,39 @@ public class Spiel implements iBediener {
 
 			// Output current gameboard
 			this.outputGameboardCSV();
+		}
+	}
+	
+	private void askForSaving(){
+		Scanner sc = new Scanner(System.in);
+		for (int i = 0; i <= maxLoopCount; i++) {
+			try{
+				// Output information
+				System.out.print("Wollen Sie das Spiel speichern (J / N): ");
+				
+				// Read result
+				String status = sc.next();
+				status = status.toUpperCase();
+				if(status.equals("J")){
+					DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
+					serial.saveGame(this);
+					return;
+				}
+				else if(status.equals("N")){
+					return;
+				}
+			}
+			catch(NoSuchElementException | IllegalStateException e ){
+				// Clear input buffer
+				sc.nextLine();
+
+				// Continue loop
+				continue;
+			}
+			finally{
+				// Check if endless loop
+				if (i == this.maxLoopCount) return;
+			}
 		}
 	}
 
@@ -886,13 +929,10 @@ public class Spiel implements iBediener {
 		int gameType = 0;
 		Scanner sc = new Scanner(System.in);
 
-		return true;
-		// Check if savegame avaiable
-		/*File f = new File(saveGameName);
-		if(!f.exists() || f.isDirectory()) { 
-			return true;
-		}
-
+		// Check if savegame exists
+		DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
+		if(!serial.haveSaveGame()) return true;
+		
 		// Get gametype
 		for (int i = 0; i <= maxLoopCount; i++) {
 			try{
@@ -922,6 +962,6 @@ public class Spiel implements iBediener {
 
 		// Return result
 		if(gameType == 1) return true;
-		else return false;*/
+		else return false;
 	}
 }

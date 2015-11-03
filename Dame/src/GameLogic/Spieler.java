@@ -8,11 +8,12 @@ import Enumerations.FarbEnum;
 import KI.KI;
 
 import java.awt.*;
+import java.io.Serializable;
 
 //###########################################################
 //## Class
 
-public class Spieler {
+public class Spieler implements Serializable {
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Properties

@@ -2,6 +2,8 @@ package GameLogic;
 //###########################################################
 //## Imports
 
+import java.io.Serializable;
+
 //###########################################################
 //## Class
 
@@ -9,7 +11,7 @@ package GameLogic;
  * @author ehrha
  *
  */
-public class Spielfeld {
+public class Spielfeld implements Serializable {
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Properties

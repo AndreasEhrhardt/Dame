@@ -7,6 +7,7 @@ package KI;
 //## Imports
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import Enumerations.FarbEnum;
@@ -18,7 +19,7 @@ import GameLogic.Spielfigur;
 //###########################################################
 //## Class
 
-public class KI_Dame extends KI{
+public class KI_Dame extends KI implements Serializable {
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
