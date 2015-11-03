@@ -1,10 +1,10 @@
 package GameLogic;
+
 //###########################################################
 //## Imports
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.SynchronousQueue;
 
 import Enumerations.FarbEnum;
 import Interfaces.iBediener;
@@ -35,7 +35,6 @@ public class Spiel implements iBediener {
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Properties
 
-	private String saveGameName = "./savegame.data";
 	private Spielbrett gameboard;
 	private Spieler gamer[];
 	private Spieler currentGamer;
@@ -50,6 +49,24 @@ public class Spiel implements iBediener {
 	public Spiel() {
 		// Initialize game
 		this.initialize();
+	}
+	
+	/**
+	 * @param gameboard
+	 * @param gamer
+	 */
+	public Spiel(Spielbrett gameboard, Spieler gamer[]) {
+		// Set gameboard
+		this.setGameboard(gameboard);
+		
+		// Set gamer
+		if(gamer == null || 
+				gamer.length != 2 || 
+				gamer[0] == null || 
+				gamer[1] == null){
+			throw new RuntimeException();
+		}
+		this.gamer = gamer;
 	}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -72,7 +89,7 @@ public class Spiel implements iBediener {
 			gamer[1] = getPlayer(2);
 		}
 		else{
-			this.loadGame();
+			//this.loadGame();
 		}
 
 		// Set start player
@@ -86,8 +103,13 @@ public class Spiel implements iBediener {
 	public void gameLoop(){
 		// Output start gameboard
 		this.outputGameboardCSV();
+		
+		// Set info for first run
+		boolean firstRun = true;
 
 		while(!gameFinished()){
+			// if(!firstRun) 
+			
 			// Current player have to move
 			this.currentGamer.move(this, null);
 
@@ -414,7 +436,7 @@ public class Spiel implements iBediener {
 		return false;
 	}
 
-	private int figureCount(Point fromPoint, Point toPoint) throws eOwnFigureIsBlockingException{
+	/*private int figureCount(Point fromPoint, Point toPoint) throws eOwnFigureIsBlockingException{
 		int moveX, moveY, currentX = (int)fromPoint.getX(), currentY = (int)fromPoint.getY();
 		int figures = 0;
 
@@ -439,7 +461,7 @@ public class Spiel implements iBediener {
 		}while(currentX != toPoint.getX() & currentY != toPoint.getY());
 
 		return figures;
-	}
+	}*/
 
 	private void checkForBlowing(){		
 		// Create blowing list
@@ -561,6 +583,31 @@ public class Spiel implements iBediener {
 	
 	public void setGameboard(Spielbrett gameboard){
 		if(gameboard != null) this.gameboard = gameboard;
+		else throw new NullPointerException();
+	}
+	
+	public void setPlayer(int playerID, Spieler gamer){
+		// Check if playerID and gamer is valid
+		if(!(playerID >= 1 && playerID <= 2)) throw new RuntimeException();
+		if(gamer == null) throw new NullPointerException();
+		
+		// Set new gamer
+		this.gamer[playerID - 1] = gamer;
+	}
+	
+	public void setCurrentGamer(FarbEnum color){
+		// Check for errors
+		if(this.gamer == null || this.gamer[0] == null || this.gamer[1] == null)
+			throw new NullPointerException();
+		
+		// Detect new current player
+		Spieler newCurrentGamer;
+		if(this.gamer[0].getColor() == color) newCurrentGamer = this.gamer[0];
+		else if(this.gamer[1].getColor() == color) newCurrentGamer = this.gamer[1];
+		else throw new RuntimeException();
+		
+		// Set new current player
+		this.currentGamer = newCurrentGamer;
 	}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -693,10 +740,6 @@ public class Spiel implements iBediener {
 	}
 
 
-	@Override
-	public void nextMove()	{
-
-	}
 
 	/**
 	 * This method is used to save the game to a CSV file
@@ -775,61 +818,7 @@ public class Spiel implements iBediener {
 		// TODO Auto-generated method stub
 
 	}
-
-	/**
-	 * This method is used to read a CSV to continue playing where left off
-	 */
-	@Override
-	public void loadGame() {
-		try{
-			// Open file stream
-			FileInputStream f_in = new FileInputStream(saveGameName);
-			ObjectInputStream obj_in = new ObjectInputStream (f_in);
-
-			// Read object
-			Object obj = obj_in.readObject();
-
-			// Check if object is from same class
-			if(obj.getClass() == Spiel.class){
-				// Parse object
-				Spiel lastGame = (Spiel)obj;
-
-				// Get game-data
-				this.gamer[0] = lastGame.gamer[0];
-				this.gamer[1] = lastGame.gamer[1];
-				this.gameboard = lastGame.gameboard;
-				this.currentGamer = lastGame.currentGamer;
-			}
-		}
-		catch(IOException | ClassNotFoundException e){
-			// Output error message
-			System.out.println("Savegame is corrupt");
-
-			// Exit game
-			System.exit(-1);
-		}
-	}
-
-	/**
-	 * This saves the the game
-	 */
-	@Override
-	public void saveGame() {
-		try{
-			// Save game state
-			FileOutputStream game = new FileOutputStream(saveGameName);
-			ObjectOutputStream gameObjStream = new ObjectOutputStream (game);
-			gameObjStream.writeObject(this);
-
-			// Close file handle
-			gameObjStream.close();
-		}
-		catch(IOException e){
-			// File save error
-			System.out.println("Cant save game - state");
-		}
-	}
-
+	
 	/**
 	 * This checks if game is finished
 	 */
@@ -859,8 +848,8 @@ public class Spiel implements iBediener {
 			else canMoveValue = canMove(FarbEnum.weiß);
 			
 			if(!canMoveValue){
-				if(this.currentGamer.getColor() == FarbEnum.schwarz) winName = FarbEnum.getColorName(FarbEnum.schwarz);
-				else winName = FarbEnum.getColorName(FarbEnum.weiß);
+				if(this.currentGamer.getColor() == FarbEnum.schwarz) winName = FarbEnum.getColorName(FarbEnum.weiß);
+				else winName = FarbEnum.getColorName(FarbEnum.schwarz);
 			}
 			else return false;
 		}
@@ -878,8 +867,9 @@ public class Spiel implements iBediener {
 		int gameType = 0;
 		Scanner sc = new Scanner(System.in);
 
+		return true;
 		// Check if savegame avaiable
-		File f = new File(saveGameName);
+		/*File f = new File(saveGameName);
 		if(!f.exists() || f.isDirectory()) { 
 			return true;
 		}
@@ -913,6 +903,6 @@ public class Spiel implements iBediener {
 
 		// Return result
 		if(gameType == 1) return true;
-		else return false;
+		else return false;*/
 	}
 }
