@@ -12,5 +12,5 @@ public interface iBediener {
 	boolean gameFinished();
 	boolean askNewGame();
 	
-	Spieler getPlayer(int playerNumber);
+	Spieler createNewPlayer(int playerNumber);
 }

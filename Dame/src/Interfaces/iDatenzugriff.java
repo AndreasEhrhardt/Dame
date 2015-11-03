@@ -1,6 +1,8 @@
 package Interfaces;
 
+import GameLogic.Spiel;
+
 public interface iDatenzugriff {
-	void saveGame();
-	void loadGame();
+	void saveGame(Spiel game);
+	abstract void loadGame(Spiel game);
 }
