@@ -50,9 +50,6 @@ public class Spiel implements iBediener {
 	public Spiel() {
 		// Initialize game
 		this.initialize();
-
-		// Start game-loop
-		this.gameLoop();
 	}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -86,7 +83,7 @@ public class Spiel implements iBediener {
 	 * The game-loop is the main loop of the application.
 	 * The loop checks for finished
 	 */
-	private void gameLoop(){
+	public void gameLoop(){
 		// Output start gameboard
 		this.outputGameboardCSV();
 
@@ -176,9 +173,12 @@ public class Spiel implements iBediener {
 				}
 				else{
 					Spielfigur midfigure = this.gameboard.getField((int)fromPoint.getX() + (diffX / 2),(int)fromPoint.getY() + (diffY / 2)).getFigure();
-					if(midfigure == null || midfigure.getColor() == this.currentGamer.getColor()){
+					if(midfigure == null){
+						throw new Spiel.eDistanceToFarException();
+					}else if(midfigure.getColor() == this.currentGamer.getColor()){
 						throw new Spiel.eOwnFigureIsBlockingException();
 					}
+					
 				}
 			}else{
 				if(gameFigure.getColor() == FarbEnum.schwarz && diffY > 0) throw new Spiel.eNoBackJumpExcpetion();
@@ -190,7 +190,7 @@ public class Spiel implements iBediener {
 			if(doubleFiguresFound(fromPoint, toPoint)) throw new Spiel.eWayIsBlockedException();
 
 			// Check if blocked by own figure
-			this.blockedByOwnFigure(fromPoint, toPoint);
+			if(this.blockedByOwnFigure(fromPoint, toPoint)) throw new Spiel.eOwnFigureIsBlockingException();
 		}
 
 		// Check if figure is from enemy team
@@ -205,6 +205,11 @@ public class Spiel implements iBediener {
 	 * @return
 	 */
 	private boolean doubleFiguresFound(Point fromPoint, Point toPoint){
+		// Check if move-range is only one
+		int diffX = (int)fromPoint.getX() - (int)toPoint.getX();
+		if(diffX == 1 || (diffX * (-1)) == 1) return false;
+		
+		// Set help variables
 		int moveX, moveY, currentX = (int)fromPoint.getX(), currentY = (int)fromPoint.getY();
 
 		if(fromPoint.getX() < toPoint.getX()) moveX = 1;
@@ -520,6 +525,10 @@ public class Spiel implements iBediener {
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods ( Setter)
+	
+	public void setGameboard(Spielbrett gameboard){
+		if(gameboard != null) this.gameboard = gameboard;
+	}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods (Override)

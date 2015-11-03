@@ -1,4 +1,11 @@
+//###########################################################
+//## Package
+
 package KI;
+
+//###########################################################
+//## Imports
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -7,19 +14,26 @@ import GameLogic.Spieler;
 import GameLogic.Spielfeld;
 import GameLogic.Spielfigur;
 
+//###########################################################
+//## Class
+
 public class KI_Dame extends KI{
-	//Properties
+
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Properties
+
 	private Spieler kiPlayer;
-	//Constructor
+
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Constructor
+
 	public KI_Dame(){
 		setKiPlayer();
 	}
-	//getter/Setter
-	private void setKiPlayer(){
-		this.kiPlayer = new Spieler();
-	}
 
-	//move to empty space
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Methods
+
 	public void move(Spiel game, Spieler player){
 		//exception abfangen
 		//if position != free -> nextPosition
@@ -115,4 +129,19 @@ public class KI_Dame extends KI{
 			}
 		}
 	}
+
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Methods ( Getter)
+
+
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Methods ( Setter)
+
+	private void setKiPlayer(){
+		this.kiPlayer = new Spieler();
+	}
+
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Methods (Override)
+
 }
