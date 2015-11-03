@@ -50,7 +50,7 @@ public class Spiel implements iBediener {
 		// Initialize game
 		this.initialize();
 	}
-	
+
 	/**
 	 * @param gameboard
 	 * @param gamer
@@ -58,7 +58,7 @@ public class Spiel implements iBediener {
 	public Spiel(Spielbrett gameboard, Spieler gamer[]) {
 		// Set gameboard
 		this.setGameboard(gameboard);
-		
+
 		// Set gamer
 		if(gamer == null || 
 				gamer.length != 2 || 
@@ -83,10 +83,10 @@ public class Spiel implements iBediener {
 
 		if(askNewGame()){
 			// Create gamer 1
-			gamer[0] = getPlayer(1);
+			gamer[0] = createNewPlayer(1);
 
 			// Create gamer 2
-			gamer[1] = getPlayer(2);
+			gamer[1] = createNewPlayer(2);
 		}
 		else{
 			//this.loadGame();
@@ -103,13 +103,13 @@ public class Spiel implements iBediener {
 	public void gameLoop(){
 		// Output start gameboard
 		this.outputGameboardCSV();
-		
+
 		// Set info for first run
 		boolean firstRun = true;
 
 		while(!gameFinished()){
 			// if(!firstRun) 
-			
+
 			// Current player have to move
 			this.currentGamer.move(this, null);
 
@@ -200,7 +200,7 @@ public class Spiel implements iBediener {
 					}else if(midfigure.getColor() == this.currentGamer.getColor()){
 						throw new Spiel.eOwnFigureIsBlockingException();
 					}
-					
+
 				}
 			}else{
 				if(gameFigure.getColor() == FarbEnum.schwarz && diffY > 0) throw new Spiel.eNoBackJumpExcpetion();
@@ -230,7 +230,7 @@ public class Spiel implements iBediener {
 		// Check if move-range is only one
 		int diffX = (int)fromPoint.getX() - (int)toPoint.getX();
 		if(diffX == 1 || (diffX * (-1)) == 1) return false;
-		
+
 		// Set help variables
 		int moveX, moveY, currentX = (int)fromPoint.getX(), currentY = (int)fromPoint.getY();
 
@@ -432,7 +432,7 @@ public class Spiel implements iBediener {
 				}
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -578,34 +578,53 @@ public class Spiel implements iBediener {
 		return this.gameboard;
 	}
 
+	/**
+	 * @return
+	 */
+	public Spieler getPlayer(int playerID){
+		// Check if playerID and gamer is valid
+		if(!(playerID >= 1 && playerID <= 2)) throw new RuntimeException();
+		if(gamer == null) throw new NullPointerException();
+		if(gamer.length != 2) throw new RuntimeException();
+			
+		// Get gamer
+		return this.gamer[playerID - 1];
+	}
+	
+	public Spieler getCurrentGamer(){
+		if(this.currentGamer == null) throw new RuntimeException();
+		
+		return this.currentGamer;
+	}
+
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods ( Setter)
-	
+
 	public void setGameboard(Spielbrett gameboard){
 		if(gameboard != null) this.gameboard = gameboard;
 		else throw new NullPointerException();
 	}
-	
+
 	public void setPlayer(int playerID, Spieler gamer){
 		// Check if playerID and gamer is valid
 		if(!(playerID >= 1 && playerID <= 2)) throw new RuntimeException();
 		if(gamer == null) throw new NullPointerException();
-		
+
 		// Set new gamer
 		this.gamer[playerID - 1] = gamer;
 	}
-	
+
 	public void setCurrentGamer(FarbEnum color){
 		// Check for errors
 		if(this.gamer == null || this.gamer[0] == null || this.gamer[1] == null)
 			throw new NullPointerException();
-		
+
 		// Detect new current player
 		Spieler newCurrentGamer;
 		if(this.gamer[0].getColor() == color) newCurrentGamer = this.gamer[0];
 		else if(this.gamer[1].getColor() == color) newCurrentGamer = this.gamer[1];
 		else throw new RuntimeException();
-		
+
 		// Set new current player
 		this.currentGamer = newCurrentGamer;
 	}
@@ -665,7 +684,7 @@ public class Spiel implements iBediener {
 	 * 
 	 */
 	@Override
-	public Spieler getPlayer(int playerNumber) {
+	public Spieler createNewPlayer(int playerNumber) {
 		// create Scanner
 		Scanner sc = new Scanner(System.in);
 
@@ -818,7 +837,7 @@ public class Spiel implements iBediener {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	/**
 	 * This checks if game is finished
 	 */
@@ -846,14 +865,14 @@ public class Spiel implements iBediener {
 			boolean canMoveValue;
 			if(this.currentGamer.getColor() == FarbEnum.schwarz) canMoveValue = canMove(FarbEnum.schwarz);
 			else canMoveValue = canMove(FarbEnum.weiß);
-			
+
 			if(!canMoveValue){
 				if(this.currentGamer.getColor() == FarbEnum.schwarz) winName = FarbEnum.getColorName(FarbEnum.weiß);
 				else winName = FarbEnum.getColorName(FarbEnum.schwarz);
 			}
 			else return false;
 		}
-		
+
 		System.out.println("Herzlichen Glückwunsch " + winName + "! Sie haben gewonnen");
 		return true;
 	}

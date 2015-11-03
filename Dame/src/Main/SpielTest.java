@@ -59,14 +59,6 @@ public class SpielTest implements iBediener {
 	 * @param
 	 */
 	@Override
-	public void nextMove() {
-
-	}
-
-	/**
-	 * @param
-	 */
-	@Override
 	public void outputGameboardCSV() {
 
 	}
@@ -92,18 +84,6 @@ public class SpielTest implements iBediener {
 
 	@Override
 	public void loadingScreen() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void loadGame() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void saveGame() {
 		// TODO Auto-generated method stub
 		
 	}
