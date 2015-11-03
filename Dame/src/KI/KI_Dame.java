@@ -9,6 +9,7 @@ package KI;
 import java.awt.*;
 import java.util.ArrayList;
 
+import Enumerations.FarbEnum;
 import GameLogic.Spiel;
 import GameLogic.Spieler;
 import GameLogic.Spielfeld;
@@ -35,13 +36,8 @@ public class KI_Dame extends KI{
 	//++ Methods
 
 	public void move(Spiel game, Spieler player){
-		//exception abfangen
-		//if position != free -> nextPosition
-		//if position == free -> setze stein 
-		//spiel.move
-
 		try{
-			System.out.print("("+ player.getName() + ")" + " Thinking");
+			System.out.print("("+ player.getName() + " - " + FarbEnum.getColorName(player.getColor()) + ")" + " Thinking");
 			int sleepTime = 200;
 			Thread.sleep(sleepTime * 1);
 			System.out.print(".");

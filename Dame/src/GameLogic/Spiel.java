@@ -381,6 +381,39 @@ public class Spiel implements iBediener {
 		return blowable;
 	}
 
+	private boolean canMove(FarbEnum color){
+		// Collect all available figures
+		Spielfeld felder[][] = this.gameboard.getFields();
+		ArrayList <Point> validFigures = new ArrayList<>();
+		for(int i = 0; i < felder.length; i++){
+			for(int j = 0; j < felder[i].length; j++){
+				Spielfigur currentFigure = felder[i][j].getFigure();
+				if(currentFigure != null && currentFigure.getColor() == color){
+					Point currentPosition = new Point(i,j);
+					validFigures.add(currentPosition);
+				}
+			}
+		}
+
+		// Take first figure and try to move the figure
+		for(int p = 0; p < validFigures.size(); p++){
+			// Take first figure
+			Point fromPoint = validFigures.get(p);
+
+			// Check for valid fields
+			for(int i = 0; i < felder.length; i++){
+				for(int j = 0; j < felder[i].length; j++){
+					Point currentPoint = new Point(i,j);
+					try{
+						if(moveIsValid(fromPoint, currentPoint)) return true;
+					}catch(Exception e){}
+				}
+			}
+		}
+		
+		return false;
+	}
+
 	private int figureCount(Point fromPoint, Point toPoint) throws eOwnFigureIsBlockingException{
 		int moveX, moveY, currentX = (int)fromPoint.getX(), currentY = (int)fromPoint.getY();
 		int figures = 0;
@@ -815,18 +848,25 @@ public class Spiel implements iBediener {
 			}
 		}
 
+		String winName;
 		if(whiteFigures == 0 || blackFigures == 0){
-			String winName;
 			if(whiteFigures == 0) winName = FarbEnum.getColorName(FarbEnum.schwarz);
 			else winName = FarbEnum.getColorName(FarbEnum.weiß);
-
-			System.out.println("Herzlichen Glückwunsch " + winName + "! Sie haben gewonnen");
-
-			return true;
 		}
 		else{
-			return false;
+			boolean canMoveValue;
+			if(this.currentGamer.getColor() == FarbEnum.schwarz) canMoveValue = canMove(FarbEnum.schwarz);
+			else canMoveValue = canMove(FarbEnum.weiß);
+			
+			if(!canMoveValue){
+				if(this.currentGamer.getColor() == FarbEnum.schwarz) winName = FarbEnum.getColorName(FarbEnum.schwarz);
+				else winName = FarbEnum.getColorName(FarbEnum.weiß);
+			}
+			else return false;
 		}
+		
+		System.out.println("Herzlichen Glückwunsch " + winName + "! Sie haben gewonnen");
+		return true;
 	}
 
 	/**
