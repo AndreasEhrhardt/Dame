@@ -56,4 +56,12 @@ public class DatenzugriffSerialisiert implements iDatenzugriff{
 			System.exit(-1);
 		}
 	}
+	
+	public boolean haveSaveGame(){
+		File f = new File(saveGameName);
+		if(!f.exists() || f.isDirectory()){
+			return false;
+		}
+		return true;
+	}
 }
