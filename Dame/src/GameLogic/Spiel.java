@@ -8,7 +8,9 @@ import java.util.*;
 
 import Enumerations.FarbEnum;
 import Interfaces.iBediener;
+import Interfaces.iDatenzugriff;
 import KI.KI_Dame;
+import SavegameManager.DatenzugriffCSV;
 import SavegameManager.DatenzugriffSerialisiert;
 
 import java.awt.*;
@@ -114,6 +116,10 @@ public class Spiel implements iBediener, Serializable {
 				// Save serialized
 				DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
 				serial.saveGame(this);
+				
+				//save as CSV
+				iDatenzugriff csv = new DatenzugriffCSV();
+				csv.saveGame(csvString());
 				
 				// Ask for other save-methods
 				this.askForSaving();
@@ -807,10 +813,13 @@ public class Spiel implements iBediener, Serializable {
 	 * This method is used to save the game to a CSV file
 	 */
 	@Override
-	public void outputGameboardCSV(){
+	public String outputGameboardCSV(){
 		// Get gameboard fields
 		Spielfeld felder[][] = this.gameboard.getFields();
-
+		
+		//String to save the current board
+		String board = "";
+		
 		// Define start variable
 		char currentRow = (char)(65 + felder.length - 1);
 		int currentColumn = 1;
@@ -829,24 +838,38 @@ public class Spiel implements iBediener, Serializable {
 			for(int j = 0; j < felder.length; j++){
 				// Get figure of field
 				Spielfigur currentFigure = felder[j][i].getFigure();
+				
 
 				// Write seperator
 				System.out.print(";");
+				board += ";";
 
 				// Check if field have figure or not
-				if(currentFigure == null) System.out.print("  ");
+				if(currentFigure == null) {
+					System.out.print("  ");
+					//e for empty
+					board += "e";
+				}
 				else{ 
 					if(currentFigure.getColor() == FarbEnum.weiß) {
-						if(currentFigure.isDame())
+						if(currentFigure.isDame()) {
 							System.out.print("W+");
-						else
+							board += "W+";
+						}
+						else {
 							System.out.print("W ");
+							board += "W ";
+						}
 					}
 					else
-						if(currentFigure.isDame())
+						if(currentFigure.isDame()) {
 							System.out.print("S+");
-						else
+							board += "S+";
+						}
+						else {
 							System.out.print("S ");
+							board += "S ";
+						}
 				}
 
 				// Increase column value
@@ -855,6 +878,7 @@ public class Spiel implements iBediener, Serializable {
 
 			// End of line
 			System.out.println("");
+			board += "\n";
 
 			// Increase row value
 			int ascii = currentRow;
@@ -873,6 +897,8 @@ public class Spiel implements iBediener, Serializable {
 
 		// Create empty line
 		System.out.println("");
+		
+		return board;
 	}
 
 	@Override
@@ -963,5 +989,28 @@ public class Spiel implements iBediener, Serializable {
 		// Return result
 		if(gameType == 1) return true;
 		else return false;
+	}
+	
+	/**
+	 * Method to convert the current gaming state into a String to save in CSV
+	 * @return returns a String of the current gaming state
+	 */
+	public String csvString() {
+		String gameString = "";
+		//first row: information of player 1
+		gameString += "Player1" + ";" + this.getPlayer(1).getName() + ";" + this.getPlayer(1).getColor() + ";";
+		if(this.getPlayer(1).getKi() == null)
+			gameString += "null" + "\n";
+		else gameString += "KI" + "\n";
+		//second row: information of player 2
+		gameString += "Player2" + ";" + this.getPlayer(2).getName() + ";" + this.getPlayer(2).getColor() + ";";
+			if(this.getPlayer(2).getKi() == null)
+				gameString += "null" + "\n";
+			else gameString += "KI" + "\n";	
+		//third row: saves who is the current Player
+		gameString += "CurrentPlayer" + ";" + this.getCurrentGamer().getName() + "\n";
+		//fourth row.. saves the current board state
+		gameString += this.outputGameboardCSV();
+		return gameString;
 	}
 }

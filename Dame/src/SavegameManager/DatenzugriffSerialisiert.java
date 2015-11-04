@@ -10,7 +10,7 @@ public class DatenzugriffSerialisiert implements iDatenzugriff{
 	private String saveGameName = "./savegameSer.data";
 	
 	@Override
-	public void saveGame(Spiel game) {
+	public void saveGame(Object game) {
 		try{
 			// Save game state
 			FileOutputStream gameOS = new FileOutputStream(saveGameName);

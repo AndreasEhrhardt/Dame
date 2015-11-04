@@ -3,7 +3,7 @@ import GameLogic.Spieler;
 
 public interface iBediener {
 	
-	void outputGameboardCSV();
+	String outputGameboardCSV();
 	
 	int getGameboardSize();
 	
