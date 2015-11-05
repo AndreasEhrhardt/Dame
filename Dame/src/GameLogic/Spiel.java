@@ -998,17 +998,17 @@ public class Spiel implements iBediener, Serializable {
 	public String csvString() {
 		String gameString = "";
 		//first row: information of player 1
-		gameString += "Player1" + ";" + this.getPlayer(1).getName() + ";" + this.getPlayer(1).getColor() + ";";
+		gameString += this.getPlayer(1).getName() + ";" + this.getPlayer(1).getColor() + ";";
 		if(this.getPlayer(1).getKi() == null)
 			gameString += "null" + "\n";
 		else gameString += "KI" + "\n";
 		//second row: information of player 2
-		gameString += "Player2" + ";" + this.getPlayer(2).getName() + ";" + this.getPlayer(2).getColor() + ";";
+		gameString += this.getPlayer(2).getName() + ";" + this.getPlayer(2).getColor() + ";";
 			if(this.getPlayer(2).getKi() == null)
 				gameString += "null" + "\n";
 			else gameString += "KI" + "\n";	
-		//third row: saves who is the current Player
-		gameString += "CurrentPlayer" + ";" + this.getCurrentGamer().getName() + "\n";
+		//third row: saves who is the current Player and the game size
+		gameString += "CurrentPlayer" + ";" + this.getCurrentGamer().getName() + ";" + this.getGameboardSize() + "\n";
 		//fourth row.. saves the current board state
 		gameString += this.outputGameboardCSV();
 		return gameString;
