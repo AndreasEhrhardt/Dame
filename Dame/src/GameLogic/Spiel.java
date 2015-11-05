@@ -19,6 +19,7 @@ import java.awt.*;
 //## Class
 
 public class Spiel implements iBediener, Serializable {
+	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Exceptions
 
@@ -355,25 +356,16 @@ public class Spiel implements iBediener, Serializable {
 		}
 	}
 
-	/**
-	 * Method for moving on the board, but before it actually moves it calls the moveIsValid 
-	 * function to check if the move is valid.
-	 * If you ate a token from the opponent, the token will be removed from the board.
-	 * 
-	 * @param fromPoint
-	 * @param toPoint
-	 * @throws Spiel.eSamePositionException
-	 * @throws Spiel.eNoDiagonalMoveException
-	 * @throws Spiel.eOutOfGameboardException
-	 * @throws Spiel.eNoFigureFoundOnFieldException
-	 * @throws Spiel.eDestinationPointIsBlockedException
-	 * @throws Spiel.eSomeOtherMoveErrors
+	
+	/* (non-Javadoc)
+	 * @see Interfaces.iBediener#move(java.awt.Point, java.awt.Point)
 	 */
+	@Override
 	public void move(Point fromPoint, Point toPoint)
 			throws Spiel.eSamePositionException, Spiel.eNoDiagonalMoveException, Spiel.eOutOfGameboardException,
 			Spiel.eNoFigureFoundOnFieldException, Spiel.eDestinationPointIsBlockedException, Spiel.eSomeOtherMoveErrorsException,
 			Spiel.eDistanceToFarException, Spiel.eEnemyFigureSelectedException, Spiel.eNoBackJumpExcpetion,
-			eOwnFigureIsBlockingException, eWayIsBlockedException
+			Spiel.eOwnFigureIsBlockingException, Spiel.eWayIsBlockedException
 	{		
 		if(this.moveIsValid(fromPoint, toPoint)){
 			// Get fields
@@ -681,6 +673,20 @@ public class Spiel implements iBediener, Serializable {
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods (Override)
 
+	/* (non-Javadoc)
+	 * @see Interfaces.iBediener#load()
+	 */
+	public void load(){
+		
+	}
+	
+	/* (non-Javadoc)
+	 * @see Interfaces.iBediener#save()
+	 */
+	public void save(){
+		
+	}
+	
 	/**
 	 * Forces the user to enter game board size and checks if number is even.
 	 * If user fails to enter valid size multiple times, the size is set to 8x8
@@ -899,12 +905,6 @@ public class Spiel implements iBediener, Serializable {
 		System.out.println("");
 		
 		return board;
-	}
-
-	@Override
-	public void loadingScreen() {
-		// TODO Auto-generated method stub
-
 	}
 
 	/**

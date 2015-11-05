@@ -151,7 +151,7 @@ public class Spieler implements Serializable {
 
 					if (sPoint.charAt(2) >= 48 && sPoint.charAt(2) <= 57) {
 						x += (sPoint.charAt(2) - 48) - 1;
-
+						
 						if (x < 0 || y < 0)
 							throw new Spiel.eInvalidPointException();
 
@@ -221,8 +221,9 @@ public class Spieler implements Serializable {
 	 */
 	public void setKI(KI ki_player) {
 		this.ki_player = ki_player;
+		this.ki_player.setPlayer(this);
 	}
-
+	
 	/**
 	 * Sets the name
 	 * 
