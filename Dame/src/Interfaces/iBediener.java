@@ -75,6 +75,18 @@ public interface iBediener {
 	boolean askNewGame();
 	
 	/**
+	 * 
+	 * @return
+	 */
+	void save();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	void load();
+	
+	/**
 	 * Creates a new player or KI
 	 * @param playerNumber Current player number (valid = 1-2)
 	 * @return The new player will be returned

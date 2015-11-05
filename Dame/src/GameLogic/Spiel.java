@@ -19,6 +19,7 @@ import java.awt.*;
 //## Class
 
 public class Spiel implements iBediener, Serializable {
+	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Exceptions
 
@@ -672,6 +673,20 @@ public class Spiel implements iBediener, Serializable {
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods (Override)
 
+	/* (non-Javadoc)
+	 * @see Interfaces.iBediener#load()
+	 */
+	public void load(){
+		
+	}
+	
+	/* (non-Javadoc)
+	 * @see Interfaces.iBediener#save()
+	 */
+	public void save(){
+		
+	}
+	
 	/**
 	 * Forces the user to enter game board size and checks if number is even.
 	 * If user fails to enter valid size multiple times, the size is set to 8x8
