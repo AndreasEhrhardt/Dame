@@ -1008,7 +1008,7 @@ public class Spiel implements iBediener, Serializable {
 				gameString += "null" + "\n";
 			else gameString += "KI" + "\n";	
 		//third row: saves who is the current Player and the game size
-		gameString += "CurrentPlayer" + ";" + this.getCurrentGamer().getName() + ";" + this.getGameboardSize() + "\n";
+		gameString += this.getCurrentGamer().getColor() + ";" + this.getGameboardSize() + "\n";
 		//fourth row.. saves the current board state
 		gameString += this.outputGameboardCSV();
 		return gameString;

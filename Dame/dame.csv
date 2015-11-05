@@ -1,11 +1,11 @@
-adina;wei?;null
+NPC;wei?;KI
 NPC;schwarz;KI
-CurrentPlayer;NPC8
+schwarz;8
+;e;S ;e;S ;e;S ;e;S 
+;S ;e;S ;e;S ;e;S ;e
 ;e;S ;e;S ;e;e;e;S 
-;e;e;S ;e;e;e;e;e
-;e;S ;e;W+;e;S ;e;e
-;W ;e;e;e;e;e;e;e
-;e;e;e;e;e;W ;e;e
-;W ;e;e;e;W ;e;e;e
-;e;e;e;W ;e;W ;e;W 
-;W ;e;e;e;W ;e;W ;e
+;e;e;e;e;S ;e;e;e
+;e;W ;e;e;e;W ;e;e
+;e;e;W ;e;W ;e;e;e
+;e;W ;e;W ;e;W ;e;W 
+;W ;e;W ;e;W ;e;W ;e
