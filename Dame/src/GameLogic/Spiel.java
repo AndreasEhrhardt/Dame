@@ -118,10 +118,6 @@ public class Spiel implements iBediener, Serializable {
 				DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
 				serial.saveGame(this);
 				
-				//save as CSV
-				iDatenzugriff csv = new DatenzugriffCSV();
-				csv.saveGame(csvString());
-				
 				// Ask for other save-methods
 				this.askForSaving();
 			}
@@ -677,13 +673,18 @@ public class Spiel implements iBediener, Serializable {
 	 * @see Interfaces.iBediener#load()
 	 */
 	public void load(){
-		
+		//load from CSV
+		iDatenzugriff csv = new DatenzugriffCSV();
+		csv.loadGame(this);
 	}
 	
 	/* (non-Javadoc)
 	 * @see Interfaces.iBediener#save()
 	 */
 	public void save(){
+		//safe as CSV 
+		iDatenzugriff csv = new DatenzugriffCSV();
+		csv.saveGame(csvString());
 		
 	}
 	

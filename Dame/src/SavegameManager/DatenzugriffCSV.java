@@ -1,6 +1,8 @@
 package SavegameManager;
 
+import java.awt.Point;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -12,21 +14,23 @@ import Enumerations.FarbEnum;
 import GameLogic.Spiel;
 import GameLogic.Spielbrett;
 import GameLogic.Spieler;
+import GameLogic.Spielfigur;
 import Interfaces.iDatenzugriff;
 import KI.KI;
 import KI.KI_Dame;
 
 public class DatenzugriffCSV implements iDatenzugriff {
-
+	private String dameCSV = "./dame.csv";
+	
 	@Override
 	public void saveGame(Object game) {
 		PrintWriter pw = null;
 		try {
-			pw = new PrintWriter(new FileWriter("dame.csv"));
+			pw = new PrintWriter(new FileWriter(dameCSV));
 			pw.write((String) game);
 
 		} catch (FileNotFoundException e) {
-			System.err.println("'game.ser' couldn't be generated");
+			System.err.println("'dame.csv' couldn't be generated");
 		} catch (IOException e) {
 			System.err.println("Error during imput-/output: " + e);
 		} finally {
@@ -40,13 +44,14 @@ public class DatenzugriffCSV implements iDatenzugriff {
 	public void loadGame(Spiel game) {
 		BufferedReader reader = null;
 		try {
-			reader = new BufferedReader(new FileReader("dame.csv"));
+			reader = new BufferedReader(new FileReader(dameCSV));
 			String line = reader.readLine();
 			String[] fields = line.split(";");
 			Spieler player1 = new Spieler();
 			Spieler player2 = new Spieler();
-			Spielbrett board;
-			ArrayList<String> gameConfigurationString = new ArrayList<String>();
+			Spielbrett board = null;
+			String[] gameConfigurationString = null;
+			String [][] fieldsOfBoard;
 			int count = 0;
 			while(line != null) {
 				if (count == 0) {
@@ -90,33 +95,64 @@ public class DatenzugriffCSV implements iDatenzugriff {
 						game.setCurrentGamer(FarbEnum.weiß);
 					}
 					board = new Spielbrett(Integer.parseInt(fields[1]));
-				} 
+				
+				int size = Integer.parseInt(fields[1]);
+				gameConfigurationString = new String[size*size];
 				for(int i = 0; i < line.length(); i++) {
-					gameConfigurationString.add(fields[i]);
-				} gameConfigurationString.add("nextRow");
+					gameConfigurationString[i] = fields[i];
+				}
 				count++; 
+				}
 			} 
-			//Rows of board
-			for(int j = 0; j < gameConfigurationString.indexOf("nextRow"); j++) {
-				//columns of board
-				for(int k = 0; k < gameConfigurationString.size(); k++) {
-					
+			//String representation of the boardstate in 2D Array
+			int counter = 0; 
+			fieldsOfBoard = new String[(int) Math.sqrt(gameConfigurationString.length)][(int) Math.sqrt(gameConfigurationString.length)];
+			
+			for(int i = 0; i < (int) Math.sqrt(gameConfigurationString.length); i++) {
+				for(int j = 0; j < (int) Math.sqrt(gameConfigurationString.length); j++) {
+					fieldsOfBoard[i][j] = gameConfigurationString[counter];
+					counter++;
 				}
 			}
+			//create new Spielfigur 
+			for(int k = 0; k < fieldsOfBoard.length; k++) {
+				for(int l = 0; k < fieldsOfBoard[k].length; l++) {
+					if(fieldsOfBoard[k][l] == "W ") {
+						Spielfigur figure = new Spielfigur(FarbEnum.weiß, new Point(k,l));
+						figure.setDame(false);
+						board.getField(k, l).setFigure(figure);
+					} else if(fieldsOfBoard[k][l] == "W+") {
+						Spielfigur figure = new Spielfigur(FarbEnum.weiß, new Point(k,l));
+						figure.setDame(true);
+						board.getField(k, l).setFigure(figure);
+					} else if(fieldsOfBoard[k][l] == "S ") {
+						Spielfigur figure = new Spielfigur(FarbEnum.schwarz, new Point(k,l));
+						figure.setDame(false);
+						board.getField(k, l).setFigure(figure);
+					} else if(fieldsOfBoard[k][l] == "S+") {
+						Spielfigur figure = new Spielfigur(FarbEnum.weiß, new Point(k,l));
+						figure.setDame(true);
+						board.getField(k, l).setFigure(figure);
+					} else board.getField(k, l).setFigure(null);
+				}
+			}
+			game.setGameboard(board);
+		} catch(IOException e){
+			// Output error message
+			System.out.println("Dame.csv is corrupt");
+
+			// Exit game
+			System.exit(-1);
 		}
 	}
 			
-			
-				
-			
-	
-
-	
-
 	@Override
 	public boolean haveSaveGame() {
-		// TODO Auto-generated method stub
-		return false;
+		File f = new File(dameCSV);
+		if(!f.exists() || f.isDirectory()){
+			return false;
+		}
+		return true;
 	}
 
 }
