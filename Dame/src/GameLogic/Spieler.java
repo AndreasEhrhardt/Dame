@@ -173,11 +173,11 @@ public class Spieler implements Serializable {
 	}
 	
 	public String posToString(Point position){
-		char firstLetter = (char)(65 + position.getX());
+		char firstLetter = (char)(65 + position.getY());
 		
 		StringBuilder returnValue = new StringBuilder();
 		returnValue.append(firstLetter);
-		returnValue.append((int)position.getY());
+		returnValue.append((int)position.getX() + 1);
 		 
 		return returnValue.toString();
 	}
