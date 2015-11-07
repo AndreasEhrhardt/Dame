@@ -222,8 +222,9 @@ public class Spieler implements Serializable {
 	 */
 	public void setKI(KI ki_player) {
 		this.ki_player = ki_player;
+		this.ki_player.setPlayer(this);
 	}
-
+	
 	/**
 	 * Sets the name
 	 * 

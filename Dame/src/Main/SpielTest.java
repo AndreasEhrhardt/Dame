@@ -7,6 +7,7 @@ public class SpielTest {
 	 */
 	public static void main(String[] args) {
 		Spiel game = new Spiel();
+		game.initialize();
 		game.gameLoop();
 	}
 }
