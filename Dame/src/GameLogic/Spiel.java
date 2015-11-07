@@ -6,7 +6,10 @@ package GameLogic;
 import java.io.*;
 import java.util.*;
 
+import javax.swing.JFrame;
+
 import Enumerations.FarbEnum;
+import GUI.MainFrame;
 import Interfaces.iBediener;
 import Interfaces.iDatenzugriff;
 import KI.KI_Dame;
@@ -19,7 +22,7 @@ import java.awt.*;
 //## Class
 
 public class Spiel implements iBediener, Serializable {
-	
+
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Exceptions
 
@@ -51,8 +54,6 @@ public class Spiel implements iBediener, Serializable {
 	 * Constructor
 	 */
 	public Spiel() {
-		// Initialize game
-		this.initialize();
 	}
 
 	/**
@@ -79,7 +80,7 @@ public class Spiel implements iBediener, Serializable {
 	/**
 	 * Initializes new game and creates a new gameboard and two new players.
 	 */
-	private void initialize(){
+	public void initialize(){
 		gamer = new Spieler[2];
 
 		// Create gameboard
@@ -106,6 +107,7 @@ public class Spiel implements iBediener, Serializable {
 	 * The loop checks for finished
 	 */
 	public void gameLoop(){
+
 		// Output start gameboard
 		this.outputGameboardCSV();
 
@@ -117,7 +119,7 @@ public class Spiel implements iBediener, Serializable {
 				// Save serialized
 				DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
 				serial.saveGame(this);
-				
+
 				// Ask for other save-methods
 				this.askForSaving();
 			}
@@ -126,24 +128,19 @@ public class Spiel implements iBediener, Serializable {
 			// Current player have to move
 			this.currentGamer.move(this, null);
 
-			// Set next player
-			if(this.currentGamer == this.gamer[0])
-				this.currentGamer = this.gamer[1];
-			else
-				this.currentGamer = this.gamer[0];
-
 			// Output current gameboard
 			this.outputGameboardCSV();
 		}
+
 	}
-	
+
 	private void askForSaving(){
 		Scanner sc = new Scanner(System.in);
 		for (int i = 0; i <= maxLoopCount; i++) {
 			try{
 				// Output information
 				System.out.print("Wollen Sie das Spiel speichern (J / N): ");
-				
+
 				// Read result
 				String status = sc.next();
 				status = status.toUpperCase();
@@ -352,7 +349,7 @@ public class Spiel implements iBediener, Serializable {
 		}
 	}
 
-	
+
 	/* (non-Javadoc)
 	 * @see Interfaces.iBediener#move(java.awt.Point, java.awt.Point)
 	 */
@@ -395,6 +392,12 @@ public class Spiel implements iBediener, Serializable {
 					currentGamer.move(this, toPoint);
 				}
 			}
+
+			// Set next player
+			if(this.currentGamer == this.gamer[0])
+				this.currentGamer = this.gamer[1];
+			else
+				this.currentGamer = this.gamer[0];
 		}
 		else{
 			// Some strange errors appears
@@ -623,14 +626,14 @@ public class Spiel implements iBediener, Serializable {
 		if(!(playerID >= 1 && playerID <= 2)) throw new RuntimeException();
 		if(gamer == null) throw new NullPointerException();
 		if(gamer.length != 2) throw new RuntimeException();
-			
+
 		// Get gamer
 		return this.gamer[playerID - 1];
 	}
-	
+
 	public Spieler getCurrentGamer(){
 		if(this.currentGamer == null) throw new RuntimeException();
-		
+
 		return this.currentGamer;
 	}
 
@@ -677,7 +680,7 @@ public class Spiel implements iBediener, Serializable {
 		iDatenzugriff csv = new DatenzugriffCSV();
 		csv.loadGame(this);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see Interfaces.iBediener#save()
 	 */
@@ -685,9 +688,9 @@ public class Spiel implements iBediener, Serializable {
 		//safe as CSV 
 		iDatenzugriff csv = new DatenzugriffCSV();
 		csv.saveGame(csvString());
-		
+
 	}
-	
+
 	/**
 	 * Forces the user to enter game board size and checks if number is even.
 	 * If user fails to enter valid size multiple times, the size is set to 8x8
@@ -823,10 +826,10 @@ public class Spiel implements iBediener, Serializable {
 	public String outputGameboardCSV(){
 		// Get gameboard fields
 		Spielfeld felder[][] = this.gameboard.getFields();
-		
+
 		//String to save the current board
 		String board = "";
-		
+
 		// Define start variable
 		char currentRow = (char)(65 + felder.length - 1);
 		int currentColumn = 1;
@@ -845,7 +848,7 @@ public class Spiel implements iBediener, Serializable {
 			for(int j = 0; j < felder.length; j++){
 				// Get figure of field
 				Spielfigur currentFigure = felder[j][i].getFigure();
-				
+
 
 				// Write seperator
 				System.out.print(";");
@@ -904,7 +907,7 @@ public class Spiel implements iBediener, Serializable {
 
 		// Create empty line
 		System.out.println("");
-		
+
 		return board;
 	}
 
@@ -959,7 +962,7 @@ public class Spiel implements iBediener, Serializable {
 		// Check if savegame exists
 		DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
 		if(!serial.haveSaveGame()) return true;
-		
+
 		// Get gametype
 		for (int i = 0; i <= maxLoopCount; i++) {
 			try{
@@ -991,7 +994,7 @@ public class Spiel implements iBediener, Serializable {
 		if(gameType == 1) return true;
 		else return false;
 	}
-	
+
 	/**
 	 * Method to convert the current gaming state into a String to save in CSV
 	 * @return returns a String of the current gaming state
@@ -1005,9 +1008,9 @@ public class Spiel implements iBediener, Serializable {
 		else gameString += "KI" + "\n";
 		//second row: information of player 2
 		gameString += this.getPlayer(2).getName() + ";" + this.getPlayer(2).getColor() + ";";
-			if(this.getPlayer(2).getKi() == null)
-				gameString += "null" + "\n";
-			else gameString += "KI" + "\n";	
+		if(this.getPlayer(2).getKi() == null)
+			gameString += "null" + "\n";
+		else gameString += "KI" + "\n";	
 		//third row: saves who is the current Player and the game size
 		gameString += this.getCurrentGamer().getColor() + ";" + this.getGameboardSize() + "\n";
 		//fourth row.. saves the current board state

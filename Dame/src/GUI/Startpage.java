@@ -1,56 +1,51 @@
 //###########################################################
 //## Package
 
-package GUI;	
+package GUI;
 
 //###########################################################
 //## Imports
 
-import javax.swing.JFrame;
-
-import Events.EventHandler;
-
+import javax.swing.*;
 import java.awt.*;
-import GameLogic.*;
 
 //###########################################################
 //## Class
 
-public class MainFrame extends JFrame {
+public class Startpage extends JPanel {
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
 
-	Spiel game;
-	MainPanel mp;
-	
+
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
-	private MainFrame(){
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	
-		mp = new MainPanel();
-		this.setContentPane(mp);
+	public Startpage(){
+		this.setLayout(new GridBagLayout());
 		
-		Rectangle rec = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
-		this.setSize(rec.width,rec.height);
-		this.setLocation(0,0);
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
 		
-		//this.setUndecorated(true);
-		
-		this.setVisible(true);
-	}
-	
-	public MainFrame(Spiel game){
-		this();
-		
-		this.setGame(game);
+		JButton button = new JButton("Button 1");
+        c.gridx = 0;
+        c.gridy = 0;
+        button.setPreferredSize(new Dimension(200,200));
+        this.add(button, c);
+
+        button = new JButton("Button 2");
+        c.insets = new Insets(0,50,0,0);
+        c.gridx = 1;
+        c.gridy = 0;
+        button.setPreferredSize(new Dimension(200,200));
+        this.add(button, c);
+        
+        this.setVisible(true);
 	}
 	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods
-	
+
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
@@ -59,11 +54,6 @@ public class MainFrame extends JFrame {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Setter)
 
-	public void setGame(Spiel game){
-		if(game == null) throw new RuntimeException();
-		
-		this.game = game;
-	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods (Override)
