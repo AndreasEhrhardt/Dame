@@ -56,7 +56,6 @@ public class MainPanel extends JPanel {
 	}
 
 	public void fitComponent(){
-		System.out.println(currentComponent);
 		if(this.currentComponent != null){
 			this.currentComponent.setLocation(30, 30);
 			this.currentComponent.setSize(this.getSize().width - 60, this.getSize().height - 60);
@@ -85,11 +84,12 @@ public class MainPanel extends JPanel {
 
 	@Override
 	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
 		Graphics2D g2D = (Graphics2D) g;
 		
 		TexturePaint paint = new TexturePaint(background, new Rectangle(0, 0, background.getWidth(), background.getHeight()));
 		g2D.setPaint(paint);
 		g2D.fill(new Rectangle(0, 0, getWidth(), getHeight()));
-
 	}
 }

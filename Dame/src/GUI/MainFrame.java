@@ -6,9 +6,10 @@ package GUI;
 //###########################################################
 //## Imports
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
-import Events.EventHandler;
+import Events.*;
+import Events.EventHandler.*;
 
 import java.awt.*;
 import GameLogic.*;
@@ -20,7 +21,7 @@ public class MainFrame extends JFrame {
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
-
+	
 	Spiel game;
 	MainPanel mp;
 	
@@ -38,7 +39,7 @@ public class MainFrame extends JFrame {
 		this.setLocation(0,0);
 		
 		//this.setUndecorated(true);
-		
+
 		this.setVisible(true);
 	}
 	
@@ -55,6 +56,9 @@ public class MainFrame extends JFrame {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
 
+	public MainPanel getMainPanel(){
+		return this.mp;
+	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Setter)
@@ -67,5 +71,4 @@ public class MainFrame extends JFrame {
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods (Override)
-
 }

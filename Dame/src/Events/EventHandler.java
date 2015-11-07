@@ -1,8 +1,8 @@
 package Events;
 
 import java.awt.Component;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import java.awt.event.*;
+import java.util.*;
 
 import GUI.*;
 
