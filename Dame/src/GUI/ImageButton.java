@@ -31,12 +31,12 @@ public class ImageButton extends JButton  {
 
 	public ImageButton(){
 		super();
-		
+
 		this.setOpaque(false);
 		this.setContentAreaFilled(false);
 		this.setBorderPainted(false);
 	}
-	
+
 	public ImageButton(String text){
 		this();
 		this.setText(text);
@@ -52,21 +52,21 @@ public class ImageButton extends JButton  {
 			return null;
 		}
 	}
-	
+
 	public Dimension fitImageToSize(Dimension imageDimension)
 	{
 		Dimension validDimension = new Dimension();
 		double percent = (double)this.getWidth() / (double)imageDimension.getWidth();
 		validDimension.setSize(imageDimension.getWidth() * percent, imageDimension.getHeight() * percent);
-		
+
 		if(validDimension.getHeight() > this.getHeight()){
 			percent = (double)this.getHeight() / (double)imageDimension.getHeight();
 			validDimension.setSize(imageDimension.getWidth() * percent, imageDimension.getHeight() * percent);
 		}
-		
+
 		return validDimension;
 	}
-	
+
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
 
@@ -77,23 +77,23 @@ public class ImageButton extends JButton  {
 	public void setDefaultImage(String path){
 		// Set image
 		this.defaultImage = this.getImage(path);
-		
+
 		// Start repaint
 		this.repaint();
 	}
-	
+
 	public void setHoverImage(String path){
 		// Set image
 		this.hoverImage = this.getImage(path);
-		
+
 		// Start repaint
 		this.repaint();
 	}
-	
+
 	public void setPressImage(String path){
 		// Set image
 		this.pressImage = this.getImage(path);
-		
+
 		// Start repaint
 		this.repaint();
 	}
@@ -106,24 +106,39 @@ public class ImageButton extends JButton  {
 		BufferedImage currentImage = this.defaultImage;
 		if(getModel().isPressed()) currentImage = this.pressImage;
 		else if(getModel().isRollover()) currentImage = this.hoverImage;
-		
+
 		// Check if image is valid
 		if(currentImage == null){
 			super.paintComponent(g);
 			return;
 		}
-		
+
 		// Detect the maximum possible size
 		Dimension size = this.fitImageToSize(new Dimension(currentImage.getWidth(),currentImage.getHeight()));
-		
+
 		// Draw image
 		g.drawImage(currentImage, 0, 0, (int)size.getWidth(), (int)size.getHeight(), this);
-		
+
 		// Set text
-		g.drawString(str, x, y);
+		Rectangle currentSize = new Rectangle(0,0,(int)this.getSize().getWidth(),(int)this.getSize().getHeight());
+		currentSize.setLocation(0, (int)currentSize.getHeight() / 3 * 2);
+		this.drawCenteredString(g, this.getText(), currentSize);
+	}
+
+	public void drawCenteredString(Graphics g, String text, Rectangle rect){
+		// Get the FontMetrics
+		FontMetrics metrics = g.getFontMetrics(g.getFont());
+		// Determine the X coordinate for the text
+		int x = (rect.width - metrics.stringWidth(text)) / 2;
+		// Determine the Y coordinate for the text
+		int y = ((rect.height - metrics.getHeight()) / 2) - metrics.getAscent() + (int)rect.getY();
+		// Draw the String
+		g.drawString(text, x, y);
+		// Dispose the Graphics
+		g.dispose();
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Inner class
-	
+
 }

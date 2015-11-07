@@ -503,7 +503,7 @@ public class Spiel implements iBediener, Serializable {
 			for (int j = 0; j < felder[i].length; j++) {
 				Spielfigur figure = felder[i][j].getFigure();
 				if (figure != null) {
-					if (figure.getColor() != this.currentGamer.getColor()) {
+					if (!figure.getColor().equals(this.currentGamer.getColor())) {
 						Point movePoint = new Point(i, j);
 						if (xCurrent < (int) movePoint.getX())
 							movePoint.setLocation(movePoint.getX() + 1, movePoint.getY());
@@ -516,8 +516,7 @@ public class Spiel implements iBediener, Serializable {
 							movePoint.setLocation(movePoint.getX(), movePoint.getY() - 1);
 
 						try {
-							if (moveIsValid(point, movePoint))
-								blowable.add(movePoint);
+							if (moveIsValid(point, movePoint)) blowable.add(movePoint);
 						} catch (Exception e) {
 						}
 					}
@@ -595,8 +594,8 @@ public class Spiel implements iBediener, Serializable {
 		for (int i = 0; i < felder.length; i++) {
 			for (int j = 0; j < felder[i].length; j++) {
 				Spielfigur currentFigure = felder[i][j].getFigure();
-				if (currentFigure != null && currentFigure.getColor() == this.currentGamer.getColor()) {
-					if (canDestroyOtherFigures(currentFigure.getPosiiton()).size() > 0) {
+				if (currentFigure != null && currentFigure.getColor().equals(this.currentGamer.getColor())) {
+					if (canDestroyOtherFigures(new Point(i,j)).size() > 0) {
 						if (!figures.contains(currentFigure))
 							figures.add(currentFigure);
 					}
@@ -629,16 +628,14 @@ public class Spiel implements iBediener, Serializable {
 						position = this.currentGamer.inputPosition();
 
 						for (Spielfigur figure : figures) {
-							if (figure.getPosiiton() == position)
-								removePosition = position;
+							if (figure.getPosiiton().equals(position)) removePosition = position;
 						}
 
-						if (removePosition == null)
-							System.out.println("Fehler bei der Eingabe!");
+						if (removePosition == null) System.out.println("Fehler bei der Eingabe!");
 					} catch (Exception e) {
 						position = null;
 					}
-				} while (position == null && removePosition == null);
+				} while (position == null || removePosition == null);
 			}
 		}
 

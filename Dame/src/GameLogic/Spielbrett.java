@@ -68,7 +68,7 @@ public class Spielbrett implements Serializable  {
 		// Add white figures
 		for(int i = 0; i < 3; i++){
 			for(int j = xPos; j < this.felder.length; j = j + 2){
-				this.felder[j][i].setFigure(new Spielfigur(FarbEnum.weiß,new Point(i,j)));
+				this.felder[j][i].setFigure(new Spielfigur(FarbEnum.weiß,new Point(j,i)));
 			}
 
 			xPos = ++xPos % 2;
@@ -79,7 +79,7 @@ public class Spielbrett implements Serializable  {
 		// Add black figures
 		for(int i = felder.length - 1; i >= felder.length - 3; i--){
 			for(int j = xPos; j < this.felder.length; j = j + 2){
-				this.felder[j][i].setFigure(new Spielfigur(FarbEnum.schwarz, new Point(i,j)));
+				this.felder[j][i].setFigure(new Spielfigur(FarbEnum.schwarz, new Point(j,i)));
 			}
 
 			xPos = ++xPos % 2;
