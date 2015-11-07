@@ -139,18 +139,15 @@ public class jSpiel {
 			for(int j = 0; j < felder[i].length; j++) felder[i][j] = new Spielfeld();
 		}
 		
-		Spielfigur dame = new Spielfigur(FarbEnum.weiß, new Point(2,3));
-		dame.setDame(true);
-		Spielfigur normal = new Spielfigur(FarbEnum.schwarz, new Point(4,1));
+		Spielfigur normal1 = new Spielfigur(FarbEnum.weiß, new Point(2,3));
 		Spielfigur normal2 = new Spielfigur(FarbEnum.schwarz, new Point(3,2));
-		felder[2][3].setFigure(dame);
-		felder[4][1].setFigure(normal);
+		felder[2][3].setFigure(normal1);
 		felder[3][2].setFigure(normal2);
 		gameboard.setFelder(felder);
 
 		// Create game
 		Spiel game = new Spiel(gameboard,new Spieler[]{new Spieler("Test",FarbEnum.weiß),new Spieler(new KI_Dame(),FarbEnum.schwarz)});
 		game.setCurrentGamer(FarbEnum.weiß);
-		game.move(new Point(2,3),new Point(5,0));
+		game.move(new Point(2,3),new Point(3,2));
 	}
 }
