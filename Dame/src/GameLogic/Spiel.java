@@ -746,7 +746,8 @@ public class Spiel implements iBediener, Serializable {
 					} else {
 						gameString += "S ";
 					}
-				}gameString += ";";
+				}
+				if(j != felder.length - 1) gameString += ";";
 			}
 			// End of line
 			gameString += "\n";
