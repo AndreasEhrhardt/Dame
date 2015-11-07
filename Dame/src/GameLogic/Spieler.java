@@ -181,6 +181,7 @@ public class Spieler implements Serializable {
 		 
 		return returnValue.toString();
 	}
+	
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods ( Getter)
