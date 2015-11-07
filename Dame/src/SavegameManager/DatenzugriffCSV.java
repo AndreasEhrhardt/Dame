@@ -27,12 +27,13 @@ public class DatenzugriffCSV implements iDatenzugriff {
 		PrintWriter pw = null;
 		try {
 			pw = new PrintWriter(new FileWriter(dameCSV));
+			//write String to csv
 			pw.write((String) game);
 
 		} catch (FileNotFoundException e) {
 			System.err.println("'dame.csv' couldn't be generated");
 		} catch (IOException e) {
-			System.err.println("Error during imput-/output: " + e);
+			System.err.println("Error during imput: " + e);
 		} finally {
 			if (pw != null)
 				pw.close();
@@ -55,7 +56,7 @@ public class DatenzugriffCSV implements iDatenzugriff {
 			int count = 0;
 			while(line != null) {
 				if (count == 0) {
-					
+					//read information of first line and assign them to player 1
 					player1.setName(fields[0]);
 					if(fields[1] == "schwarz") {
 						player1.setColor(FarbEnum.schwarz);
@@ -71,7 +72,7 @@ public class DatenzugriffCSV implements iDatenzugriff {
 					}
 					game.setPlayer(1, player1);
 				} else if(count == 1) {
-					
+					//read information of secon line and assign them to player 2
 					player2.setName(fields[0]);
 					if(fields[1] == "schwarz") {
 						player2.setColor(FarbEnum.schwarz);
@@ -87,7 +88,7 @@ public class DatenzugriffCSV implements iDatenzugriff {
 					}
 					game.setPlayer(2, player1);
 				} else if(count == 2) {
-					
+					//read information of third line; first entry is the current Player, second entry the board size
 					if(fields[0] == "schwarz") {
 					game.setCurrentGamer(FarbEnum.schwarz);
 					} 
@@ -95,7 +96,7 @@ public class DatenzugriffCSV implements iDatenzugriff {
 						game.setCurrentGamer(FarbEnum.weiß);
 					}
 					board = new Spielbrett(Integer.parseInt(fields[1]));
-				
+				//information of the current boardstate
 				int size = Integer.parseInt(fields[1]);
 				gameConfigurationString = new String[size*size];
 				for(int i = 0; i < line.length(); i++) {

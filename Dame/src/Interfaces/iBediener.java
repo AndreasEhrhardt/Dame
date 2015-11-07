@@ -32,7 +32,7 @@ public interface iBediener {
 	 * Check all fields and generates a gameboard with CSV-notation
 	 * @return
 	 */
-	String outputGameboardCSV();
+	void outputGameboardCSV();
 
 	/**
 	 * Method to move a figure to another position
