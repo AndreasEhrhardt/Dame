@@ -55,6 +55,7 @@ public class DatenzugriffCSV implements iDatenzugriff {
 			String [][] fieldsOfBoard;
 			int count = 0;
 			while(line != null) {
+				line = reader.readLine();
 				if (count == 0) {
 					//read information of first line and assign them to player 1
 					player1.setName(fields[0]);
