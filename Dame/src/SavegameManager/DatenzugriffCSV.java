@@ -19,33 +19,33 @@ import Interfaces.iDatenzugriff;
 import KI.KI;
 import KI.KI_Dame;
 
-public class DatenzugriffCSV implements iDatenzugriff {
-	private String dameCSV = "./dame.csv";
-	
+public class DatenzugriffCSV implements iDatenzugriff {	
 	@Override
-	public void saveGame(Object game) {
+	public boolean saveGame(String path, String filename, Spiel game){
 		PrintWriter pw = null;
 		try {
-			pw = new PrintWriter(new FileWriter(dameCSV));
-			//write String to csv
-			pw.write((String) game);
-
-		} catch (FileNotFoundException e) {
-			System.err.println("'dame.csv' couldn't be generated");
+			pw = new PrintWriter(new FileWriter(path + filename));
+			
+			// Write string to CSV
+			pw.write((String)game.csvString());
 		} catch (IOException e) {
-			System.err.println("Error during imput: " + e);
+			return false;
 		} finally {
-			if (pw != null)
+			if (pw != null){
+				pw.flush();
 				pw.close();
+			}
 		}
-		pw.flush();
+		
+		return true;
 	}
 
 	@Override
-	public void loadGame(Spiel game) {
-		BufferedReader reader = null;
+	public boolean loadGame(String path, String filename, Spiel game) {
+		if(!this.haveSaveGame(path, filename)) return false;
+
 		try {
-			reader = new BufferedReader(new FileReader(dameCSV));
+			BufferedReader reader = new BufferedReader(new FileReader(path + filename));
 			String line = reader.readLine();
 			String[] fields = line.split(";");
 			Spieler player1 = new Spieler();
@@ -72,7 +72,7 @@ public class DatenzugriffCSV implements iDatenzugriff {
 					}
 					game.setPlayer(1, player1);
 				} else if(count == 1) {
-					//read information of secon line and assign them to player 2
+					//read information of second line and assign them to player 2
 					player2.setName(fields[0]);
 					if(fields[1] == "schwarz") {
 						player2.setColor(FarbEnum.schwarz);
@@ -138,18 +138,20 @@ public class DatenzugriffCSV implements iDatenzugriff {
 				}
 			}
 			game.setGameboard(board);
+			
+			reader.close();
+			
+			return true;
 		} catch(IOException e){
-			// Output error message
-			System.out.println("Dame.csv is corrupt");
-
-			// Exit game
-			System.exit(-1);
+			return false;
+		}
+		finally{
 		}
 	}
 			
 	@Override
-	public boolean haveSaveGame() {
-		File f = new File(dameCSV);
+	public boolean haveSaveGame(String path, String filename) {
+		File f = new File(path + filename);
 		if(!f.exists() || f.isDirectory()){
 			return false;
 		}

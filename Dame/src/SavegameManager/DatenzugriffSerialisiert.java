@@ -6,32 +6,62 @@ import GameLogic.Spiel;
 import Interfaces.*;
 
 
-public class DatenzugriffSerialisiert implements iDatenzugriff{
-	private String saveGameName = "./savegameSer.data";
+public class DatenzugriffSerialisiert implements iDatenzugriff{	
+	String defaultName = "savegameSerial.data";
+	String defaultPath = "./";
 	
+	/**
+	 * @param game
+	 */
+	public boolean saveGame(Spiel game){
+		return this.saveGame(defaultPath, defaultName, game);
+	}
+	
+	/**
+	 * @param game
+	 */
+	public boolean loadGame(Spiel game){
+		return this.loadGame(defaultPath, defaultName, game);
+	}
+	
+	/**
+	 * 
+	 */
+	public boolean haveSaveGame(){
+		return this.haveSaveGame(defaultPath, defaultName);
+	}
+	
+	/* (non-Javadoc)
+	 * @see Interfaces.iDatenzugriff#saveGame(java.lang.String, java.lang.String, GameLogic.Spiel)
+	 */
 	@Override
-	public void saveGame(Object game) {
+	public boolean saveGame(String path, String filename, Spiel game) {
 		try{
 			// Save game state
-			FileOutputStream gameOS = new FileOutputStream(saveGameName);
+			FileOutputStream gameOS = new FileOutputStream(path + filename);
 			ObjectOutputStream gameObjStream = new ObjectOutputStream (gameOS);
 			gameObjStream.writeObject(game);
 
 			// Close file handle
 			gameObjStream.close();
 			gameOS.close();
+			
+			// Return success state
+			return true;
 		}
 		catch(IOException e){
-			// File save error
-			System.out.println("Cant save game-state: " + e.toString());
+			return false;
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see Interfaces.iDatenzugriff#loadGame(java.lang.String, java.lang.String, GameLogic.Spiel)
+	 */
 	@Override
-	public void loadGame(Spiel game) {
+	public boolean loadGame(String path, String filename, Spiel game) {
 		try{
 			// Open file stream
-			FileInputStream f_in = new FileInputStream(saveGameName);
+			FileInputStream f_in = new FileInputStream(path + filename);
 			ObjectInputStream obj_in = new ObjectInputStream (f_in);
 
 			// Read object
@@ -48,21 +78,25 @@ public class DatenzugriffSerialisiert implements iDatenzugriff{
 				game.setGameboard(lastGame.getGameboard());
 				game.setCurrentGamer(lastGame.getCurrentGamer().getColor());
 			}
+			
+			// Close file stream
+			f_in.close();
+			
+			// Return success state
+			return true;
 		}
 		catch(IOException | ClassNotFoundException e){
-			// Output error message
-			System.out.println("Savegame is corrupt");
-
-			// Exit game
-			System.exit(-1);
+			return false;
 		}
 	}
 	
-	public boolean haveSaveGame(){
-		File f = new File(saveGameName);
-		if(!f.exists() || f.isDirectory()){
-			return false;
-		}
-		return true;
+	/* (non-Javadoc)
+	 * @see Interfaces.iDatenzugriff#haveSaveGame(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public boolean haveSaveGame(String path, String filename){
+		File f = new File(path + filename);
+		if(!f.exists() || f.isDirectory()) return false;
+		else return true;
 	}
 }
