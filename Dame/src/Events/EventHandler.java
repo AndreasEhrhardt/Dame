@@ -26,4 +26,24 @@ public class EventHandler{
 		@Override
 		public void componentShown(ComponentEvent arg0) {}
 	}
+	
+	public class eLoadingMenu implements ComponentListener{		
+		@Override
+		public void componentResized(ComponentEvent e) {}
+
+		@Override
+		public void componentHidden(ComponentEvent arg0) {}
+
+		@Override
+		public void componentMoved(ComponentEvent arg0) {}
+
+		@Override
+		public void componentShown(ComponentEvent e) {
+			Component component = e.getComponent();
+			if(component instanceof LoadingMenu){
+				LoadingMenu lm = (LoadingMenu) component;
+				
+			}
+		}
+	}
 }
