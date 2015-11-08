@@ -82,7 +82,7 @@ public class Spiel implements iBediener, Serializable {
 		gamer = new Spieler[2];
 
 		// Create gameboard
-		this.gameboard = this.createGameBoard();
+		this.gameboard = new Spielbrett();
 
 		// Ask if new game, restore last game or load CSV-File
 		int newGameState = askNewGame();
@@ -109,6 +109,9 @@ public class Spiel implements iBediener, Serializable {
 
 		if (!loadingSuccess) {
 			if(newGameState != 1) System.out.println("Fehler beim laden! (Existiert die Datei?)");
+			
+			// Lets create a new gameboard
+			this.createGameBoard();
 
 			// Create gamer 1
 			gamer[0] = createNewPlayer(1);
