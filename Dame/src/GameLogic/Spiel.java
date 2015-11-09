@@ -55,6 +55,7 @@ public class Spiel implements iBediener, Serializable {
 	 * Constructor
 	 */
 	public Spiel() {
+		gamer = new Spieler[2];
 	}
 
 	/**
@@ -62,6 +63,9 @@ public class Spiel implements iBediener, Serializable {
 	 * @param gamer
 	 */
 	public Spiel(Spielbrett gameboard, Spieler gamer[]) {
+		// Call default constructor
+		this();
+		
 		// Set gameboard
 		this.setGameboard(gameboard);
 

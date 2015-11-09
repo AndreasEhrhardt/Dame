@@ -25,7 +25,7 @@ public class DatenzugriffCSV implements iDatenzugriff {
 		PrintWriter pw = null;
 		try {
 			pw = new PrintWriter(new FileWriter(path + filename));
-			
+
 			// Write string to CSV
 			pw.write((String)game.csvString());
 		} catch (IOException e) {
@@ -36,7 +36,7 @@ public class DatenzugriffCSV implements iDatenzugriff {
 				pw.close();
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -51,21 +51,24 @@ public class DatenzugriffCSV implements iDatenzugriff {
 			Spieler player1 = new Spieler();
 			Spieler player2 = new Spieler();
 			Spielbrett board  = null;
-			String[] gameConfigurationString = new String[400];
+			ArrayList <ArrayList<String>> fieldLines = new ArrayList<>();
 			String [][] fieldsOfBoard;
 			int count = 0;
 			while(line != null) {
+				// Parse every CSV value
 				fields = line.split(";");
 				if (count == 0) {
 					//read information of first line and assign them to player 1
 					player1.setName(fields[0]);
-					if(fields[1] == "schwarz") {
+					
+					if(fields[1].equals("schwarz")) {
 						player1.setColor(FarbEnum.schwarz);
 					}
 					else {
 						player1.setColor(FarbEnum.weiß);
 					}
-					if(fields[2] == null) {
+					
+					if(fields[2].equals("null")) {
 						player1.setKI(null);
 					}
 					else {
@@ -75,82 +78,77 @@ public class DatenzugriffCSV implements iDatenzugriff {
 				} else if(count == 1) {
 					//read information of second line and assign them to player 2
 					player2.setName(fields[0]);
-					if(fields[1] == "schwarz") {
+					if(fields[1].equals("schwarz")) {
 						player2.setColor(FarbEnum.schwarz);
 					}
 					else {
 						player2.setColor(FarbEnum.weiß);
 					}
-					if(fields[2] == null) {
+					if(fields[2].equals("null")) {
 						player2.setKI(null);
 					}
 					else {
 						player2.setKI(new KI_Dame());
 					}
-					game.setPlayer(2, player1);
+					game.setPlayer(2, player2);
 				} else if(count == 2) {
 					//read information of third line; first entry is the current Player, second entry the board size
-					if(fields[0] == "schwarz") {
-					game.setCurrentGamer(FarbEnum.schwarz);
+					if(fields[0].equals("schwarz")) {
+						game.setCurrentGamer(FarbEnum.schwarz);
 					} 
 					else {
 						game.setCurrentGamer(FarbEnum.weiß);
 					}
 					board = new Spielbrett(Integer.parseInt(fields[1]));
-				//information of the current boardstate
-				int size = Integer.parseInt(fields[1]);
-				gameConfigurationString = new String[size*size];
-				
+
 				} else {
+					ArrayList <String> currentXLine = new ArrayList<>();
 					for(int i = 0; i < fields.length; i++) {
-					gameConfigurationString[i] = fields[i];
+						currentXLine.add(fields[i].trim());
 					}
 					
+					fieldLines.add(currentXLine);
+
 				}
-				 count++;
-				 line = reader.readLine();
-				
-				
-			} 
-			//String representation of the boardstate in 2D Array
-			fieldsOfBoard = new String[(int) Math.sqrt(gameConfigurationString.length)][(int) Math.sqrt(gameConfigurationString.length)];
-			int counter = 0;
-			for(int i = (int) Math.sqrt(gameConfigurationString.length) - 1; i < 0 ; i--) {
-				System.out.println(fieldsOfBoard.length);
-				for(int j = (int) Math.sqrt(gameConfigurationString.length) - 1; j < 0; j--) {
-					fieldsOfBoard[i][j] = gameConfigurationString[counter];
-					System.out.println(fieldsOfBoard[i][j]);
-					counter++;
-				}
+				count++;
+				line = reader.readLine();
+			}
+			
+			// Swap field list
+			for(int i = 0; i < (int)(fieldLines.size() / 2); i++){
+				ArrayList<String> save = fieldLines.get(i);
+				fieldLines.set(i, fieldLines.get(fieldLines.size() - 1 -i));
+				fieldLines.set(fieldLines.size() - 1 - i, save);
 				
 			}
+			
 			//create new Spielfigur 
-			for(int k = 0; k < fieldsOfBoard.length; k++) {
-				for(int l = 0; l < fieldsOfBoard[k].length; l++) {
-					if(fieldsOfBoard[k][l] == "W ") {
-						Spielfigur figure = new Spielfigur(FarbEnum.weiß, new Point(k,l));
-						figure.setDame(false);
-						board.getField(k, l).setFigure(figure);
-					} else if(fieldsOfBoard[k][l] == "W+") {
-						Spielfigur figure = new Spielfigur(FarbEnum.weiß, new Point(k,l));
+			for(int l = 0; l < fieldLines.size(); l++) {
+				for(int k = 0; k < fieldLines.get(l).size(); k++) {
+					if(fieldLines.get(k).get(l).equals("W")) {
+						Spielfigur figure = new Spielfigur(FarbEnum.weiß, new Point(l,k));
+						board.getField(l, k).setFigure(figure);
+					} else if(fieldLines.get(k).get(l).equals("W+")) {
+						Spielfigur figure = new Spielfigur(FarbEnum.weiß, new Point(l,k));
 						figure.setDame(true);
-						board.getField(k, l).setFigure(figure);
-					} else if(fieldsOfBoard[k][l] == "S ") {
-						Spielfigur figure = new Spielfigur(FarbEnum.schwarz, new Point(k,l));
-						figure.setDame(false);
-						board.getField(k, l).setFigure(figure);
-					} else if(fieldsOfBoard[k][l] == "S+") {
-						Spielfigur figure = new Spielfigur(FarbEnum.weiß, new Point(k,l));
+						board.getField(l, k).setFigure(figure);
+					} else if(fieldLines.get(k).get(l).equals("S")) {
+						Spielfigur figure = new Spielfigur(FarbEnum.schwarz, new Point(l,k));
+						board.getField(l, k).setFigure(figure);
+					} else if(fieldLines.get(k).get(l).equals("S+")) {
+						Spielfigur figure = new Spielfigur(FarbEnum.schwarz, new Point(l,k));
 						figure.setDame(true);
-						board.getField(k, l).setFigure(figure);
-					} else board.getField(k, l).setFigure(null);
-					System.out.println(fieldsOfBoard[k][l]);
+						board.getField(l, k).setFigure(figure);
+					}
+					else{
+						board.getField(l, k).setFigure(null);
+					}
 				}
 			}
 			game.setGameboard(board);
-			
+
 			reader.close();
-			
+
 			return true;
 		} catch(IOException e){
 			return false;
@@ -158,7 +156,7 @@ public class DatenzugriffCSV implements iDatenzugriff {
 		finally{
 		}
 	}
-			
+
 	@Override
 	public boolean haveSaveGame(String path, String filename) {
 		File f = new File(path + filename);

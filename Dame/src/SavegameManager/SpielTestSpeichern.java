@@ -2,26 +2,30 @@ package SavegameManager;
 
 import java.awt.Point;
 
-import GameLogic.Spiel;
-import GameLogic.Spiel.eDestinationPointIsBlockedException;
-import GameLogic.Spiel.eDistanceToFarException;
-import GameLogic.Spiel.eEnemyFigureSelectedException;
-import GameLogic.Spiel.eNoBackJumpExcpetion;
-import GameLogic.Spiel.eNoDiagonalMoveException;
-import GameLogic.Spiel.eNoFigureFoundOnFieldException;
-import GameLogic.Spiel.eOutOfGameboardException;
-import GameLogic.Spiel.eOwnFigureIsBlockingException;
-import GameLogic.Spiel.eSamePositionException;
-import GameLogic.Spiel.eSomeOtherMoveErrorsException;
-import GameLogic.Spiel.eWayIsBlockedException;
-import Interfaces.iBediener;
+import Enumerations.*;
+import GameLogic.*;
+import Interfaces.*;
+import KI.*;
 
 public class SpielTestSpeichern {
 
-	public static void main(String[] args) throws eSamePositionException, eNoDiagonalMoveException, eOutOfGameboardException, eNoFigureFoundOnFieldException, eDestinationPointIsBlockedException, eSomeOtherMoveErrorsException, eDistanceToFarException, eEnemyFigureSelectedException, eNoBackJumpExcpetion, eOwnFigureIsBlockingException, eWayIsBlockedException {
-		iBediener newGame = new Spiel();
-		newGame.move(new Point(0,3), new Point(1, 4));
-		//newGame.save();
+	public static void main(String[] args) {
+		try{
+			Spiel newGame = new Spiel();
+			newGame.setPlayer(1, new Spieler(new KI_Dame(),FarbEnum.weiß));
+			newGame.setPlayer(2, new Spieler(new KI_Dame(),FarbEnum.schwarz));
+			newGame.setCurrentGamer(FarbEnum.weiß);
+			newGame.setGameboard(new Spielbrett(10));
+			newGame.getCurrentGamer().move(newGame, null);
+			newGame.getCurrentGamer().move(newGame, null);
+			newGame.getCurrentGamer().move(newGame, null);
+			newGame.getCurrentGamer().move(newGame, null);
+			newGame.outputGameboardCSV();
+			newGame.save("./", "dame");
+		}
+		catch(Exception e){
+			System.out.println("Shit happens: " + e.getMessage());
+		}
 	}
 
 }
