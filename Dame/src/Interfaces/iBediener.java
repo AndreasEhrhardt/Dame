@@ -72,19 +72,19 @@ public interface iBediener {
 	 * Ask if a new game should be generated or a exist one should be load
 	 * @return
 	 */
-	boolean askNewGame();
+	int askNewGame();
 	
 	/**
 	 * 
 	 * @return
 	 */
-	void save();
+	boolean save(String path, String name);
 	
 	/**
 	 * 
 	 * @return
 	 */
-	void load();
+	boolean load(String path, String name);
 	
 	/**
 	 * Creates a new player or KI

@@ -5,6 +5,7 @@ package GameLogic;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.SynchronousQueue;
 
 import javax.swing.JFrame;
 
@@ -26,41 +27,18 @@ public class Spiel implements iBediener, Serializable {
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Exceptions
 
-	public static class eNoDiagonalMoveException extends Exception {
-	}
-
-	public static class eInvalidPointException extends Exception {
-	}
-
-	public static class eSamePositionException extends Exception {
-	}
-
-	public static class eOutOfGameboardException extends Exception {
-	}
-
-	public static class eDestinationPointIsBlockedException extends Exception {
-	}
-
-	public static class eNoFigureFoundOnFieldException extends Exception {
-	}
-
-	public static class eSomeOtherMoveErrorsException extends Exception {
-	}
-
-	public static class eEnemyFigureSelectedException extends Exception {
-	}
-
-	public static class eDistanceToFarException extends Exception {
-	}
-
-	public static class eNoBackJumpExcpetion extends Exception {
-	}
-
-	public static class eWayIsBlockedException extends Exception {
-	}
-
-	public static class eOwnFigureIsBlockingException extends Exception {
-	}
+	public static class eNoDiagonalMoveException extends Exception {}
+	public static class eInvalidPointException extends Exception {}
+	public static class eSamePositionException extends Exception {}
+	public static class eOutOfGameboardException extends Exception {}
+	public static class eDestinationPointIsBlockedException extends Exception {}
+	public static class eNoFigureFoundOnFieldException extends Exception {}
+	public static class eSomeOtherMoveErrorsException extends Exception {}
+	public static class eEnemyFigureSelectedException extends Exception {}
+	public static class eDistanceToFarException extends Exception {}
+	public static class eNoBackJumpExcpetion extends Exception {}
+	public static class eWayIsBlockedException extends Exception {}
+	public static class eOwnFigureIsBlockingException extends Exception {}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Properties
@@ -104,17 +82,42 @@ public class Spiel implements iBediener, Serializable {
 		gamer = new Spieler[2];
 
 		// Create gameboard
-		this.gameboard = this.createGameBoard();
+		this.gameboard = new Spielbrett();
 
-		if (askNewGame()) {
+		// Ask if new game, restore last game or load CSV-File
+		int newGameState = askNewGame();
+
+		// Loading success
+		boolean loadingSuccess = false;
+
+		// If not new game, try to load
+		if(newGameState == 2){
+			DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
+			loadingSuccess = serial.loadGame(this);
+		} else if(newGameState == 3){
+			// Get filepath
+			String path = getFilePath();
+
+			// Get path and name
+			String pathAndName[] = this.getPathAndName(path);
+			if(pathAndName.length != 2) loadingSuccess = false;
+			else{
+				// Load from CSV
+				loadingSuccess = load(pathAndName[0], pathAndName[1]);
+			}
+		}
+
+		if (!loadingSuccess) {
+			if(newGameState != 1) System.out.println("Fehler beim laden! (Existiert die Datei?)");
+			
+			// Lets create a new gameboard
+			this.createGameBoard();
+
 			// Create gamer 1
 			gamer[0] = createNewPlayer(1);
 
 			// Create gamer 2
 			gamer[1] = createNewPlayer(2);
-		} else {
-			DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
-			serial.loadGame(this);
 		}
 
 		// Set start player
@@ -140,9 +143,8 @@ public class Spiel implements iBediener, Serializable {
 
 				// Ask for other save-methods
 				this.askForSaving();
-		
-			} else
-				firstRun = false;
+
+			} else firstRun = false;
 
 			// Current player have to move
 			this.currentGamer.move(this, null);
@@ -153,6 +155,9 @@ public class Spiel implements iBediener, Serializable {
 
 	}
 
+	/**
+	 * 
+	 */
 	private void askForSaving() {
 		Scanner sc = new Scanner(System.in);
 		for (int i = 0; i <= maxLoopCount; i++) {
@@ -164,10 +169,19 @@ public class Spiel implements iBediener, Serializable {
 				String status = sc.next();
 				status = status.toUpperCase();
 				if (status.equals("J")) {
-					DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
-					serial.saveGame(this);
-					
-					return;
+					// Get filepath
+					String path = getFilePath();
+
+					// Get path and name
+					String pathAndName[] = this.getPathAndName(path);
+					if(pathAndName.length != 2) continue;
+
+					// Save as csv
+					if(this.save(pathAndName[0], pathAndName[1])){
+						System.out.println("Speichern erfolgreich!");
+						return;
+					}
+					else System.out.println("Fehler beim speichern!");
 				} else if (status.equals("N")) {
 					return;
 				}
@@ -179,10 +193,42 @@ public class Spiel implements iBediener, Serializable {
 				continue;
 			} finally {
 				// Check if endless loop
-				if (i == this.maxLoopCount)
-					return;
+				if (i == Spiel.maxLoopCount) return;
 			}
 		}
+	}
+
+	private String[] getPathAndName(String filePath){
+		// Get file path
+		String filePathSplittet[] = filePath.split("/");
+
+		// Check if splittet path has values
+		if(filePathSplittet.length <= 0) return new String[0];
+
+		// Remove filename to get path
+		filePath = filePath.replace(filePathSplittet[filePathSplittet.length - 1], "");
+
+		return new String[]{filePath,filePathSplittet[filePathSplittet.length - 1]};
+	}
+
+	private String getFilePath(){
+		Scanner sc = new Scanner(System.in);
+		for (int i = 0; i <= maxLoopCount; i++) {
+			try {
+				// Output information
+				System.out.print("Path: ");
+
+				// Read result
+				String path = sc.next();
+				System.out.println("");
+				return path;
+			} catch (NoSuchElementException | IllegalStateException e) {
+			} finally {
+				// Check if endless loop
+				if (i == Spiel.maxLoopCount) break;
+			}
+		}
+		return "";
 	}
 
 	/**
@@ -648,7 +694,7 @@ public class Spiel implements iBediener, Serializable {
 		// Create gameboard
 		return new Spielbrett(fieldCount);
 	}
-	
+
 	/**
 	 * Method to convert the current gaming state into a String to save in CSV
 	 * 
@@ -658,20 +704,24 @@ public class Spiel implements iBediener, Serializable {
 		// Get gameboard fields
 		Spielfeld felder[][] = this.gameboard.getFields();
 		String gameString = "";
+		
 		// first row: information of player 1
 		gameString += this.getPlayer(1).getName() + ";" + this.getPlayer(1).getColor() + ";";
 		if (this.getPlayer(1).getKi() == null)
 			gameString += "null" + "\n";
 		else
 			gameString += "KI" + "\n";
+		
 		// second row: information of player 2
 		gameString += this.getPlayer(2).getName() + ";" + this.getPlayer(2).getColor() + ";";
 		if (this.getPlayer(2).getKi() == null)
 			gameString += "null" + "\n";
 		else
 			gameString += "KI" + "\n";
+		
 		// third row: saves who is the current Player and the game size
-		gameString += this.getCurrentGamer().getColor() + ";" + this.getGameboardSize() + "\n";
+		gameString += this.getCurrentGamer().getColor() + ";" + this.getGameboard().getFields().length + "\n";
+		
 		// fourth row.. saves the current board state
 		for (int i = felder.length - 1; i >= 0; i--) {
 			// For every column
@@ -692,10 +742,8 @@ public class Spiel implements iBediener, Serializable {
 							gameString += "W ";
 						}
 					} else if (currentFigure.isDame()) {
-
 						gameString += "S+";
 					} else {
-
 						gameString += "S ";
 					}
 				}
@@ -786,22 +834,41 @@ public class Spiel implements iBediener, Serializable {
 	 * 
 	 * @see Interfaces.iBediener#load()
 	 */
-	public void load() {
-		// load from CSV
+	public boolean load(String path, String name) {
+		// Check if file name is valid
+		if(!name.endsWith(".csv")) name += ".csv";
+
+		// Check if path ends with "/"-tag
+		if(!path.endsWith("/")) path += "/";
+
+		// Check if path is valid dir
+		File f = new File(path);
+		if(!(f.exists() && f.isDirectory())) return false;
+
+		// Load from CSV
 		iDatenzugriff csv = new DatenzugriffCSV();
-		csv.loadGame(this);
+		return csv.loadGame(path,name,this);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see Interfaces.iBediener#save()
+	 * @see Interfaces.iBediener#save() 
 	 */
-	public void save() {
-		// safe as CSV
-		iDatenzugriff csv = new DatenzugriffCSV();
-		csv.saveGame(csvString());
+	public boolean save(String path, String name) {
+		// Check if file name is valid
+		if(!name.endsWith(".csv")) name += ".csv";
 
+		// Check if path ends with "/"-tag
+		if(!path.endsWith("/")) path += "/";
+
+		// Check if path is valid dir
+		File f = new File(path);
+		if(!(f.exists() && f.isDirectory())) return false;
+
+		// Safe as CSV
+		iDatenzugriff csv = new DatenzugriffCSV();
+		return csv.saveGame(path,name,this);
 	}
 
 	/**
@@ -1062,21 +1129,16 @@ public class Spiel implements iBediener, Serializable {
 	 * playing from a saved game
 	 */
 	@Override
-	public boolean askNewGame() {
+	public int askNewGame() {
 		// Create help variables
 		int gameType = 0;
 		Scanner sc = new Scanner(System.in);
-
-		// Check if savegame exists
-		DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
-		if (!serial.haveSaveGame())
-			return true;
 
 		// Get gametype
 		for (int i = 0; i <= maxLoopCount; i++) {
 			try {
 				// Ask for new game / load game
-				System.out.print("Create new game (1) or load game (2): ");
+				System.out.print("Create new game (1), restore last game (2) or load game (3): ");
 
 				// Get result
 				gameType = sc.nextInt();
@@ -1085,8 +1147,7 @@ public class Spiel implements iBediener, Serializable {
 				System.out.println("");
 
 				// Check if result is valid
-				if (gameType == 1 || gameType == 2)
-					break;
+				if (gameType == 1 || gameType == 2 || gameType == 3) break;
 
 			} catch (NoSuchElementException | IllegalStateException e) {
 				// Clear input buffer
@@ -1101,9 +1162,6 @@ public class Spiel implements iBediener, Serializable {
 		}
 
 		// Return result
-		if (gameType == 1)
-			return true;
-		else
-			return false;
+		return gameType;
 	}
 }

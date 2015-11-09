@@ -20,11 +20,8 @@ public class SpielTestSpeichern {
 
 	public static void main(String[] args) throws eSamePositionException, eNoDiagonalMoveException, eOutOfGameboardException, eNoFigureFoundOnFieldException, eDestinationPointIsBlockedException, eSomeOtherMoveErrorsException, eDistanceToFarException, eEnemyFigureSelectedException, eNoBackJumpExcpetion, eOwnFigureIsBlockingException, eWayIsBlockedException {
 		iBediener newGame = new Spiel();
-		//richtige Punkte?
 		newGame.move(new Point(0,3), new Point(1, 4));
-		newGame.save();
-		
-
+		//newGame.save();
 	}
 
 }
