@@ -36,6 +36,9 @@ public class KI_Dame extends KI implements Serializable {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods
 
+	/* (non-Javadoc)
+	 * @see KI.KI#move(GameLogic.Spiel, GameLogic.Spieler)
+	 */
 	public void move(Spiel game, Spieler player){
 		try{
 			System.out.print("("+ player.getName() + " - " + FarbEnum.getColorName(player.getColor()) + ")" + " Thinking");
@@ -63,6 +66,7 @@ public class KI_Dame extends KI implements Serializable {
 				}
 			}
 		}
+		
 		if(blowable.size() != 0){
 			try{
 				int random = (int)(Math.random() * (blowable.size() - 1));

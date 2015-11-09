@@ -115,7 +115,7 @@ public class Spiel implements iBediener, Serializable {
 			if(newGameState != 1) System.out.println("Fehler beim laden! (Existiert die Datei?)");
 			
 			// Lets create a new gameboard
-			this.createGameBoard();
+			this.setGameboard(this.createGameBoard());
 
 			// Create gamer 1
 			gamer[0] = createNewPlayer(1);
