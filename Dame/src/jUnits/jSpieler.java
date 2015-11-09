@@ -21,9 +21,15 @@ import KI.KI_Dame;
 
 public class jSpieler {
 	@Test
-	public void Test(){
-	Spiel game = new Spiel();
-	Point fromPoint = new Point(1,2);
-	Spieler spieler = new Spieler();
+	public void posToStringTest(){
+		boolean wow=false;
+		String erg="A1";
+		Spieler ali= new Spieler();
+		Point A1 = new Point();
+		A1.setLocation(0,2);
+		System.out.println(ali.posToString(A1));
+		if(ali.posToString(A1)==erg){
+			wow = true;
+		}assertTrue(wow);
 	}
 }

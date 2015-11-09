@@ -60,7 +60,7 @@ public class Spieler implements Serializable {
 	 * 
 	 * @param game
 	 */
-	protected void move(Spiel game, Point fromPoint) {
+	public void move(Spiel game, Point fromPoint) {
 		if(this.ki_player != null){
 			this.ki_player.move(game, this);
 			return;
@@ -181,6 +181,7 @@ public class Spieler implements Serializable {
 		 
 		return returnValue.toString();
 	}
+	
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods ( Getter)
