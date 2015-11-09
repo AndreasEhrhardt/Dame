@@ -726,7 +726,7 @@ public class Spiel implements iBediener, Serializable {
 				// Get figure of field
 				Spielfigur currentFigure = felder[j][i].getFigure();
 				// Write seperator
-				gameString += ";";
+				
 				// Check if field has figure or not
 				if (currentFigure == null) {
 					// e for empty
@@ -743,7 +743,7 @@ public class Spiel implements iBediener, Serializable {
 					} else {
 						gameString += "S ";
 					}
-				}
+				}gameString += ";";
 			}
 			// End of line
 			gameString += "\n";

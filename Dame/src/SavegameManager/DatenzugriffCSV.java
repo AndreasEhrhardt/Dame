@@ -50,12 +50,12 @@ public class DatenzugriffCSV implements iDatenzugriff {
 			String[] fields = line.split(";");
 			Spieler player1 = new Spieler();
 			Spieler player2 = new Spieler();
-			Spielbrett board = null;
-			String[] gameConfigurationString = null;
+			Spielbrett board  = null;
+			String[] gameConfigurationString = new String[400];
 			String [][] fieldsOfBoard;
 			int count = 0;
 			while(line != null) {
-				line = reader.readLine();
+				fields = line.split(";");
 				if (count == 0) {
 					//read information of first line and assign them to player 1
 					player1.setName(fields[0]);
@@ -100,25 +100,33 @@ public class DatenzugriffCSV implements iDatenzugriff {
 				//information of the current boardstate
 				int size = Integer.parseInt(fields[1]);
 				gameConfigurationString = new String[size*size];
-				for(int i = 0; i < line.length(); i++) {
+				
+				} else {
+					for(int i = 0; i < fields.length; i++) {
 					gameConfigurationString[i] = fields[i];
+					}
+					
 				}
-				count++; 
-				}
+				 count++;
+				 line = reader.readLine();
+				
+				
 			} 
 			//String representation of the boardstate in 2D Array
-			int counter = 0; 
 			fieldsOfBoard = new String[(int) Math.sqrt(gameConfigurationString.length)][(int) Math.sqrt(gameConfigurationString.length)];
-			
-			for(int i = 0; i < (int) Math.sqrt(gameConfigurationString.length); i++) {
-				for(int j = 0; j < (int) Math.sqrt(gameConfigurationString.length); j++) {
+			int counter = 0;
+			for(int i = (int) Math.sqrt(gameConfigurationString.length) - 1; i < 0 ; i--) {
+				System.out.println(fieldsOfBoard.length);
+				for(int j = (int) Math.sqrt(gameConfigurationString.length) - 1; j < 0; j--) {
 					fieldsOfBoard[i][j] = gameConfigurationString[counter];
+					System.out.println(fieldsOfBoard[i][j]);
 					counter++;
 				}
+				
 			}
 			//create new Spielfigur 
 			for(int k = 0; k < fieldsOfBoard.length; k++) {
-				for(int l = 0; k < fieldsOfBoard[k].length; l++) {
+				for(int l = 0; l < fieldsOfBoard[k].length; l++) {
 					if(fieldsOfBoard[k][l] == "W ") {
 						Spielfigur figure = new Spielfigur(FarbEnum.weiß, new Point(k,l));
 						figure.setDame(false);
@@ -136,6 +144,7 @@ public class DatenzugriffCSV implements iDatenzugriff {
 						figure.setDame(true);
 						board.getField(k, l).setFigure(figure);
 					} else board.getField(k, l).setFigure(null);
+					System.out.println(fieldsOfBoard[k][l]);
 				}
 			}
 			game.setGameboard(board);
