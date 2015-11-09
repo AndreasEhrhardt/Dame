@@ -122,10 +122,10 @@ public class Spiel implements iBediener, Serializable {
 
 			// Create gamer 2
 			gamer[1] = createNewPlayer(2);
+			
+			// Set start player
+			this.currentGamer = gamer[1];
 		}
-
-		// Set start player
-		this.currentGamer = gamer[0];
 	}
 
 	/**

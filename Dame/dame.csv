@@ -1,13 +1,11 @@
-NPC;weiß;KI
+Test;wei?;null
 NPC;schwarz;KI
-weiß;10
-e;S ;e;S ;e;S ;e;S ;e;S 
-S ;e;S ;e;S ;e;S ;e;S ;e
-e;S ;e;e;e;e;e;S ;e;S 
-e;e;S ;e;S ;e;e;e;e;e
-e;e;e;e;e;e;e;e;e;e
-W ;e;e;e;e;e;e;e;e;e
-e;e;e;e;e;e;e;e;e;e
-W ;e;e;e;W ;e;W ;e;W ;e
-e;W ;e;W ;e;W ;e;W ;e;W 
-W ;e;W ;e;W ;e;W ;e;W ;e
+schwarz;8
+e;S ;e;S ;e;S ;e;S 
+S ;e;S ;e;S ;e;S ;e
+e;S ;e;S ;e;S ;e;e
+e;e;e;e;e;e;S ;e
+e;W ;e;e;e;e;e;e
+e;e;W ;e;W ;e;W ;e
+e;W ;e;W ;e;W ;e;W 
+W ;e;W ;e;W ;e;W ;e
