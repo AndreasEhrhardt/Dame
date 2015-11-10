@@ -26,9 +26,9 @@ public class jSpieler {
 		String erg="A1";
 		Spieler ali= new Spieler();
 		Point A1 = new Point();
-		A1.setLocation(0,2);
+		A1.setLocation(0,0);
 		System.out.println(ali.posToString(A1));
-		if(ali.posToString(A1)==erg){
+		if(ali.posToString(A1).equals(erg)){
 			wow = true;
 		}assertTrue(wow);
 	}
