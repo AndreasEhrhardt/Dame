@@ -202,6 +202,10 @@ public class Spiel implements iBediener, Serializable {
 		}
 	}
 
+	/**
+	 * @param filePath
+	 * @return
+	 */
 	private String[] getPathAndName(String filePath){
 		// Get file path
 		String filePathSplittet[] = filePath.split("/");
@@ -215,6 +219,9 @@ public class Spiel implements iBediener, Serializable {
 		return new String[]{filePath,filePathSplittet[filePathSplittet.length - 1]};
 	}
 
+	/**
+	 * @return
+	 */
 	private String getFilePath(){
 		Scanner sc = new Scanner(System.in);
 		for (int i = 0; i <= maxLoopCount; i++) {
@@ -527,6 +534,10 @@ public class Spiel implements iBediener, Serializable {
 		return blowable;
 	}
 
+	/**
+	 * @param color
+	 * @return
+	 */
 	private boolean canMove(FarbEnum color) {
 		// Collect all available figures
 		Spielfeld felder[][] = this.gameboard.getFields();
@@ -561,29 +572,6 @@ public class Spiel implements iBediener, Serializable {
 
 		return false;
 	}
-
-	/*
-	 * private int figureCount(Point fromPoint, Point toPoint) throws
-	 * eOwnFigureIsBlockingException{ int moveX, moveY, currentX =
-	 * (int)fromPoint.getX(), currentY = (int)fromPoint.getY(); int figures = 0;
-	 * 
-	 * if(fromPoint.getX() < toPoint.getX()) moveX = 1; else moveX = -1;
-	 * 
-	 * if(fromPoint.getY() < toPoint.getY()) moveY = 1; else moveY = -1;
-	 * 
-	 * do{ currentX += moveX; currentY += moveY;
-	 * 
-	 * Spielfeld currentField = this.gameboard.getField(currentX, currentY);
-	 * Spielfigur currentFigure = currentField.getFigure();
-	 * 
-	 * if(currentFigure != null){ if(currentFigure.getColor() ==
-	 * this.currentGamer.getColor()) throw new eOwnFigureIsBlockingException();
-	 * 
-	 * figures++; } }while(currentX != toPoint.getX() & currentY !=
-	 * toPoint.getY());
-	 * 
-	 * return figures; }
-	 */
 
 	private void checkForBlowing() {
 		// Create blowing list

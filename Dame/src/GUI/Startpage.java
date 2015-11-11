@@ -27,7 +27,7 @@ public class Startpage extends JPanel {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		
-		ImageButton button = new ImageButton("Button 1");
+		ImageButton button = new ImageButton("Play");
 		button.setDefaultImage("Images/Play.png");
 		button.setPressImage("Images/Play_Click.png");
 		button.setHoverImage("Images/Play_Hover.png");
@@ -36,7 +36,7 @@ public class Startpage extends JPanel {
         button.setPreferredSize(new Dimension(200,200));
         this.add(button, c);
 
-        button = new ImageButton();
+        button = new ImageButton("Load");
         button.setDefaultImage("Images/Load.png");
         button.setPressImage("Images/Load_Pressed.png");
         button.setHoverImage("Images/Load_Hover.png");

@@ -33,33 +33,72 @@ public class MainPanel extends JPanel {
 	//++ Constructor
 
 	public MainPanel(){
+		// Load background image
 		try {
 			background = ImageIO.read( ClassLoader.getSystemResource("Images/Background.png") );
 		} catch (IOException e) {}
 
+		// Create components
 		startpage = new Startpage();
-
-		this.add(startpage);
-
+		
+		// Disable layout manager
 		this.setLayout(null);
-
+		
+		// Add component listener
 		this.addComponentListener(new EventHandler().new eMainPanel());
 
+		// Show the startpage
 		this.showStartpage();
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods
 
-	public void showStartpage(){
-		this.setCurrentComponent(startpage);
-	}
-
+	/**
+	 * 
+	 */
 	public void fitComponent(){
 		if(this.currentComponent != null){
 			this.currentComponent.setLocation(30, 30);
 			this.currentComponent.setSize(this.getSize().width - 60, this.getSize().height - 60);
 		}
+	}
+	
+	/**
+	 * 
+	 */
+	public void back(){
+		if(currentComponent instanceof LoadingMenu) this.showStartpage();
+	}
+	
+	public void forward(){
+		
+	}
+	
+	public void hideCurrentComponent(){
+		if(this.currentComponent != null){
+			this.currentComponent.setVisible(false);
+			this.remove(this.currentComponent);
+		}
+	}
+	
+	public void showCurrentComponent(){
+		if(this.currentComponent != null){
+			this.currentComponent.setVisible(true);
+			this.add(currentComponent);
+		}
+	}
+	
+	public void showStartpage(){
+		hideCurrentComponent();
+		this.currentComponent = this.startpage;
+		showCurrentComponent();
+	}
+	
+	public void showLoadingMenu(){
+		hideCurrentComponent();
+		this.currentComponent = this.startpage;
+		showCurrentComponent();
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

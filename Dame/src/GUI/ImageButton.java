@@ -120,22 +120,35 @@ public class ImageButton extends JButton  {
 		g.drawImage(currentImage, 0, 0, (int)size.getWidth(), (int)size.getHeight(), this);
 
 		// Set text
-		Rectangle currentSize = new Rectangle(0,0,(int)this.getSize().getWidth(),(int)this.getSize().getHeight());
-		currentSize.setLocation(0, (int)currentSize.getHeight() / 3 * 2);
-		this.drawCenteredString(g, this.getText(), currentSize);
+		if(getModel().isRollover() && !this.getText().isEmpty()){			
+			Rectangle currentSize = new Rectangle(0,0,(int)this.getSize().getWidth(),(int)this.getSize().getHeight());
+			currentSize.setLocation(0, (int)currentSize.getHeight() - 10);
+			currentSize.setSize(currentSize.width, 10);
+			
+			g.setFont(new Font("Gill Sans",Font.BOLD,21));
+			g.setColor(Color.white);
+			this.drawCenteredString(g, this.getText(), currentSize);
+		}
 	}
 
-	public void drawCenteredString(Graphics g, String text, Rectangle rect){
+	public Rectangle drawCenteredString(Graphics g, String text, Rectangle rect){
 		// Get the FontMetrics
 		FontMetrics metrics = g.getFontMetrics(g.getFont());
+		
 		// Determine the X coordinate for the text
-		int x = (rect.width - metrics.stringWidth(text)) / 2;
+		int x = (rect.width - metrics.stringWidth(text)) / 2 + (int)rect.getX();
+		
 		// Determine the Y coordinate for the text
-		int y = ((rect.height - metrics.getHeight()) / 2) - metrics.getAscent() + (int)rect.getY();
+		int y = ((rect.height - metrics.getHeight()) / 2) + (int)rect.getY();
+		
 		// Draw the String
 		g.drawString(text, x, y);
+		
 		// Dispose the Graphics
 		g.dispose();
+		
+		// Return the drawn size
+		return new Rectangle(x,y,metrics.stringWidth(text),metrics.getHeight());
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
