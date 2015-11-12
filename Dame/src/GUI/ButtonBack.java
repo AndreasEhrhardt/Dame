@@ -15,14 +15,12 @@ public class ButtonBack extends ImageButton {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
 
-	MainPanel mp = null;
-
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
-	public ButtonBack(MainPanel mp){
+	public ButtonBack(MainPanelComponent mpc){
 		// Set main panel
-		this.setMainPanel(mp);
+		super(mpc);
 		
 		// Set button design
 		this.setDefaultImage("Images/Back.png");
@@ -34,7 +32,7 @@ public class ButtonBack extends ImageButton {
 	//++ Methods
 
 	public void back(){
-		mp.back();
+		mpc.getMainPanel().back();
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -43,12 +41,6 @@ public class ButtonBack extends ImageButton {
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Setter)
-
-	public void setMainPanel(MainPanel mp){
-		if(mp != null){
-			this.mp = mp;
-		}
-	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods (Override)

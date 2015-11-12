@@ -7,44 +7,56 @@ package GUI;
 //## Imports
 
 import javax.swing.*;
+
+import Events.*;
+import Events.EventHandler.*;
+
 import java.awt.*;
 
 //###########################################################
 //## Class
 
-public class Startpage extends JPanel {
+public class Startpage extends MainPanelComponent {
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
 
-
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
-	public Startpage(){
+	public Startpage(MainPanel mp){
+		// Call super constructor
+		super(mp);
+		
+		// Prepare grid-layout
 		this.setLayout(new GridBagLayout());
 		
 		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.BOTH;
 		
-		ImageButton button = new ImageButton("Play");
-		button.setDefaultImage("Images/Play.png");
-		button.setPressImage("Images/Play_Click.png");
-		button.setHoverImage("Images/Play_Hover.png");
+		ImageButton playButton = new ImageButton(this,"Play");
+		playButton.setDefaultImage("Images/Play.png");
+		playButton.setPressImage("Images/Play_Click.png");
+		playButton.setHoverImage("Images/Play_Hover.png");
+        
+
+        ImageButton loadButton = new ImageButton(this,"Load");
+        loadButton.setDefaultImage("Images/Load.png");
+        loadButton.setPressImage("Images/Load_Pressed.png");
+        loadButton.setHoverImage("Images/Load_Hover.png");
+        
+        playButton.setPreferredSize(new Dimension(200,200));
+        loadButton.setPreferredSize(new Dimension(200,200));
+        
+        loadButton.addActionListener(new EventHandler().new eShowLoadingMenuButton());
+        
         c.gridx = 0;
         c.gridy = 0;
-        button.setPreferredSize(new Dimension(200,200));
-        this.add(button, c);
-
-        button = new ImageButton("Load");
-        button.setDefaultImage("Images/Load.png");
-        button.setPressImage("Images/Load_Pressed.png");
-        button.setHoverImage("Images/Load_Hover.png");
+        this.add(playButton, c);
+        
         c.insets = new Insets(0,150,0,0);
         c.gridx = 1;
         c.gridy = 0;
-        button.setPreferredSize(new Dimension(200,200));
-        this.add(button, c);
+        this.add(loadButton, c);
 	}
 	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -53,7 +65,6 @@ public class Startpage extends JPanel {
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
-
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Setter)

@@ -3,6 +3,9 @@
 
 package GUI;
 
+//###########################################################
+//## Import
+
 import javax.imageio.ImageIO;
 
 //###########################################################
@@ -22,23 +25,31 @@ public class ImageButton extends JButton  {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
 
-	BufferedImage defaultImage = null;
-	BufferedImage hoverImage = null;
-	BufferedImage pressImage = null;
+	private BufferedImage defaultImage = null;
+	private BufferedImage hoverImage = null;
+	private BufferedImage pressImage = null;
+	private BufferedImage disabledImage = null;
+
+	boolean disabled = false;
+	
+	MainPanelComponent mpc;
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
-	public ImageButton(){
+	public ImageButton(MainPanelComponent mp){
 		super();
 
 		this.setOpaque(false);
 		this.setContentAreaFilled(false);
 		this.setBorderPainted(false);
+		
+		this.setParent(mp);
 	}
 
-	public ImageButton(String text){
-		this();
+	public ImageButton(MainPanelComponent mp, String text){
+		this(mp);
+		
 		this.setText(text);
 	}
 
@@ -70,6 +81,9 @@ public class ImageButton extends JButton  {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
 
+	public MainPanelComponent getParent(){
+		return this.mpc;
+	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Setter)
@@ -97,15 +111,40 @@ public class ImageButton extends JButton  {
 		// Start repaint
 		this.repaint();
 	}
+
+	public void setDisabledImage(String path){
+		// Set image
+		this.disabledImage = this.getImage(path);
+
+		// Start repaint
+		this.repaint();
+	}
+
+	public void setDisabled(boolean state){
+		this.disabled = state;
+	}
+	
+	public void setParent(MainPanelComponent mpc){
+		if(mpc == null) throw new RuntimeException();
+		
+		this.mpc = mpc;
+	}
+
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods (Override)
 
 	@Override
 	protected void paintComponent(Graphics g){		
 		// Detect current image
-		BufferedImage currentImage = this.defaultImage;
-		if(getModel().isPressed()) currentImage = this.pressImage;
-		else if(getModel().isRollover()) currentImage = this.hoverImage;
+		BufferedImage currentImage = null;
+		if(this.disabled){
+			currentImage = this.disabledImage;
+		}
+		else{
+			currentImage = this.defaultImage;
+			if(getModel().isPressed()) currentImage = this.pressImage;
+			else if(getModel().isRollover()) currentImage = this.hoverImage;
+		}
 
 		// Check if image is valid
 		if(currentImage == null){
@@ -124,7 +163,7 @@ public class ImageButton extends JButton  {
 			Rectangle currentSize = new Rectangle(0,0,(int)this.getSize().getWidth(),(int)this.getSize().getHeight());
 			currentSize.setLocation(0, (int)currentSize.getHeight() - 10);
 			currentSize.setSize(currentSize.width, 10);
-			
+
 			g.setFont(new Font("Gill Sans",Font.BOLD,21));
 			g.setColor(Color.white);
 			this.drawCenteredString(g, this.getText(), currentSize);
@@ -134,19 +173,19 @@ public class ImageButton extends JButton  {
 	public Rectangle drawCenteredString(Graphics g, String text, Rectangle rect){
 		// Get the FontMetrics
 		FontMetrics metrics = g.getFontMetrics(g.getFont());
-		
+
 		// Determine the X coordinate for the text
 		int x = (rect.width - metrics.stringWidth(text)) / 2 + (int)rect.getX();
-		
+
 		// Determine the Y coordinate for the text
 		int y = ((rect.height - metrics.getHeight()) / 2) + (int)rect.getY();
-		
+
 		// Draw the String
 		g.drawString(text, x, y);
-		
+
 		// Dispose the Graphics
 		g.dispose();
-		
+
 		// Return the drawn size
 		return new Rectangle(x,y,metrics.stringWidth(text),metrics.getHeight());
 	}

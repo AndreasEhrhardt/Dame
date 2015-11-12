@@ -14,22 +14,48 @@ import Events.*;
 //###########################################################
 //## Class
 
-public class LoadingMenu extends JPanel{
+public class LoadingMenu extends MainPanelComponent {
 	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
 
-	ImageButton loadingSerialize = null;
-	ImageButton loadingCSV = null;
+	ImageButton loadingSerializeButton = null;
+	ImageButton loadingCSVButton = null;
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
-	public LoadingMenu(){
+	public LoadingMenu(MainPanel mp){
+		// Call super constructor
+		super(mp);
+		
 		this.addComponentListener(new EventHandler().new eLoadingMenu());
 		
-		loadingSerialize = new ImageButton();
-		loadingSerialize.setDefaultImage("");
+		loadingSerializeButton = new ImageButton(this,"Restore");
+		loadingSerializeButton.setDefaultImage("Images/Restore.png");
+		loadingSerializeButton.setHoverImage("Images/Restore_Hover.png");
+		loadingSerializeButton.setPressImage("Images/Restore_Pressed.png");
+		loadingSerializeButton.setDisabledImage("Images/Restore_Disabled.png");
+		
+		loadingCSVButton = new ImageButton(this,"Load file");
+		loadingCSVButton.setDefaultImage("Images/Load_File.png");
+		loadingCSVButton.setHoverImage("Images/Load_File_Hover.png");
+		loadingCSVButton.setPressImage("Images/Load_File_Pressed.png");
+		loadingCSVButton.setDisabledImage("Images/Load_File_Disabled.png");
+		
+		// Prepare grid-layout
+		this.setLayout(new GridBagLayout());
+		
+		GridBagConstraints c = new GridBagConstraints();
+		
+		loadingSerializeButton.setPreferredSize(new Dimension(200,200));
+		loadingCSVButton.setPreferredSize(new Dimension(200,200));
+		
+        c.gridx = 0; c.gridy = 0; 
+        this.add(loadingSerializeButton, c);
+        c.insets = new Insets(0,150,0,0);
+        c.gridx = 1; c.gridy = 0;
+        this.add(loadingCSVButton, c);
 	}
 	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -39,6 +65,9 @@ public class LoadingMenu extends JPanel{
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
 
+	public ImageButton getLoadingSerializeButton(){
+		return this.loadingSerializeButton;
+	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Setter)

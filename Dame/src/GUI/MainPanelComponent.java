@@ -1,57 +1,36 @@
 //###########################################################
 //## Package
 
-package GUI;	
+package GUI;
 
 //###########################################################
 //## Imports
 
-import javax.swing.*;
-
-import Events.*;
-import Events.EventHandler.*;
-
-import java.awt.*;
-import GameLogic.*;
+import javax.swing.JPanel;
 
 //###########################################################
 //## Class
 
-public class MainFrame extends JFrame {
+public abstract class MainPanelComponent extends JPanel{
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
-	
-	Spiel game;
+
 	MainPanel mp;
-	
+
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
-	private MainFrame(){
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	
-		mp = new MainPanel(this);
-		this.setContentPane(mp);
+	public MainPanelComponent(MainPanel mp){
+		this.setMainPanel(mp);
 		
-		Rectangle rec = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
-		this.setSize(rec.width,rec.height);
-		this.setLocation(0,0);
-		
-		//this.setUndecorated(true);
+		mp.add(this);
+		this.setVisible(false);
+	}
 
-		this.setVisible(true);
-	}
-	
-	public MainFrame(Spiel game){
-		this();
-		
-		this.setGame(game);
-	}
-	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods
-	
+
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
@@ -63,12 +42,16 @@ public class MainFrame extends JFrame {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Setter)
 
-	public void setGame(Spiel game){
-		if(game == null) throw new RuntimeException();
+	public void setMainPanel(MainPanel mp){
+		if(mp == null) throw new RuntimeException();
 		
-		this.game = game;
+		this.mp = mp;
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods (Override)
+
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Inner class
+
 }

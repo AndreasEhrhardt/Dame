@@ -26,20 +26,28 @@ public class MainPanel extends JPanel {
 	//++ Properties
 
 	Startpage startpage;
+	LoadingMenu loadingMenu;
+	
 	Component currentComponent = null;
 	BufferedImage background;
+	
+	MainFrame mf;
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
-	public MainPanel(){
+	public MainPanel(MainFrame mf){
+		// Set parent
+		this.setMainFrame(mf);
+		
 		// Load background image
 		try {
 			background = ImageIO.read( ClassLoader.getSystemResource("Images/Background.png") );
 		} catch (IOException e) {}
 
 		// Create components
-		startpage = new Startpage();
+		startpage = new Startpage(this);
+		loadingMenu = new LoadingMenu(this);
 		
 		// Disable layout manager
 		this.setLayout(null);
@@ -49,6 +57,7 @@ public class MainPanel extends JPanel {
 
 		// Show the startpage
 		this.showStartpage();
+		//this.showLoadingMenu();
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -78,14 +87,14 @@ public class MainPanel extends JPanel {
 	public void hideCurrentComponent(){
 		if(this.currentComponent != null){
 			this.currentComponent.setVisible(false);
-			this.remove(this.currentComponent);
 		}
 	}
 	
 	public void showCurrentComponent(){
 		if(this.currentComponent != null){
 			this.currentComponent.setVisible(true);
-			this.add(currentComponent);
+			this.fitComponent();
+			this.repaint();
 		}
 	}
 	
@@ -97,7 +106,7 @@ public class MainPanel extends JPanel {
 	
 	public void showLoadingMenu(){
 		hideCurrentComponent();
-		this.currentComponent = this.startpage;
+		this.currentComponent = this.loadingMenu;
 		showCurrentComponent();
 	}
 
@@ -106,6 +115,10 @@ public class MainPanel extends JPanel {
 
 	public Component getCurrentComponent(){
 		return this.currentComponent;
+	}
+	
+	public MainFrame getMainFrame(){
+		return this.getMainFrame();
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -118,6 +131,12 @@ public class MainPanel extends JPanel {
 		this.currentComponent.setVisible(true);
 	}
 
+	public void setMainFrame(MainFrame mf){
+		if(mf == null) throw new RuntimeException();
+		
+		this.mf = mf;
+	}
+	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods (Override)
 

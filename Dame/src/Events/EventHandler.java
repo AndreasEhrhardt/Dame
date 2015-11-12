@@ -1,18 +1,17 @@
+//###########################################################
+//## Package
+
 package Events;
+
+//###########################################################
+//## Imports
 
 import java.awt.Component;
 import java.awt.event.*;
 import java.util.*;
 
 import GUI.*;
-
-//###########################################################
-//## Package
-
-
-//###########################################################
-//## Imports
-
+import SavegameManager.*;
 
 //###########################################################
 //## Class
@@ -26,7 +25,7 @@ public class EventHandler{
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
-	
+
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods
 
@@ -41,15 +40,15 @@ public class EventHandler{
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods (Override)
-	
+
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Inner class
 
 	public class eMainPanel implements ComponentListener{	
-		
+
 		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		//++ Methods (Override)
-		
+
 		@Override
 		public void componentResized(ComponentEvent e) {
 			Component component = e.getComponent();
@@ -68,12 +67,12 @@ public class EventHandler{
 		@Override
 		public void componentShown(ComponentEvent arg0) {}
 	}
-	
+
 	public class eLoadingMenu implements ComponentListener{		
-		
+
 		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		//++ Methods (Override)
-		
+
 		@Override
 		public void componentResized(ComponentEvent e) {}
 
@@ -88,21 +87,38 @@ public class EventHandler{
 			Component component = e.getComponent();
 			if(component instanceof LoadingMenu){
 				LoadingMenu lm = (LoadingMenu) component;
-				
+				DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
+				if(!serial.haveSaveGame()) lm.getLoadingSerializeButton().setDisabled(true);;
 			}
 		}
 	}
 
 	public class eButtonBack implements ActionListener{
-		
+
 		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		//++ Methods (Override)
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() instanceof ButtonBack){
 				ButtonBack bb =  (ButtonBack) e.getSource();
 				bb.back();
+			}
+		}
+	}
+
+	public class eShowLoadingMenuButton implements ActionListener{
+
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		//++ Methods (Override)
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() instanceof ImageButton){
+				ImageButton ib = (ImageButton) e.getSource();
+				MainPanelComponent mpc = ib.getParent();
+				MainPanel mp = mpc.getMainPanel();
+				mp.showLoadingMenu();
 			}
 		}
 	}
