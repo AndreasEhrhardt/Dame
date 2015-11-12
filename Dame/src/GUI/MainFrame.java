@@ -31,6 +31,8 @@ public class MainFrame extends JFrame {
 	private MainFrame(){
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	
+		this.game = new Spiel();
+		
 		mp = new MainPanel(this);
 		this.setContentPane(mp);
 		
@@ -58,6 +60,10 @@ public class MainFrame extends JFrame {
 
 	public MainPanel getMainPanel(){
 		return this.mp;
+	}
+	
+	public Spiel getGame(){
+		return this.game;
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
