@@ -58,7 +58,7 @@ public class MainPanel extends JPanel {
 		try {
 			background = ImageIO.read( ClassLoader.getSystemResource("Images/Background.png") );
 		} catch (IOException e) {}
-		
+
 		// Create components
 		startpage = new Startpage();
 		loadingMenu = new LoadingMenu();
@@ -72,11 +72,11 @@ public class MainPanel extends JPanel {
 		backButton.addActionListener(new EventHandler().new eButtonBack());
 		backButton.setSize(new Dimension(100,100));
 		backButton.setVisible(true);
-		forwardButton = new ImageButton("Back");
-		forwardButton.setDefaultImage("Images/Back.png");
-		forwardButton.setHoverImage("Images/Back_Hover.png");
-		forwardButton.setPressImage("Images/Back_Pressed.png");
-		forwardButton.setDisabledImage("Images/Back_Disabled.png");
+		forwardButton = new ImageButton("Forward");
+		forwardButton.setDefaultImage("Images/Forward.png");
+		forwardButton.setHoverImage("Images/Forward_Hover.png");
+		forwardButton.setPressImage("Images/Forward_Pressed.png");
+		forwardButton.setDisabledImage("Images/Forward_Disabled.png");
 		forwardButton.addActionListener(new EventHandler().new eButtonBack());
 		forwardButton.setSize(new Dimension(100,100));
 		forwardButton.setVisible(true);
@@ -85,7 +85,7 @@ public class MainPanel extends JPanel {
 		this.add(startpage);
 		this.add(loadingMenu);
 		this.add(backButton);
-		
+
 		// Set Z-Order
 		this.setComponentZOrder(backButton, 0);
 		this.setComponentZOrder(forwardButton, 0);
@@ -105,6 +105,7 @@ public class MainPanel extends JPanel {
 	 */
 	public void fitComponent(){
 		this.backButton.setLocation(0,(this.getHeight() / 2) - (backButton.getHeight() / 2));
+		this.forwardButton.setLocation(this.getWidth() - forwardButton.getWidth(),(this.getHeight() / 2) - (forwardButton.getHeight() / 2));
 
 		if(this.currentComponent != null){
 			this.currentComponent.setLocation(100, 30);
@@ -129,6 +130,27 @@ public class MainPanel extends JPanel {
 	/**
 	 * 
 	 */
+	public void showHideBack(){
+		boolean state = false;
+
+		if(currentComponent instanceof LoadingMenu)
+			state = true;
+		
+		this.backButton.setVisible(state);
+	}
+
+	/**
+	 * 
+	 */
+	public void showHideForward(){
+		boolean state = false;
+		
+		this.forwardButton.setVisible(state);
+	}
+
+	/**
+	 * 
+	 */
 	public void hideCurrentComponent(){
 		if(this.currentComponent != null){
 			this.currentComponent.setVisible(false);
@@ -140,8 +162,13 @@ public class MainPanel extends JPanel {
 	 */
 	public void showCurrentComponent(){
 		if(this.currentComponent != null){
+			
 			this.currentComponent.setVisible(true);
+			this.showHideBack();
+			this.showHideForward();
+			
 			this.fitComponent();
+			
 			this.repaint();
 		}
 	}
@@ -155,10 +182,16 @@ public class MainPanel extends JPanel {
 		showCurrentComponent();
 	}
 
+	/**
+	 * 
+	 */
 	public void showStartpage(){
 		setNewComponent(startpage);
 	}
 
+	/**
+	 * 
+	 */
 	public void showLoadingMenu(){
 		setNewComponent(loadingMenu);
 	}

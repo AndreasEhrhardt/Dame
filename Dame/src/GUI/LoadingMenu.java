@@ -14,7 +14,7 @@ import Events.*;
 //###########################################################
 //## Class
 
-public class LoadingMenu extends JPanel {
+public class LoadingMenu extends MainPanelComponent {
 	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
@@ -40,13 +40,13 @@ public class LoadingMenu extends JPanel {
 		loadingCSVButton.setPressImage("Images/Load_File_Pressed.png");
 		loadingCSVButton.setDisabledImage("Images/Load_File_Disabled.png");
 		
+		loadingSerializeButton.setPreferredSize(new Dimension(200,200));
+		loadingCSVButton.setPreferredSize(new Dimension(200,200));
+		
 		// Prepare grid-layout
 		this.setLayout(new GridBagLayout());
 		
 		GridBagConstraints c = new GridBagConstraints();
-		
-		loadingSerializeButton.setPreferredSize(new Dimension(200,200));
-		loadingCSVButton.setPreferredSize(new Dimension(200,200));
 		
         c.gridx = 0; c.gridy = 0; 
         this.add(loadingSerializeButton, c);

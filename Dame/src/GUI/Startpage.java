@@ -16,7 +16,7 @@ import java.awt.*;
 //###########################################################
 //## Class
 
-public class Startpage extends JPanel {
+public class Startpage extends MainPanelComponent {
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
@@ -28,13 +28,10 @@ public class Startpage extends JPanel {
 		// Prepare grid-layout
 		this.setLayout(new GridBagLayout());
 		
-		GridBagConstraints c = new GridBagConstraints();
-		
 		ImageButton playButton = new ImageButton("Play");
 		playButton.setDefaultImage("Images/Play.png");
 		playButton.setPressImage("Images/Play_Click.png");
 		playButton.setHoverImage("Images/Play_Hover.png");
-        
 
         ImageButton loadButton = new ImageButton("Load");
         loadButton.setDefaultImage("Images/Load.png");
@@ -46,6 +43,8 @@ public class Startpage extends JPanel {
         
         loadButton.addActionListener(new EventHandler().new eShowLoadingMenuButton());
         
+        GridBagConstraints c = new GridBagConstraints();
+        
         c.gridx = 0;
         c.gridy = 0;
         this.add(playButton, c);
@@ -54,6 +53,8 @@ public class Startpage extends JPanel {
         c.gridx = 1;
         c.gridy = 0;
         this.add(loadButton, c);
+        
+        this.setVisible(true);
 	}
 	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
