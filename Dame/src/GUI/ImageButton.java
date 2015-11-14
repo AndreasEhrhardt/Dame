@@ -31,24 +31,20 @@ public class ImageButton extends JButton  {
 	private BufferedImage disabledImage = null;
 
 	boolean disabled = false;
-	
-	MainPanelComponent mpc;
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
-	public ImageButton(MainPanelComponent mp){
+	public ImageButton(){
 		super();
 
 		this.setOpaque(false);
 		this.setContentAreaFilled(false);
 		this.setBorderPainted(false);
-		
-		this.setParent(mp);
 	}
 
-	public ImageButton(MainPanelComponent mp, String text){
-		this(mp);
+	public ImageButton(String text){	
+		this();
 		
 		this.setText(text);
 	}
@@ -81,9 +77,6 @@ public class ImageButton extends JButton  {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
 
-	public MainPanelComponent getParent(){
-		return this.mpc;
-	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Setter)
@@ -123,18 +116,12 @@ public class ImageButton extends JButton  {
 	public void setDisabled(boolean state){
 		this.disabled = state;
 	}
-	
-	public void setParent(MainPanelComponent mpc){
-		if(mpc == null) throw new RuntimeException();
-		
-		this.mpc = mpc;
-	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods (Override)
 
 	@Override
-	protected void paintComponent(Graphics g){		
+	protected void paintComponent(Graphics g){			
 		// Detect current image
 		BufferedImage currentImage = null;
 		if(this.disabled){

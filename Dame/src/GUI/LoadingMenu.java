@@ -14,7 +14,7 @@ import Events.*;
 //###########################################################
 //## Class
 
-public class LoadingMenu extends MainPanelComponent {
+public class LoadingMenu extends JPanel {
 	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
@@ -25,19 +25,16 @@ public class LoadingMenu extends MainPanelComponent {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
-	public LoadingMenu(MainPanel mp){
-		// Call super constructor
-		super(mp);
-		
+	public LoadingMenu(){		
 		this.addComponentListener(new EventHandler().new eLoadingMenu());
 		
-		loadingSerializeButton = new ImageButton(this,"Restore");
+		loadingSerializeButton = new ImageButton("Restore");
 		loadingSerializeButton.setDefaultImage("Images/Restore.png");
 		loadingSerializeButton.setHoverImage("Images/Restore_Hover.png");
 		loadingSerializeButton.setPressImage("Images/Restore_Pressed.png");
 		loadingSerializeButton.setDisabledImage("Images/Restore_Disabled.png");
 		
-		loadingCSVButton = new ImageButton(this,"Load file");
+		loadingCSVButton = new ImageButton("Load file");
 		loadingCSVButton.setDefaultImage("Images/Load_File.png");
 		loadingCSVButton.setHoverImage("Images/Load_File_Hover.png");
 		loadingCSVButton.setPressImage("Images/Load_File_Pressed.png");

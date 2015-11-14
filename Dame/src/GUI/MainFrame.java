@@ -22,26 +22,37 @@ public class MainFrame extends JFrame {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
 	
-	Spiel game;
-	MainPanel mp;
+	private Spiel game;
+	private MainPanel mp;
+	
+	public static MainFrame globalPointer = null;
 	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
 	private MainFrame(){
+		// Set global pointer
+		MainFrame.globalPointer = this;
+		
+		// Set close handling
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	
+		// Create game
 		this.game = new Spiel();
 		
+		// Create main panel
 		mp = new MainPanel(this);
 		this.setContentPane(mp);
 		
+		// Set size of game
 		Rectangle rec = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
 		this.setSize(rec.width,rec.height);
 		this.setLocation(0,0);
 		
-		//this.setUndecorated(true);
+		// Undecorate the windows
+		this.setUndecorated(true);
 
+		// Show the window
 		this.setVisible(true);
 	}
 	

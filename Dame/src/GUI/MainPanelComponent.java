@@ -3,30 +3,24 @@
 
 package GUI;
 
+import java.awt.Graphics;
+
 //###########################################################
 //## Imports
 
-import javax.swing.JPanel;
 
 //###########################################################
 //## Class
 
-public abstract class MainPanelComponent extends JPanel{
+public class MainPanelComponent {
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
 
-	MainPanel mp;
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
-	public MainPanelComponent(MainPanel mp){
-		this.setMainPanel(mp);
-		
-		mp.add(this);
-		this.setVisible(false);
-	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods
@@ -35,22 +29,18 @@ public abstract class MainPanelComponent extends JPanel{
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
 
-	public MainPanel getMainPanel(){
-		return this.mp;
-	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Setter)
 
-	public void setMainPanel(MainPanel mp){
-		if(mp == null) throw new RuntimeException();
-		
-		this.mp = mp;
-	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods (Override)
 
+	public void paintComponent(Graphics g){
+		
+	}
+	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Inner class
 

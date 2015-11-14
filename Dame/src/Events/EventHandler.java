@@ -46,9 +46,6 @@ public class EventHandler{
 
 	public class eMainPanel implements ComponentListener{	
 
-		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		//++ Methods (Override)
-
 		@Override
 		public void componentResized(ComponentEvent e) {
 			Component component = e.getComponent();
@@ -69,9 +66,6 @@ public class EventHandler{
 	}
 
 	public class eLoadingMenu implements ComponentListener{		
-
-		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		//++ Methods (Override)
 
 		@Override
 		public void componentResized(ComponentEvent e) {}
@@ -95,30 +89,20 @@ public class EventHandler{
 
 	public class eButtonBack implements ActionListener{
 
-		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		//++ Methods (Override)
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() instanceof ButtonBack){
-				ButtonBack bb =  (ButtonBack) e.getSource();
-				bb.back();
+			if(e.getSource() instanceof ImageButton){
+				MainPanel.globalPointer.back();
 			}
 		}
 	}
 
 	public class eShowLoadingMenuButton implements ActionListener{
 
-		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		//++ Methods (Override)
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() instanceof ImageButton){
-				ImageButton ib = (ImageButton) e.getSource();
-				MainPanelComponent mpc = ib.getParent();
-				MainPanel mp = mpc.getMainPanel();
-				mp.showLoadingMenu();
+				MainPanel.globalPointer.showLoadingMenu();
 			}
 		}
 	}
