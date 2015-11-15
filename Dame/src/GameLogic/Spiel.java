@@ -52,7 +52,7 @@ public class Spiel implements iBediener, Serializable {
 	 */
 	public Spiel() {
 		gamer = new Spieler[2];
-		
+
 		this.gameboard = new Spielbrett();
 	}
 
@@ -63,7 +63,7 @@ public class Spiel implements iBediener, Serializable {
 	public Spiel(Spielbrett gameboard, Spieler gamer[]) {
 		// Call default constructor
 		this();
-		
+
 		// Set gameboard
 		this.setGameboard(gameboard);
 
@@ -76,6 +76,37 @@ public class Spiel implements iBediener, Serializable {
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods
+
+	/**
+	 * @param sPoint
+	 * @return
+	 * @throws Spiel.eInvalidPointException
+	 */
+	public Point stringToPoint(String sPoint) throws Spiel.eInvalidPointException{
+		if (sPoint.charAt(0) >= 65 && sPoint.charAt(0) <= 90) {
+			Point point = new Point();
+			int y = sPoint.charAt(0) - 65;
+
+			if (sPoint.charAt(1) >= 48 && sPoint.charAt(1) <= 57) {
+				int x = -1;
+				x = (sPoint.charAt(1) - 48) * 10;
+
+				if (sPoint.charAt(2) >= 48 && sPoint.charAt(2) <= 57) {
+					x += (sPoint.charAt(2) - 48) - 1;
+
+					if (x < 0 || y < 0) throw new Spiel.eInvalidPointException();
+
+					point.setLocation(x, y);
+
+					return point;
+				} 
+
+			} 
+
+		}
+
+		throw new Spiel.eInvalidPointException();
+	}
 
 	/**
 	 * Initializes new game and creates a new gameboard and two new players.
@@ -102,7 +133,7 @@ public class Spiel implements iBediener, Serializable {
 
 		if (!loadingSuccess) {
 			if(newGameState != 1) System.out.println("Fehler beim laden! (Existiert die Datei?)");
-			
+
 			// Lets create a new gameboard
 			this.setGameboard(this.createGameBoard());
 
@@ -111,7 +142,7 @@ public class Spiel implements iBediener, Serializable {
 
 			// Create gamer 2
 			gamer[1] = createNewPlayer(2);
-			
+
 			// Set start player
 			this.currentGamer = gamer[1];
 		}
@@ -613,24 +644,24 @@ public class Spiel implements iBediener, Serializable {
 		// Get gameboard fields
 		Spielfeld felder[][] = this.gameboard.getFields();
 		String gameString = "";
-		
+
 		// first row: information of player 1
 		gameString += this.getPlayer(1).getName() + ";" + this.getPlayer(1).getColor() + ";";
 		if (this.getPlayer(1).getKi() == null)
 			gameString += "null" + "\n";
 		else
 			gameString += "KI" + "\n";
-		
+
 		// second row: information of player 2
 		gameString += this.getPlayer(2).getName() + ";" + this.getPlayer(2).getColor() + ";";
 		if (this.getPlayer(2).getKi() == null)
 			gameString += "null" + "\n";
 		else
 			gameString += "KI" + "\n";
-		
+
 		// third row: saves who is the current Player and the game size
 		gameString += this.getCurrentGamer().getColor() + ";" + this.getGameboard().getFields().length + "\n";
-		
+
 		// fourth row.. saves the current board state
 		for (int i = felder.length - 1; i >= 0; i--) {
 			// For every column
@@ -638,7 +669,7 @@ public class Spiel implements iBediener, Serializable {
 				// Get figure of field
 				Spielfigur currentFigure = felder[j][i].getFigure();
 				// Write seperator
-				
+
 				// Check if field has figure or not
 				if (currentFigure == null) {
 					// e for empty

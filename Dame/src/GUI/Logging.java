@@ -1,21 +1,54 @@
+//###########################################################
+//## Package
+
 package GUI;
 
-import java.awt.GridLayout;
+//###########################################################
+//## Imports
 
-import javax.swing.JTextField;
+import java.awt.*;
+import javax.swing.*;
 
+//###########################################################
+//## Class
 
-	public class Logging extends MainPanelComponent{
+@SuppressWarnings("serial")
+public class Logging extends JPanel {
 
-		private JTextField log;	
-		
-		public Logging(MainPanel mf){
-			super(mf);
-			this.setLayout(new GridLayout(1,1));
-			log= new JTextField();
-			this.add(log);
-		}
-		public JTextField getJTextField(){
-			return log;
-		}
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Properties
+
+	private JTextField log;	
+
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Constructor
+
+	public Logging(){
+		this.setLayout(new GridLayout(1,1));
+		log= new JTextField();
+		this.add(log);
 	}
+
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Methods
+
+
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Methods ( Getter)
+
+	public JTextField getJTextField(){
+		return log;
+	}
+
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Methods ( Setter)
+
+
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Methods (Override)
+
+
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Inner class
+
+}
