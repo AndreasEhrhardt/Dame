@@ -98,6 +98,16 @@ public class EventHandler{
 			}
 		}
 	}
+	
+	public class eButtonForward implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() instanceof ImageButton){
+				MainPanel.globalPointer.forward();
+			}
+		}
+	}
 
 	public class eShowLoadingMenuButton implements ActionListener{
 
@@ -145,8 +155,9 @@ public class EventHandler{
 		@Override
 		public void componentShown(ComponentEvent arg0) {
 			if(arg0.getSource() instanceof GameboardSettings){
+				GameboardSettings widget = (GameboardSettings) arg0.getSource();
 				int currentSize = MainFrame.globalPointer.getGame().getGameboardSize();
-				GameboardSettings.globalPointer.setGameboardSize(currentSize);
+				widget.getSlider().setValue(currentSize);
 			}
 		}
 

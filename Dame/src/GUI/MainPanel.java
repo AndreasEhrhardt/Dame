@@ -28,13 +28,12 @@ public class MainPanel extends JPanel {
 	private Startpage startpage;
 	private LoadingMenu loadingMenu;
 	private GameboardSettings gameboardSettings;
+	private PlayerSettings playerSettings;
 	private ImageButton backButton;
 	private ImageButton forwardButton;
 
 	private Component currentComponent = null;
 	private BufferedImage background;
-
-	private MainFrame mf;
 
 	public static MainPanel globalPointer = null;
 
@@ -61,6 +60,7 @@ public class MainPanel extends JPanel {
 		startpage = new Startpage();
 		loadingMenu = new LoadingMenu();
 		gameboardSettings = new GameboardSettings();
+		playerSettings = new PlayerSettings();
 
 		// Create back and forward buttons
 		backButton = new ImageButton("Back");
@@ -77,13 +77,14 @@ public class MainPanel extends JPanel {
 		forwardButton.setHoverImage("Images/Forward_Hover.png");
 		forwardButton.setPressImage("Images/Forward_Pressed.png");
 		forwardButton.setDisabledImage("Images/Forward_Disabled.png");
-		forwardButton.addActionListener(new EventHandler().new eButtonBack());
+		forwardButton.addActionListener(new EventHandler().new eButtonForward());
 		forwardButton.setSize(new Dimension(100,100));
 		forwardButton.setVisible(true);
 		
 		this.add(this.loadingMenu);
 		this.add(this.gameboardSettings);
 		this.add(this.startpage);
+		this.add(this.playerSettings);
 
 		// Set Z-Order
 		this.setComponentZOrder(backButton, 0);
@@ -118,13 +119,17 @@ public class MainPanel extends JPanel {
 	public void back(){
 		if(currentComponent instanceof LoadingMenu) this.showStartpage();
 		else if(currentComponent instanceof GameboardSettings) this.showStartpage();
+		else if(currentComponent instanceof PlayerSettings) this.showGameboardSettings();
 	}
 
 	/**
 	 * 
 	 */
 	public void forward(){
-
+		if(currentComponent instanceof GameboardSettings){
+			GameboardSettings.globalPointer.save();
+			this.showPlayerSettings();
+		}
 	}
 
 	/**
@@ -135,6 +140,7 @@ public class MainPanel extends JPanel {
 
 		if(currentComponent instanceof LoadingMenu) state = true;
 		else if(currentComponent instanceof GameboardSettings) state = true;
+		else if(currentComponent instanceof PlayerSettings) state = true;
 		
 		this.backButton.setVisible(state);
 	}
@@ -146,6 +152,7 @@ public class MainPanel extends JPanel {
 		boolean state = false;
 		
 		if(currentComponent instanceof GameboardSettings) state = true;
+		else if(currentComponent instanceof PlayerSettings) state = true;
 		
 		this.forwardButton.setVisible(state);
 	}
@@ -203,6 +210,10 @@ public class MainPanel extends JPanel {
 	 */
 	public void showGameboardSettings(){
 		setNewComponent(gameboardSettings);
+	}
+	
+	public void showPlayerSettings(){
+		setNewComponent(playerSettings);
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

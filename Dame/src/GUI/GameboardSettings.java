@@ -10,6 +10,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import Events.*;
+import GameLogic.*;
 
 //###########################################################
 //## Class
@@ -21,6 +22,7 @@ public class GameboardSettings extends MainPanelComponent{
 	//++ Properties
 
 	private GameboardDesign design;
+	private JSlider slider;
 
 	public static GameboardSettings globalPointer = null;
 
@@ -38,18 +40,18 @@ public class GameboardSettings extends MainPanelComponent{
 
 		c.gridx = 0; c.gridy = 0;
 		JLabel label = new JLabel("Gameboard size");
-		label.setPreferredSize(new Dimension(600,30));
+		label.setPreferredSize(new Dimension(400,30));
 		label.setHorizontalAlignment(JLabel.CENTER);
 		label.setFont(new Font("Gill Sans", Font.BOLD, 40));
 		this.add(label, c);
 
 		c.gridx = 0; c.gridy = 1;
-		c.insets = new Insets(50,0,0,0);
+		c.insets = new Insets(30,0,0,0);
 		design = new GameboardDesign();
 		this.add(design, c);
 
 		c.gridx = 0; c.gridy = 2;
-		JSlider slider = new JSlider(JSlider.HORIZONTAL,8,20,8);
+		slider = new JSlider(JSlider.HORIZONTAL,8,20,8);
 		slider.setPreferredSize(new Dimension(400,100));
 		slider.addChangeListener(new EventHandler().new eGameboardStateChange());
 		slider.setOpaque(false);
@@ -74,10 +76,18 @@ public class GameboardSettings extends MainPanelComponent{
 			this.design.setGameboardSize(size);
 		}
 	}
+	
+	public void save(){
+		Spiel game = MainFrame.globalPointer.getGame();
+		game.setGameboard(new Spielbrett(this.slider.getValue()));
+	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
 
+	public JSlider getSlider(){
+		return this.slider;
+	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Setter)
@@ -104,7 +114,7 @@ public class GameboardSettings extends MainPanelComponent{
 		//++ Constructor
 
 		public GameboardDesign(){
-			this.setPreferredSize(new Dimension(500,500));
+			this.setPreferredSize(new Dimension(400,400));
 		}
 
 		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

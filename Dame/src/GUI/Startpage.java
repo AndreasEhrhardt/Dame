@@ -54,8 +54,6 @@ public class Startpage extends MainPanelComponent {
         c.gridx = 1;
         c.gridy = 0;
         this.add(loadButton, c);
-        
-        this.setVisible(true);
 	}
 	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
