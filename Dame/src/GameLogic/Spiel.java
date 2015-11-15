@@ -5,23 +5,19 @@ package GameLogic;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.SynchronousQueue;
-
-import javax.swing.JFrame;
 
 import Enumerations.FarbEnum;
-import GUI.MainFrame;
 import Interfaces.iBediener;
 import Interfaces.iDatenzugriff;
 import KI.KI_Dame;
-import SavegameManager.DatenzugriffCSV;
-import SavegameManager.DatenzugriffSerialisiert;
+import SavegameManager.*;
 
 import java.awt.*;
 
 //###########################################################
 //## Class
 
+@SuppressWarnings("serial")
 public class Spiel implements iBediener, Serializable {
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -56,6 +52,8 @@ public class Spiel implements iBediener, Serializable {
 	 */
 	public Spiel() {
 		gamer = new Spieler[2];
+		
+		this.gameboard = new Spielbrett();
 	}
 
 	/**
@@ -99,16 +97,7 @@ public class Spiel implements iBediener, Serializable {
 			DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
 			loadingSuccess = serial.loadGame(this);
 		} else if(newGameState == 3){
-			// Get filepath
-			String path = getFilePath();
 
-			// Get path and name
-			String pathAndName[] = this.getPathAndName(path);
-			if(pathAndName.length != 2) loadingSuccess = false;
-			else{
-				// Load from CSV
-				loadingSuccess = load(pathAndName[0], pathAndName[1]);
-			}
 		}
 
 		if (!loadingSuccess) {
@@ -145,9 +134,6 @@ public class Spiel implements iBediener, Serializable {
 				DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
 				serial.saveGame(this);
 
-				// Ask for other save-methods
-				this.askForSaving();
-
 			} else firstRun = false;
 
 			// Current player have to move
@@ -157,49 +143,6 @@ public class Spiel implements iBediener, Serializable {
 			this.outputGameboardCSV();
 		}
 
-	}
-
-	/**
-	 * 
-	 */
-	private void askForSaving() {
-		Scanner sc = new Scanner(System.in);
-		for (int i = 0; i <= maxLoopCount; i++) {
-			try {
-				// Output information
-				System.out.print("Wollen Sie das Spiel speichern (J / N): ");
-
-				// Read result
-				String status = sc.next();
-				status = status.toUpperCase();
-				if (status.equals("J")) {
-					// Get filepath
-					String path = getFilePath();
-
-					// Get path and name
-					String pathAndName[] = this.getPathAndName(path);
-					if(pathAndName.length != 2) continue;
-
-					// Save as csv
-					if(this.save(pathAndName[0], pathAndName[1])){
-						System.out.println("Speichern erfolgreich!");
-						return;
-					}
-					else System.out.println("Fehler beim speichern!");
-				} else if (status.equals("N")) {
-					return;
-				}
-			} catch (NoSuchElementException | IllegalStateException e) {
-				// Clear input buffer
-				sc.nextLine();
-
-				// Continue loop
-				continue;
-			} finally {
-				// Check if endless loop
-				if (i == Spiel.maxLoopCount) return;
-			}
-		}
 	}
 
 	/**
@@ -217,29 +160,6 @@ public class Spiel implements iBediener, Serializable {
 		filePath = filePath.replace(filePathSplittet[filePathSplittet.length - 1], "");
 
 		return new String[]{filePath,filePathSplittet[filePathSplittet.length - 1]};
-	}
-
-	/**
-	 * @return
-	 */
-	private String getFilePath(){
-		Scanner sc = new Scanner(System.in);
-		for (int i = 0; i <= maxLoopCount; i++) {
-			try {
-				// Output information
-				System.out.print("Path: ");
-
-				// Read result
-				String path = sc.next();
-				System.out.println("");
-				return path;
-			} catch (NoSuchElementException | IllegalStateException e) {
-			} finally {
-				// Check if endless loop
-				if (i == Spiel.maxLoopCount) break;
-			}
-		}
-		return "";
 	}
 
 	/**
@@ -867,39 +787,7 @@ public class Spiel implements iBediener, Serializable {
 	 */
 	@Override
 	public int getGameboardSize() {
-		// Create scanner
-		Scanner sc = new Scanner(System.in);
-
-		// Get field size
-		int maxField = 20, minField = 8, fieldCount = 8;
-		for (int i = 0; i <= maxLoopCount; i++) {
-			try {
-				// Output information
-				System.out.print("Bitte Spielfeldgröße angeben (" + minField + "-" + maxField + "):");
-				// Read next field size
-				fieldCount = sc.nextInt();
-				// If size is valid, leave loop
-				if (fieldCount >= minField && fieldCount <= maxField) {
-					if (fieldCount % 2 == 0)
-						break;
-					else
-						System.out.println("Nur gerade Spielfeldgrößen sind erlaubt!");
-				}
-			} catch (NoSuchElementException | IllegalStateException e) {
-				// Clear input buffer
-				sc.nextLine();
-
-				// Continue loop
-				continue;
-			} finally {
-				// Check if endless loop
-				if (i == this.maxLoopCount) {
-					System.out.println("No valid number detected, we will choose the value 8");
-					fieldCount = 8;
-				}
-			}
-		}
-		return fieldCount;
+		return this.gameboard.felder.length;
 	}
 
 	/**

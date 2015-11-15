@@ -8,7 +8,9 @@ package Events;
 
 import java.awt.Component;
 import java.awt.event.*;
-import java.util.*;
+
+import javax.swing.*;
+import javax.swing.event.*;
 
 import GUI.*;
 import SavegameManager.*;
@@ -105,5 +107,48 @@ public class EventHandler{
 				MainPanel.globalPointer.showLoadingMenu();
 			}
 		}
+	}
+
+	public class eShowGameboardSettingsButton implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() instanceof ImageButton){
+				MainPanel.globalPointer.showGameboardSettings();
+			}
+		}
+	}
+
+	public class eGameboardStateChange implements ChangeListener {
+
+		@Override
+		public void stateChanged(ChangeEvent e) {
+			if(e.getSource() instanceof JSlider){
+				JSlider slider = (JSlider) e.getSource();
+				int size = slider.getValue();
+				GameboardSettings.globalPointer.setGameboardSize(size);
+			}  
+		}
+	}
+
+	public class eGameboardSettings implements ComponentListener{
+
+		@Override
+		public void componentHidden(ComponentEvent arg0) {}
+
+		@Override
+		public void componentMoved(ComponentEvent arg0) {}
+
+		@Override
+		public void componentResized(ComponentEvent arg0) {}
+
+		@Override
+		public void componentShown(ComponentEvent arg0) {
+			if(arg0.getSource() instanceof GameboardSettings){
+				int currentSize = MainFrame.globalPointer.getGame().getGameboardSize();
+				GameboardSettings.globalPointer.setGameboardSize(currentSize);
+			}
+		}
+
 	}
 }

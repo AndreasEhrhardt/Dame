@@ -27,6 +27,7 @@ public class MainPanel extends JPanel {
 
 	private Startpage startpage;
 	private LoadingMenu loadingMenu;
+	private GameboardSettings gameboardSettings;
 	private ImageButton backButton;
 	private ImageButton forwardButton;
 
@@ -43,13 +44,10 @@ public class MainPanel extends JPanel {
 	/**
 	 * @param mf
 	 */
-	public MainPanel(MainFrame mf){
+	public MainPanel(){
 		// Set global pointer
 		if(MainPanel.globalPointer != null) throw new RuntimeException();
 		else MainPanel.globalPointer = this;
-
-		// Set parent
-		this.setMainFrame(mf);
 
 		// Disable layout manager
 		this.setLayout(null);
@@ -62,6 +60,7 @@ public class MainPanel extends JPanel {
 		// Create components
 		startpage = new Startpage();
 		loadingMenu = new LoadingMenu();
+		gameboardSettings = new GameboardSettings();
 
 		// Create back and forward buttons
 		backButton = new ImageButton("Back");
@@ -72,6 +71,7 @@ public class MainPanel extends JPanel {
 		backButton.addActionListener(new EventHandler().new eButtonBack());
 		backButton.setSize(new Dimension(100,100));
 		backButton.setVisible(true);
+		
 		forwardButton = new ImageButton("Forward");
 		forwardButton.setDefaultImage("Images/Forward.png");
 		forwardButton.setHoverImage("Images/Forward_Hover.png");
@@ -80,11 +80,10 @@ public class MainPanel extends JPanel {
 		forwardButton.addActionListener(new EventHandler().new eButtonBack());
 		forwardButton.setSize(new Dimension(100,100));
 		forwardButton.setVisible(true);
-
-		// Add components to MainPanel
-		this.add(startpage);
-		this.add(loadingMenu);
-		this.add(backButton);
+		
+		this.add(this.loadingMenu);
+		this.add(this.gameboardSettings);
+		this.add(this.startpage);
 
 		// Set Z-Order
 		this.setComponentZOrder(backButton, 0);
@@ -118,6 +117,7 @@ public class MainPanel extends JPanel {
 	 */
 	public void back(){
 		if(currentComponent instanceof LoadingMenu) this.showStartpage();
+		else if(currentComponent instanceof GameboardSettings) this.showStartpage();
 	}
 
 	/**
@@ -133,8 +133,8 @@ public class MainPanel extends JPanel {
 	public void showHideBack(){
 		boolean state = false;
 
-		if(currentComponent instanceof LoadingMenu)
-			state = true;
+		if(currentComponent instanceof LoadingMenu) state = true;
+		else if(currentComponent instanceof GameboardSettings) state = true;
 		
 		this.backButton.setVisible(state);
 	}
@@ -144,6 +144,8 @@ public class MainPanel extends JPanel {
 	 */
 	public void showHideForward(){
 		boolean state = false;
+		
+		if(currentComponent instanceof GameboardSettings) state = true;
 		
 		this.forwardButton.setVisible(state);
 	}
@@ -195,6 +197,13 @@ public class MainPanel extends JPanel {
 	public void showLoadingMenu(){
 		setNewComponent(loadingMenu);
 	}
+	
+	/**
+	 * 
+	 */
+	public void showGameboardSettings(){
+		setNewComponent(gameboardSettings);
+	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
@@ -206,24 +215,9 @@ public class MainPanel extends JPanel {
 		return this.currentComponent;
 	}
 
-	/**
-	 * @return
-	 */
-	public MainFrame getMainFrame(){
-		return this.getMainFrame();
-	}
-
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Setter)
 
-	/**
-	 * @param mf
-	 */
-	public void setMainFrame(MainFrame mf){
-		if(mf == null) throw new RuntimeException();
-
-		this.mf = mf;
-	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods (Override)

@@ -41,6 +41,7 @@ public class Startpage extends MainPanelComponent {
         playButton.setPreferredSize(new Dimension(200,200));
         loadButton.setPreferredSize(new Dimension(200,200));
         
+        playButton.addActionListener(new EventHandler().new eShowGameboardSettingsButton());
         loadButton.addActionListener(new EventHandler().new eShowLoadingMenuButton());
         
         GridBagConstraints c = new GridBagConstraints();

@@ -30,7 +30,7 @@ public class MainFrame extends JFrame {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
-	private MainFrame(){
+	public MainFrame(){
 		// Set global pointer
 		MainFrame.globalPointer = this;
 
@@ -44,7 +44,7 @@ public class MainFrame extends JFrame {
 		this.game = new Spiel();
 
 		// Create main panel
-		mp = new MainPanel(this);
+		mp = new MainPanel();
 		this.setContentPane(mp);
 
 		// Set size of game
@@ -54,12 +54,6 @@ public class MainFrame extends JFrame {
 
 		// Show the window
 		this.setVisible(true);
-	}
-
-	public MainFrame(Spiel game){
-		this();
-
-		this.setGame(game);
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
