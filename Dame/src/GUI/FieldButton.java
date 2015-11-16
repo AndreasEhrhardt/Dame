@@ -57,7 +57,7 @@ public class FieldButton extends JButton {
 		}
 	}
 	
-	public Point getButtonId(FieldButton button) {
+	public Point getButtonId() {
 		return new Point(this.x, this.y);
 	}
 }

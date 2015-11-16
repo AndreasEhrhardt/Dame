@@ -1,6 +1,8 @@
 package GUI;
 
 import java.awt.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 import Enumerations.FarbEnum;
@@ -11,7 +13,10 @@ public class Board extends JPanel {
 	private Spiel game = MainFrame.globalPointer.getGame();
 	private int gameboardSize = game.getGameboardSize();
 	private JButton[][] buttons = new JButton[gameboardSize][gameboardSize];
+	private ArrayList<Point> pressedButton = new ArrayList<Point>();
 	public static Board globalPointer = null;
+	
+	
 
 	public Board() {
 		// Set global poitner
@@ -48,8 +53,15 @@ public class Board extends JPanel {
 		}
 	}
 
-	/*arraylist.remove point pressed
-	methode fieldPressed
-	zwei unterschiedliche koordinaten, dann move event
-	button state ändern!*/
+
+	public void fieldPressed(FieldButton button) {
+		if(!pressedButton.contains(button)) {
+			pressedButton.add(button.getButtonId());
+		} 
+		if(pressedButton.size() == 2) {
+			//startMove(pressedButton[0], pressedButton[1]);
+		}
+		pressedButton.remove(0);
+		pressedButton.remove(1);
+	}
 }

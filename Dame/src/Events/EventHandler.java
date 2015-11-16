@@ -3,6 +3,8 @@
 
 package Events;
 
+import java.awt.Color;
+
 //###########################################################
 //## Imports
 
@@ -166,19 +168,14 @@ public class EventHandler{
 	}
 
 	public class eMoveFiguresBoard implements ActionListener {
-		//nicht jedesmal neue array list?? nur nach zwei buttons??
-		//buttons wieder rauslöschen nach move?? 
-		//ArrayList<Point> buttonsclicked = new ArrayList<Point>();
-		//fieldPressed
-		//state ändern 
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
 			if(e.getSource() instanceof Board) {
-			
-			//button ids startMove übergeben??
-			//MainFrame.globalPointer.startMove(buttonsclicked.get(0), buttonsclicked.get(1));
+				FieldButton pressed = (FieldButton) e.getSource();
+				pressed.setBackground(Color.BLUE);
+				Board.globalPointer.fieldPressed(pressed);
 			}
 		}
 	}
