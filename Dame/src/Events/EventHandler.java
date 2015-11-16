@@ -16,7 +16,7 @@ import GUI.*;
 import SavegameManager.*;
 
 //###########################################################
-//## Class
+//## Class 
 
 public class EventHandler{
 
@@ -98,7 +98,16 @@ public class EventHandler{
 			}
 		}
 	}
-	
+	/*public class felderEingabe implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() instanceof Control){
+			 		MainFrame.globalPointer.start
+			}
+		}
+	}
+	*/
 	public class eButtonForward implements ActionListener{
 
 		@Override
