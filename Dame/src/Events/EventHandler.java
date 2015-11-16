@@ -7,7 +7,9 @@ package Events;
 //## Imports
 
 import java.awt.Component;
+import java.awt.Point;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -16,7 +18,7 @@ import GUI.*;
 import SavegameManager.*;
 
 //###########################################################
-//## Class 
+//## Class
 
 public class EventHandler{
 
@@ -98,16 +100,7 @@ public class EventHandler{
 			}
 		}
 	}
-	/*public class felderEingabe implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() instanceof Control){
-			 		MainFrame.globalPointer.start
-			}
-		}
-	}
-	*/
+	
 	public class eButtonForward implements ActionListener{
 
 		@Override
@@ -172,8 +165,19 @@ public class EventHandler{
 
 	}
 
-	public ComponentListener eMoveFigureBoard() {
-		// TODO Auto-generated method stub
-		return null;
+	public class eMoveFiguresBoard implements ActionListener {
+		//nicht jedesmal neue array list?? nur nach zwei buttons??
+		//buttons wieder rauslöschen nach move?? 
+		ArrayList<Point> buttonsclicked = new ArrayList<Point>();
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			if(e.getSource() instanceof Board) {
+			
+			//button ids startMove übergeben??
+			MainFrame.globalPointer.startMove(buttonsclicked.get(0), buttonsclicked.get(1));
+			}
+		}
 	}
 }

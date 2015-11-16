@@ -2,6 +2,7 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 
 import javax.swing.JButton;
 
@@ -54,6 +55,9 @@ public class FieldButton extends JButton {
 			g.setColor(Color.WHITE);
 			this.setBackground(Color.YELLOW);
 		}
-
+	}
+	
+	public Point getButtonId(FieldButton button) {
+		return new Point(this.x, this.y);
 	}
 }

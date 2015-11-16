@@ -23,7 +23,7 @@ public class Board extends JPanel {
 			for (int j = 0; j < buttons[i].length; j++) {
 				FieldButton button = new FieldButton(gameboardSize - i,gameboardSize - j);
 				button.setPreferredSize(dimension);
-				button.addComponentListener(new EventHandler().eMoveFigureBoard());
+				button.addActionListener(new EventHandler(). new eMoveFiguresBoard());
 				buttons[gameboardSize - i][gameboardSize - j] = button;
 			}
 		}
