@@ -168,7 +168,9 @@ public class EventHandler{
 	public class eMoveFiguresBoard implements ActionListener {
 		//nicht jedesmal neue array list?? nur nach zwei buttons??
 		//buttons wieder rauslöschen nach move?? 
-		ArrayList<Point> buttonsclicked = new ArrayList<Point>();
+		//ArrayList<Point> buttonsclicked = new ArrayList<Point>();
+		fieldPressed
+		state ändern 
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
