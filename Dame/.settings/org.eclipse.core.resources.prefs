@@ -1,6 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/Enumerations/FarbEnum.java=ISO-8859-1
 encoding//src/GUI/Board.java=UTF-8
+encoding//src/GUI/Control.java=UTF-8
 encoding//src/GameLogic=ISO-8859-1
 encoding//src/GameLogic/Spiel.java=ISO-8859-1
 encoding//src/SavegameManager/DatenzugriffCSV.java=UTF-8
