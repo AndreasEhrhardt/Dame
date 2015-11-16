@@ -6,17 +6,11 @@ package GUI;
 //###########################################################
 //## Imports
 
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
-import javax.swing.JLabel;
+import java.awt.*;
+import javax.swing.*;
 
 import Events.EventHandler;
-import Events.EventHandler.eShowGameboardSettingsButton;
-import Events.EventHandler.eShowLoadingMenuButton;
+import Events.EventHandler.*;
 
 //###########################################################
 //## Class
@@ -66,4 +60,41 @@ public class PlayerSettings extends MainPanelComponent {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Inner class
 
+	public class PlayerSelectionButton extends JButton {
+		
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		//++ Properties
+
+		boolean isKI = false;
+		int playerID = 0;
+
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		//++ Constructor
+
+		/**
+		 * 
+		 */
+		public PlayerSelectionButton(String text){
+			super(text);
+		}
+
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		//++ Methods
+
+
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		//++ Methods ( Getter)
+
+
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		//++ Methods ( Setter)
+
+
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		//++ Methods (Override)
+
+		
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		//++ Inner class
+	}
 }
