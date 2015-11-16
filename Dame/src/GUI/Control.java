@@ -84,29 +84,29 @@ public class Control extends JPanel {
 				Point endpoint = end;
 				game.move(startpoint,endpoint);
 			}catch (Spiel.eSomeOtherMoveErrorsException e) {
-				logg.getJTextField().setText("Unbekannter Fehler. Sorry.");
+				logg.getJTextArea().append("Unbekannter Fehler. Sorry.");
 			}catch (Spiel.eDestinationPointIsBlockedException e) {
-				logg.getJTextField().setText("Ziel-Feld ist blockiert");
+				logg.getJTextArea().append("Ziel-Feld ist blockiert");
 			}catch (Spiel.eNoDiagonalMoveException e) {
-				logg.getJTextField().setText("Ungültige Bewegungsrichtung (nur diagonal ist erlaubt)");
+				logg.getJTextArea().append("Ungültige Bewegungsrichtung (nur diagonal ist erlaubt)");
 			}catch (Spiel.eNoFigureFoundOnFieldException e) {
-				logg.getJTextField().setText("Feld hat keine gültige Spielfigur");
+				logg.getJTextArea().append("Feld hat keine gültige Spielfigur");
 			}catch (Spiel.eOutOfGameboardException e) {
-				logg.getJTextField().setText("Position ist außerhalb des Spielfeldes");
+				logg.getJTextArea().append("Position ist außerhalb des Spielfeldes");
 			}catch (Spiel.eSamePositionException e) {
-				logg.getJTextField().setText("Spielfigur-Feld und Ziel-Feld sind identisch");
+				logg.getJTextArea().append("Spielfigur-Feld und Ziel-Feld sind identisch");
 			}catch (Spiel.eDistanceToFarException e){
-				logg.getJTextField().setText("Sorry.Steine dürfen nur 1 Feld weit springen");
+				logg.getJTextArea().append("Sorry.Steine dürfen nur 1 Feld weit springen");
 			}catch(Spiel.eEnemyFigureSelectedException e){
-				logg.getJTextField().setText("Es ist nicht erlaubt die Spielfigur des Gegners zu verschieben");
+				logg.getJTextArea().append("Es ist nicht erlaubt die Spielfigur des Gegners zu verschieben");
 			}catch(Spiel.eOwnFigureIsBlockingException e){
-				logg.getJTextField().setText("Kann keine eigenen Steine überspringen");
+				logg.getJTextArea().append("Kann keine eigenen Steine überspringen");
 			}catch(Spiel.eNoBackJumpExcpetion e){
-				logg.getJTextField().setText("Falsche Richtung. Nur erlaubt beim Schlagen einer Figur oder als Dame");
+				logg.getJTextArea().append("Falsche Richtung. Nur erlaubt beim Schlagen einer Figur oder als Dame");
 			}catch(Spiel.eWayIsBlockedException e){
-				logg.getJTextField().setText("Es dürfen keine 2 Stein gleichzeitig übersürungen werden");
+				logg.getJTextArea().append("Es dürfen keine 2 Stein gleichzeitig übersürungen werden");
 			}catch (Exception e){
-				logg.getJTextField().setText("Sry, some other problems");
+				logg.getJTextArea().append("Sry, some other problems");
 			}
 			
 		}
