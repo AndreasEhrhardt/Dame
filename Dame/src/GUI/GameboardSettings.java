@@ -65,6 +65,7 @@ public class GameboardSettings extends MainPanelComponent{
 		// Add listener
 		this.addComponentListener(new EventHandler().new eGameboardSettings());
 
+		// Repaint widget
 		this.repaint();
 	}
 

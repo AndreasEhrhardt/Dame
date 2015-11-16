@@ -17,6 +17,8 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 import GUI.*;
+import GUI.PlayerSettings.PlayerSelectionButton;
+import GameLogic.Spieler;
 import SavegameManager.*;
 
 //###########################################################
@@ -89,6 +91,7 @@ public class EventHandler{
 				LoadingMenu lm = (LoadingMenu) component;
 				DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
 				if(!serial.haveSaveGame()) lm.getLoadingSerializeButton().setDisabled(true);;
+				lm.repaint();
 			}
 		}
 	}
@@ -102,7 +105,7 @@ public class EventHandler{
 			}
 		}
 	}
-	
+
 	public class eButtonForward implements ActionListener{
 
 		@Override
@@ -171,11 +174,73 @@ public class EventHandler{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+
 			if(e.getSource() instanceof Board) {
 				FieldButton pressed = (FieldButton) e.getSource();
 				pressed.setBackground(Color.BLUE);
 				Board.globalPointer.fieldPressed(pressed);
+			}
+		}
+	}
+
+	public class ePlayerSettings implements ComponentListener{
+
+		@Override
+		public void componentHidden(ComponentEvent e) {}
+
+		@Override
+		public void componentMoved(ComponentEvent e) {}
+
+		@Override
+		public void componentResized(ComponentEvent e) {}
+
+		@Override
+		public void componentShown(ComponentEvent e) {
+			if(e.getSource() instanceof PlayerSettings){
+
+				PlayerSettings widget = (PlayerSettings) e.getSource();
+
+				Spieler player = MainFrame.globalPointer.getGame().getPlayer(1);
+				if(player == null || player.getKi() == null){
+					widget.getPlayer1Button().setEnabled();
+					widget.getKI1Button().setDisabled();
+				}
+				else{
+					widget.getPlayer1Button().setDisabled();
+					widget.getKI1Button().setEnabled();
+				}
+
+				player = MainFrame.globalPointer.getGame().getPlayer(2);
+				if(player == null || player.getKi() == null){
+					widget.getPlayer2Button().setEnabled();
+					widget.getKI2Button().setDisabled();
+				}
+				else{
+					widget.getPlayer2Button().setDisabled();
+					widget.getKI2Button().setEnabled();
+				}
+			}
+		}
+	}
+	
+	public class ePlayerButtonClicked implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			if(e.getSource() instanceof PlayerSelectionButton) {
+				PlayerSelectionButton button = (PlayerSelectionButton) e.getSource();
+				if(!button.isEnabled()){
+					button.setEnabled();
+					if(button.getPlayerID() == 1){
+						if(button.isKI()) PlayerSettings.globalPointer.getPlayer1Button().setDisabled();
+						else PlayerSettings.globalPointer.getKI1Button().setDisabled();
+					}
+					else if(button.getPlayerID() == 2){
+						if(button.isKI()) PlayerSettings.globalPointer.getPlayer2Button().setDisabled();
+						else PlayerSettings.globalPointer.getKI2Button().setDisabled();
+					}
+				}
 			}
 		}
 	}

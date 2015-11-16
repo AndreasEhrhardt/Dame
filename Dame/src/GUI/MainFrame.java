@@ -59,6 +59,26 @@ public class MainFrame extends JFrame {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods
 
+	public static Rectangle drawCenteredString(Graphics g, String text, Rectangle rect){
+		// Get the FontMetrics
+		FontMetrics metrics = g.getFontMetrics(g.getFont());
+
+		// Determine the X coordinate for the text
+		int x = (rect.width - metrics.stringWidth(text)) / 2 + (int)rect.getX();
+
+		// Determine the Y coordinate for the text
+		//int y = ((rect.height - metrics.getHeight()) / 2) + (int)rect.getY();
+		int y = (int)((metrics.getAscent() + (rect.getHeight() - (metrics.getAscent() + metrics.getDescent())) / 2) + rect.getY());
+
+		// Draw the String
+		g.drawString(text, x, y);
+
+		// Dispose the Graphics
+		g.dispose();
+
+		// Return the drawn size
+		return new Rectangle(x,y,metrics.stringWidth(text),metrics.getHeight());
+	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)

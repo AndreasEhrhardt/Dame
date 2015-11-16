@@ -30,7 +30,7 @@ public class Startpage extends MainPanelComponent {
 		
 		ImageButton playButton = new ImageButton("Play");
 		playButton.setDefaultImage("Images/Play.png");
-		playButton.setPressImage("Images/Play_Click.png");
+		playButton.setPressImage("Images/Play_Pressed.png");
 		playButton.setHoverImage("Images/Play_Hover.png");
 
         ImageButton loadButton = new ImageButton("Load");

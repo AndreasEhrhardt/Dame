@@ -23,6 +23,11 @@ public class MainPanelComponent extends JPanel {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
+	public MainPanelComponent(){
+		// Hide widget
+		this.setVisible(false);
+	}
+
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods
@@ -42,7 +47,7 @@ public class MainPanelComponent extends JPanel {
 	public void paintComponent(Graphics g){
 		// Create extended draw device
 		Graphics2D g2d = (Graphics2D) g;
-		
+
 		// Set colors
 		Color color1 = new Color(100,100,100);
 		Color color2 = new Color(200,200,200);

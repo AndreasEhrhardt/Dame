@@ -38,7 +38,6 @@ public class LoadingMenu extends MainPanelComponent {
 		loadingCSVButton.setDefaultImage("Images/Load_File.png");
 		loadingCSVButton.setHoverImage("Images/Load_File_Hover.png");
 		loadingCSVButton.setPressImage("Images/Load_File_Pressed.png");
-		loadingCSVButton.setDisabledImage("Images/Load_File_Disabled.png");
 		
 		loadingSerializeButton.setPreferredSize(new Dimension(200,200));
 		loadingCSVButton.setPreferredSize(new Dimension(200,200));
