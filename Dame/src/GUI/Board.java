@@ -11,9 +11,10 @@ public class Board extends JPanel {
 	private Spiel game = MainFrame.globalPointer.getGame();
 	int gameboardSize = game.getGameboardSize();
 	JButton[][] buttons = new JButton[gameboardSize][gameboardSize];
+	globalPointer
 
 	public Board() {
-
+globalPoint
 		int buttonSize = (int) ((double) 60 - ((gameboardSize - 8) * 2.5));
 		Dimension dimension = new Dimension(buttonSize, buttonSize);
 		this.setLayout(new GridLayout(gameboardSize + 1, gameboardSize + 1));
@@ -44,5 +45,8 @@ public class Board extends JPanel {
 			}
 		}
 	}
-
+	arraylist.remove point pressed
+methode fieldPressed
+zwei unterschiedliche koordinaten, dann move event
+button state ändern!
 }

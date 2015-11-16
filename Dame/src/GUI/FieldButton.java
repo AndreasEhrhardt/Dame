@@ -35,23 +35,23 @@ public class FieldButton extends JButton {
 		if (game.getGameboard().getField(x, y).getFigure() != null
 				&& game.getGameboard().getField(x, y).getFigure().getColor().equals(FarbEnum.schwarz)
 				&& game.getGameboard().getField(x, y).getFigure().isDame() != true) {
-			g.drawOval(x, y, this.getHeight(), this.getHeight());
+			g.drawOval(0, 0, this.getHeight(), this.getHeight());
 			g.setColor(Color.BLACK);
 		} else if (game.getGameboard().getField(x, y).getFigure() != null
 				&& game.getGameboard().getField(x, y).getFigure().getColor().equals(FarbEnum.schwarz)
 				&& game.getGameboard().getField(x, y).getFigure().isDame() == true) {
-			g.drawOval(x, y, this.getHeight(), this.getHeight());
+			g.drawOval(0, 0, this.getHeight(), this.getHeight());
 			g.setColor(Color.BLACK);
 			this.setBackground(Color.YELLOW);
 		} else if (game.getGameboard().getField(x, y).getFigure() != null
 				&& game.getGameboard().getField(x, y).getFigure().getColor().equals(FarbEnum.weiß)
 				&& game.getGameboard().getField(x, y).getFigure().isDame() != true) {
-			g.drawOval(x, y, this.getHeight(), this.getHeight());
+			g.drawOval(0, 0, this.getHeight(), this.getHeight());
 			g.setColor(Color.WHITE);
 		} else if (game.getGameboard().getField(x, y).getFigure() != null
 				&& game.getGameboard().getField(x, y).getFigure().getColor().equals(FarbEnum.weiß)
 				&& game.getGameboard().getField(x, y).getFigure().isDame() == true) {
-			g.drawOval(x, y, this.getHeight(), this.getHeight());
+			g.drawOval(0, 0, this.getHeight(), this.getHeight());
 			g.setColor(Color.WHITE);
 			this.setBackground(Color.YELLOW);
 		}

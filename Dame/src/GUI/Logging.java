@@ -18,14 +18,14 @@ public class Logging extends JPanel {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
 
-	private JTextField log;	
+	private JTextArea log;	
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
 	public Logging(){
 		this.setLayout(new GridLayout(1,1));
-		log= new JTextField();
+		log= new JTextArea();
 		this.add(log);
 	}
 
@@ -36,7 +36,7 @@ public class Logging extends JPanel {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
 
-	public JTextField getJTextField(){
+	public JTextArea getJTextArea(){
 		return log;
 	}
 
