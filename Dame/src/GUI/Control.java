@@ -50,16 +50,16 @@ public class Control extends JPanel {
 		start.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				startMove();
+				eingabeTest();
 			}
 		});
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods
-
-	public void startMove(){
-
+	public void eingabeTest(){
+		Point start= new Point(0,0);
+		Point end = new Point (0,0);
 		String eingabe = felderEingabe.getText();
 		String startFeld= eingabe.substring(0, 2);
 		String endFeld = eingabe.substring(4,6);
@@ -68,11 +68,21 @@ public class Control extends JPanel {
 		boolean b = m.matches();
 		if(b== true){
 			Spiel game = MainFrame.globalPointer.getGame();
+		try{
+			start= game.stringToPoint(startFeld);
+			end = game.stringToPoint(endFeld);
+		}catch(Spiel.eInvalidPointException e){
+		}
+		startMove(start,end);
+	}
+	}
+	public void startMove(Point start,Point end){
+		
+		Spiel game = MainFrame.globalPointer.getGame();
 			try{
-				Point start= game.stringToPoint(startFeld);
-				Point end = game.stringToPoint(endFeld);
-				game.move(start,end);
-			}catch(Spiel.eInvalidPointException e){
+				Point startpoint= start;
+				Point endpoint = end;
+				game.move(startpoint,endpoint);
 			}catch (Spiel.eSomeOtherMoveErrorsException e) {
 				logg.getJTextField().setText("Unbekannter Fehler. Sorry.");
 			}catch (Spiel.eDestinationPointIsBlockedException e) {
@@ -97,7 +107,8 @@ public class Control extends JPanel {
 				logg.getJTextField().setText("Es dürfen keine 2 Stein gleichzeitig übersürungen werden");
 			}catch (Exception e){
 				logg.getJTextField().setText("Sry, some other problems");
-			}			
+			}
+			
 		}
 
 	}
@@ -117,4 +128,4 @@ public class Control extends JPanel {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Inner class
 
-}
+
