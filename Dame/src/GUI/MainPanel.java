@@ -29,7 +29,7 @@ public class MainPanel extends JPanel {
 	private LoadingMenu loadingMenu;
 	private GameboardSettings gameboardSettings;
 	private PlayerSettings playerSettings;
-	private ImageButton backButton;
+	ImageButton backButton;
 	private ImageButton forwardButton;
 
 	private Component currentComponent = null;
