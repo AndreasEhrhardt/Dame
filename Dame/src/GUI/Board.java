@@ -9,12 +9,14 @@ import GameLogic.Spiel;
 
 public class Board extends JPanel {
 	private Spiel game = MainFrame.globalPointer.getGame();
-	int gameboardSize = game.getGameboardSize();
-	JButton[][] buttons = new JButton[gameboardSize][gameboardSize];
-	globalPointer
+	private int gameboardSize = game.getGameboardSize();
+	private JButton[][] buttons = new JButton[gameboardSize][gameboardSize];
+	public static Board globalPointer = null;
 
 	public Board() {
-globalPoint
+		// Set global poitner
+		Board.globalPointer = this;
+
 		int buttonSize = (int) ((double) 60 - ((gameboardSize - 8) * 2.5));
 		Dimension dimension = new Dimension(buttonSize, buttonSize);
 		this.setLayout(new GridLayout(gameboardSize + 1, gameboardSize + 1));
@@ -45,8 +47,9 @@ globalPoint
 			}
 		}
 	}
-	arraylist.remove point pressed
-methode fieldPressed
-zwei unterschiedliche koordinaten, dann move event
-button state ändern!
+
+	/*arraylist.remove point pressed
+	methode fieldPressed
+	zwei unterschiedliche koordinaten, dann move event
+	button state ändern!*/
 }

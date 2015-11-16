@@ -169,8 +169,8 @@ public class EventHandler{
 		//nicht jedesmal neue array list?? nur nach zwei buttons??
 		//buttons wieder rauslöschen nach move?? 
 		//ArrayList<Point> buttonsclicked = new ArrayList<Point>();
-		fieldPressed
-		state ändern 
+		//fieldPressed
+		//state ändern 
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -178,7 +178,7 @@ public class EventHandler{
 			if(e.getSource() instanceof Board) {
 			
 			//button ids startMove übergeben??
-			MainFrame.globalPointer.startMove(buttonsclicked.get(0), buttonsclicked.get(1));
+			//MainFrame.globalPointer.startMove(buttonsclicked.get(0), buttonsclicked.get(1));
 			}
 		}
 	}
