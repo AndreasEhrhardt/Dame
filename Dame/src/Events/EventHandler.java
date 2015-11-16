@@ -162,4 +162,9 @@ public class EventHandler{
 		}
 
 	}
+
+	public ComponentListener eMoveFigureBoard() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

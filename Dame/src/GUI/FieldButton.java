@@ -12,7 +12,7 @@ public class FieldButton extends JButton {
 
 	int x;
 	int y;
-	Spiel game = MainFrame.globalPointer.getGame();
+	private Spiel game = MainFrame.globalPointer.getGame();
 
 	public FieldButton(int x, int y) {
 

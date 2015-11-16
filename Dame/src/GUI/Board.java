@@ -21,9 +21,10 @@ public class Board extends JPanel {
 		// Colour of buttons
 		for (int i = 0; i < buttons.length; i++) {
 			for (int j = 0; j < buttons[i].length; j++) {
-				FieldButton button = new FieldButton(i,j);
+				FieldButton button = new FieldButton(gameboardSize - i,gameboardSize - j);
 				button.setPreferredSize(dimension);
-				buttons[i][j] = button;
+				button.addComponentListener(new EventHandler().eMoveFigureBoard());
+				buttons[gameboardSize - i][gameboardSize - j] = button;
 			}
 		}
 
