@@ -69,10 +69,11 @@ public class Control extends JPanel {
 
 		// Layout
 		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(10,10,10,10);
 		
 		innerPanels mp = new innerPanels();
 		mp.setLayout(new GridBagLayout());
-		c.gridx = 0; c.gridy = 0; c.insets = new Insets(10,10,10,10);
+		c.gridx = 0; c.gridy = 0; 
 		mp.add(labelCurrentPlayer,c);
 		c.gridx = 0; c.gridy = 1;
 		mp.add(player1,c);
@@ -81,7 +82,7 @@ public class Control extends JPanel {
 		
 		innerPanels mp2 = new innerPanels();
 		mp2.setLayout(new GridBagLayout());
-		c.gridx = 0; c.gridy = 0; c.insets = new Insets(10,10,10,10);
+		c.gridx = 0; c.gridy = 0; 
 		mp2.add(label,c);
 		c.gridx = 0; c.gridy = 1;
 		mp2.add(felderEingabe,c);
@@ -89,9 +90,9 @@ public class Control extends JPanel {
 		mp2.add(start,c);
 		
 		this.setLayout(new GridBagLayout());
-		c.gridx = 0; c.gridy = 0; c.insets = new Insets(10,10,100,10);
+		c.gridx = 0; c.gridy = 0; 
 		this.add(mp,c);
-		c.gridx = 0; c.gridy = 1; c.insets = new Insets(100,10,10,10);
+		c.gridx = 0; c.gridy = 1;
 		this.add(mp2,c);
 
 		start.addActionListener(new ActionListener(){
@@ -258,7 +259,7 @@ public class Control extends JPanel {
 		public currentPlayer(int playerID){
 			this.playerID = playerID;
 			
-			this.setPreferredSize(new Dimension(150,50));
+			this.setPreferredSize(new Dimension(200,50));
 		}
 
 		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -312,8 +313,8 @@ public class Control extends JPanel {
 			g2D.setColor(Color.white);
 			g2D.setFont(new Font("Gill Sans",Font.BOLD,25));
 			String text = "Player ";
-			if(this.playerID == 1) text += "1";
-			else if(this.playerID == 2) text += "2";
+			if(this.playerID == 1) text += "1 (black)";
+			else if(this.playerID == 2) text += "2 (white)";
 			MainFrame.drawCenteredString(g2D, text, new Rectangle(0,0,this.getWidth(), this.getHeight()));
 		}
 

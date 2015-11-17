@@ -56,11 +56,6 @@ public class FieldButton extends JButton {
 				g2D.fillRect(0, 0, this.getWidth(), this.getHeight());
 			}
 			
-			if(figure.isDame()){
-				g2D.setColor(new Color(255,215,0));
-				g2D.drawRect(0, 0, this.getWidth(), this.getHeight());
-			}
-			
 			Color figureColor;
 			Color figureColorBorder;
 			if(figure.getColor() == FarbEnum.schwarz){
@@ -76,6 +71,11 @@ public class FieldButton extends JButton {
 			g2D.fillOval(5, 5, this.getWidth() - 10, this.getHeight() - 10);
 			g2D.setColor(figureColor);
 			g2D.fillOval(10, 10, this.getWidth() - 20, this.getHeight() - 20);
+			
+			if(figure.isDame()){
+				g2D.setColor(new Color(255,215,0));
+				g2D.fillRect(this.getWidth() / 2 - 10, this.getWidth() / 2 - 10, 20, 20);
+			}
 		}
 	}
 	

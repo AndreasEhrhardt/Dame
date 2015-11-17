@@ -361,18 +361,6 @@ public class Spiel implements iBediener, Serializable {
 
 				// Check for new dame
 				checkForNewDames();
-
-				// Check if figure can jump again
-				if (removed && this.canDestroyOtherFigures(toPoint).size() > 0) {
-					
-				}
-				else{
-					// Set next player
-					if (this.currentGamer == this.gamer[0])
-						this.currentGamer = this.gamer[1];
-					else
-						this.currentGamer = this.gamer[0];
-				}
 				
 				// Save serialisiert
 				DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
@@ -384,6 +372,18 @@ public class Spiel implements iBediener, Serializable {
 				
 				// Update user interface
 				GameGUI.globalPointer.updateUI();
+			}
+			
+			// Check if figure can jump again
+			if (removed && this.canDestroyOtherFigures(toPoint).size() > 0) {
+				
+			}
+			else{
+				// Set next player
+				if (this.currentGamer == this.gamer[0])
+					this.currentGamer = this.gamer[1];
+				else
+					this.currentGamer = this.gamer[0];
 			}
 		} else {
 			// Some strange errors appears

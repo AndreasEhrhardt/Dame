@@ -48,7 +48,6 @@ public class KI_Dame extends KI implements Serializable {
 	//++ Methods	
 
 	public void checkForMove(){
-		System.out.println("TEST");
 		if(GameGUI.globalPointer.isVisible() == true){
 			Spiel game = MainFrame.globalPointer.getGame();
 			if(game.getCurrentGamer() == this.player){
@@ -78,6 +77,8 @@ public class KI_Dame extends KI implements Serializable {
 	 * @see KI.KI#move(GameLogic.Spiel, GameLogic.Spieler)
 	 */
 	public void move(Spiel game, Spieler player){
+		if(MainFrame.globalPointer.getGame().getCurrentGamer() != this.player) return;
+		
 		// Check for blowing rule
 		ArrayList <Point> blowable = new ArrayList<>();
 		Spielfeld felder[][] = game.getGameboard().getFields();
@@ -117,7 +118,7 @@ public class KI_Dame extends KI implements Serializable {
 				}
 			}
 
-			if(validFigures.size() == 0) return;
+			if(validFigures.isEmpty()) return;
 
 			// Take random one figure and try to move the figure
 			Point fromPoint = null, toPoint = null;
