@@ -25,7 +25,14 @@ public class Logging extends JTextArea  {
 	//++ Constructor
 
 	public Logging(){
+		// Set global pointer
 		Logging.globalPointer = this;
+
+		// Disable logging
+		this.setEnabled(false);
+		
+		// Set font color
+		this.setDisabledTextColor(new Color(0,0,0));
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

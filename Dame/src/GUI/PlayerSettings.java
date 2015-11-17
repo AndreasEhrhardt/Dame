@@ -157,6 +157,8 @@ public class PlayerSettings extends MainPanelComponent {
 		
 		MainFrame.globalPointer.getGame().setPlayer(1, player1);
 		MainFrame.globalPointer.getGame().setPlayer(2, player2);
+		
+		MainFrame.globalPointer.getGame().setCurrentGamer(FarbEnum.schwarz);
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

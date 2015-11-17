@@ -37,9 +37,6 @@ public class GameGUI extends MainPanelComponent{
 		
 		// Set prefered size
 		this.log.setPreferredSize(new Dimension(400,50));
-		
-		// Disable logging
-		this.log.setEnabled(false);;
 
 		// Add widgets to layout
 		this.add(gameboard,BorderLayout.CENTER);

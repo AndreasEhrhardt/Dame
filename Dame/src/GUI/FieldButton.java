@@ -22,6 +22,10 @@ public class FieldButton extends JButton {
 		this.y = y;
 	}
 	
+	public Point getPosition(){
+		return new Point(x,y);
+	}
+	
 	public void setSelected(boolean state){		
 		this.selected = state;
 		this.repaint();

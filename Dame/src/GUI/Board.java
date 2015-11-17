@@ -115,7 +115,7 @@ public class Board extends JPanel {
 		else{
 			pressedButton.add(button);
 			if(pressedButton.size() == 2){
-				Control.globalPointer.startMove(pressedButton.get(0).getLocation(), pressedButton.get(1).getLocation());
+				Control.globalPointer.startMove(pressedButton.get(0).getPosition(), pressedButton.get(1).getPosition());
 				this.resetPressedButtons();
 			}
 			else{

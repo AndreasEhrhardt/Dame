@@ -114,9 +114,7 @@ public class Control extends JPanel {
 		}catch (Exception e){
 			Logging.globalPointer.addErrorMessage("Sry, some other problems");
 		}
-
 	}
-
 }
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
