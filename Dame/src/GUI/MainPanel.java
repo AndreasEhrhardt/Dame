@@ -139,12 +139,11 @@ public class MainPanel extends JPanel {
 	 */
 	public void forward(){
 		if(currentComponent instanceof GameboardSettings){
-			GameboardSettings.globalPointer.save();
 			this.showPlayerSettings();
 		}
 		else if(currentComponent instanceof PlayerSettings){
 			PlayerSettings.globalPointer.save();
-			Board.globalPointer.createField();
+			GameboardSettings.globalPointer.save();
 			this.showGameGUI();
 		}
 	}
