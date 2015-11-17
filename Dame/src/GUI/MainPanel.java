@@ -16,6 +16,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import Events.*;
+import GameLogic.Spiel;
 
 //###########################################################
 //## Class
@@ -128,13 +129,8 @@ public class MainPanel extends JPanel {
 		else if(currentComponent instanceof PlayerSettings) this.showGameboardSettings();
 		else if(currentComponent instanceof GameGUI){ 
 			this.showPlayerSettings();
-<<<<<<< HEAD
 			Logging.globalPointer.getTextArea().setText("");
 			Control.globalPointer.getTextField().setText("");
-=======
-			Logging.globalPointer.setText(null);
-			Control.globalPointer.setFelderEingabe(null);
->>>>>>> branch 'master' of https://github.com/AndreasEhrhardt/Dame.git
 		}
 	}
 

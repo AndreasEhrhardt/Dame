@@ -72,6 +72,8 @@ public class Logging extends JScrollPane   {
 		int hour = LocalDateTime.now().getHour();
 
 		textArea.append(day + "." + month + "." + year + " (" + hour + ":" + minute + "): " + message);
+		JScrollBar vertical = this.getVerticalScrollBar();
+		vertical.setValue( vertical.getMaximum() );
 	}
 
 	/**

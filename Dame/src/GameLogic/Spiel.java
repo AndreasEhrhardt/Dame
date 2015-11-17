@@ -504,7 +504,7 @@ public class Spiel implements iBediener, Serializable {
 
 			this.gameboard.getField(currentX, currentY).removeFigure();
 			
-			Logging.globalPointer.addMessage("[Pusten] Folgende Spielfigur wird entfern: " + this.posToString(removePosition));
+			Logging.globalPointer.addMessage("[Pusten] Folgende Spielfigur wird entfernt: " + this.posToString(removePosition));
 		}
 	}
 
