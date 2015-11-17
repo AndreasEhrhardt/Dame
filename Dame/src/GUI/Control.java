@@ -25,7 +25,7 @@ public class Control extends JPanel {
 	private TextField felderEingabe;
 	private JLabel label;
 	private ImageButton start;
-	
+
 	public static Control globalPointer = null;
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -34,7 +34,7 @@ public class Control extends JPanel {
 	public Control(){
 		// Set global pointer
 		Control.globalPointer = this;
-		
+
 		// Set transparent background
 		this.setOpaque(false);
 
@@ -52,7 +52,7 @@ public class Control extends JPanel {
 		this.add(label);
 		this.add(felderEingabe);
 		this.add(start);
-		
+
 		start.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -63,27 +63,31 @@ public class Control extends JPanel {
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods
-	
+
 	public void eingabeTest(){
 		Point start= new Point(0,0);
 		Point end = new Point (0,0);
 		String eingabe = felderEingabe.getText();
-		String startFeld= eingabe.substring(0, 2);
-		String endFeld = eingabe.substring(4,6);
-		Pattern p = Pattern.compile( "'[A-z][0-9][0-9]-[A-z][0-9][0-9]'" );
+		Pattern p = Pattern.compile( "[A-z][0-9][0-9]-[A-z][0-9][0-9]" );
 		Matcher m = p.matcher( eingabe );
 		boolean b = m.matches();
 		if(b== true){
+			String startFeld= eingabe.substring(0, 3);
+			String endFeld = eingabe.substring(4,7);
+			
 			Spiel game = MainFrame.globalPointer.getGame();
 			try{
 				start= game.stringToPoint(startFeld);
 				end = game.stringToPoint(endFeld);
-			}catch(Spiel.eInvalidPointException e){
+				startMove(start,end);
+			}catch(Spiel.eInvalidPointException e){ 
+				Logging.globalPointer.addErrorMessage("invalid input");
 			}
-			startMove(start,end);
+		}else { System.out.println("test");
 		}
 	}
-	
+
+
 	public void startMove(Point start,Point end){
 		Spiel game = MainFrame.globalPointer.getGame();
 		try{
@@ -91,11 +95,11 @@ public class Control extends JPanel {
 			String startPos = game.posToString(start);
 			String endPos = game.posToString(end);
 			Logging.globalPointer.addMessage(startPos + " -> " + endPos);
-			
+
 			if(game.getCurrentGamer().getKi() != null){
 				game.getCurrentGamer().move(game, null);
 			}
-			
+
 			Board.globalPointer.updateUI();
 		}catch (Spiel.eSomeOtherMoveErrorsException e) {
 			Logging.globalPointer.addErrorMessage("Unbekannter Fehler. Sorry.");
