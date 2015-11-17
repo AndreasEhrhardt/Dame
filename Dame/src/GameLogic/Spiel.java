@@ -561,7 +561,9 @@ public class Spiel implements iBediener, Serializable {
 		Point removePosition = null;
 
 		if (figures.size() > 0) {
-			//int randomRemove = Math.random().
+			Random rand = new Random();
+			int number = rand.nextInt(figures.size());
+			removePosition = figures.get(number).getPosiiton();
 		}
 
 		if (removePosition != null) {
@@ -569,7 +571,7 @@ public class Spiel implements iBediener, Serializable {
 			int currentY = (int) removePosition.getY();
 
 			this.gameboard.getField(currentX, currentY).removeFigure();
-
+			
 			Logging.globalPointer.addMessage("[Pusten] Folgende Spielfigur wird entfern: " + this.posToString(removePosition));
 		}
 	}
