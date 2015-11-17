@@ -16,6 +16,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import Events.*;
+import GameLogic.Spiel;
 
 //###########################################################
 //## Class
@@ -127,6 +128,7 @@ public class MainPanel extends JPanel {
 			this.showPlayerSettings();
 			Logging.globalPointer.setText(null);
 			Control.globalPointer.setFelderEingabe(null);
+			MainFrame.globalPointer.setGame(new Spiel());
 		}
 	}
 
