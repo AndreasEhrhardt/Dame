@@ -127,6 +127,9 @@ public class Control extends JPanel {
 			Logging.globalPointer.addErrorMessage("Sry, some other problems");
 		}
 	}
+	public void setFelderEingabe(String s){
+		 this.felderEingabe.setText(s);
+	 }
 }
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

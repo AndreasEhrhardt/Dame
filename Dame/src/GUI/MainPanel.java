@@ -123,7 +123,11 @@ public class MainPanel extends JPanel {
 		if(currentComponent instanceof LoadingMenu) this.showStartpage();
 		else if(currentComponent instanceof GameboardSettings) this.showStartpage();
 		else if(currentComponent instanceof PlayerSettings) this.showGameboardSettings();
-		else if(currentComponent instanceof GameGUI) this.showPlayerSettings(); Logging.globalPointer.setText(null);
+		else if(currentComponent instanceof GameGUI){ 
+			this.showPlayerSettings();
+			Logging.globalPointer.setText(null);
+			Control.globalPointer.setFelderEingabe(null);
+		}
 	}
 
 	/**
