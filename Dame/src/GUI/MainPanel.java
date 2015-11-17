@@ -29,7 +29,8 @@ public class MainPanel extends JPanel {
 	private LoadingMenu loadingMenu;
 	private GameboardSettings gameboardSettings;
 	private PlayerSettings playerSettings;
-	ImageButton backButton;
+	private GameGUI gameGUI;
+	private ImageButton backButton;
 	private ImageButton forwardButton;
 
 	private Component currentComponent = null;
@@ -61,6 +62,7 @@ public class MainPanel extends JPanel {
 		loadingMenu = new LoadingMenu();
 		gameboardSettings = new GameboardSettings();
 		playerSettings = new PlayerSettings();
+		gameGUI = new GameGUI();
 
 		// Create back and forward buttons
 		backButton = new ImageButton("Back");
@@ -85,6 +87,7 @@ public class MainPanel extends JPanel {
 		this.add(this.gameboardSettings);
 		this.add(this.startpage);
 		this.add(this.playerSettings);
+		this.add(this.gameGUI);
 
 		// Set Z-Order
 		this.setComponentZOrder(backButton, 0);
@@ -120,6 +123,7 @@ public class MainPanel extends JPanel {
 		if(currentComponent instanceof LoadingMenu) this.showStartpage();
 		else if(currentComponent instanceof GameboardSettings) this.showStartpage();
 		else if(currentComponent instanceof PlayerSettings) this.showGameboardSettings();
+		else if(currentComponent instanceof GameGUI) this.showPlayerSettings();
 	}
 
 	/**
@@ -129,6 +133,11 @@ public class MainPanel extends JPanel {
 		if(currentComponent instanceof GameboardSettings){
 			GameboardSettings.globalPointer.save();
 			this.showPlayerSettings();
+		}
+		else if(currentComponent instanceof PlayerSettings){
+			PlayerSettings.globalPointer.save();
+			Board.globalPointer.createField();
+			this.showGameGUI();
 		}
 	}
 
@@ -141,6 +150,7 @@ public class MainPanel extends JPanel {
 		if(currentComponent instanceof LoadingMenu) state = true;
 		else if(currentComponent instanceof GameboardSettings) state = true;
 		else if(currentComponent instanceof PlayerSettings) state = true;
+		else if(currentComponent instanceof GameGUI) state = true;
 		
 		this.backButton.setVisible(state);
 	}
@@ -214,6 +224,13 @@ public class MainPanel extends JPanel {
 	
 	public void showPlayerSettings(){
 		setNewComponent(playerSettings);
+	}
+	
+	/**
+	 * 
+	 */
+	public void showGameGUI(){
+		setNewComponent(this.gameGUI);
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -9,7 +9,10 @@ package GUI;
 import java.awt.*;
 import javax.swing.*;
 
+import Enumerations.FarbEnum;
 import Events.EventHandler;
+import GameLogic.Spieler;
+import KI.KI_Dame;
 
 //###########################################################
 //## Class
@@ -139,6 +142,22 @@ public class PlayerSettings extends MainPanelComponent {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods
 
+	public void save(){
+		Spieler player1 = new Spieler();
+		player1.setColor(FarbEnum.schwarz);
+		if(this.name1.getText().isEmpty()) this.name1.setText("Spieler 1");
+		player1.setName(this.name1.getText());
+		if(this.player1_KI.isEnabled) player1.setKI(new KI_Dame());
+		
+		Spieler player2 = new Spieler();
+		player2.setColor(FarbEnum.schwarz);
+		if(this.name2.getText().isEmpty()) this.name2.setText("Spieler 2");
+		player1.setName(this.name2.getText());
+		if(this.player2_KI.isEnabled) player2.setKI(new KI_Dame());
+		
+		MainFrame.globalPointer.getGame().setPlayer(1, player1);
+		MainFrame.globalPointer.getGame().setPlayer(2, player2);
+	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
@@ -260,6 +279,11 @@ public class PlayerSettings extends MainPanelComponent {
 		public void paintComponent(Graphics g){
 			// Create better paint device
 			Graphics2D g2D = (Graphics2D) g;
+			
+			// Render hints
+			g2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			g2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
 			// Draw background
 			g2D.setColor(Color.black);

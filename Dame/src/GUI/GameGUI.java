@@ -8,42 +8,57 @@ package GUI;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.text.*;
+import Events.EventHandler;
 
 //###########################################################
 //## Class
 
 @SuppressWarnings("serial")
-public class Logging extends JTextArea  {
+public class GameGUI extends MainPanelComponent{
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
 
-	public static Logging globalPointer = null;
+	Board gameboard;
+	Logging log;
+	Control control;
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
-	public Logging(){
-		Logging.globalPointer = this;
+	public GameGUI(){		
+		// Create graphic elements
+		log = new Logging();
+		gameboard = new Board();
+		control = new Control();
+
+		// Set layout maanger
+		this.setLayout(new BorderLayout());
+		
+		// Set prefered size
+		this.log.setPreferredSize(new Dimension(400,50));
+		
+		// Disable logging
+		this.log.setEnabled(false);;
+
+		// Add widgets to layout
+		this.add(gameboard,BorderLayout.CENTER);
+		this.add(log,BorderLayout.SOUTH);
+		this.add(control,BorderLayout.EAST);
+
+		this.addComponentListener(new EventHandler().new eGameGUI());
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods
 
-	public void addMessage(String message){		
-		if(!this.getText().isEmpty()) this.append("\n");
-		this.append(message);
-	}
-	
-	public void addErrorMessage(String message){
-		if(!this.getText().isEmpty()) this.append("\n");
-		this.append("[ERROR] " + message);
-	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
 
+	public Board getGameboard(){
+		return this.gameboard;
+	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Setter)

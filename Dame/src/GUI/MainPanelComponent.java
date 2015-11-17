@@ -24,6 +24,8 @@ public class MainPanelComponent extends JPanel {
 	//++ Constructor
 
 	public MainPanelComponent(){
+		this.setOpaque(false);
+
 		// Hide widget
 		this.setVisible(false);
 	}
@@ -44,9 +46,14 @@ public class MainPanelComponent extends JPanel {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods (Override)
 
-	public void paintComponent(Graphics g){
+	public void paintComponent(Graphics g){		
 		// Create extended draw device
-		Graphics2D g2d = (Graphics2D) g;
+		Graphics2D g2D = (Graphics2D) g;
+
+		// Render hints
+		g2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
 		// Set colors
 		Color color1 = new Color(100,100,100);
@@ -59,8 +66,8 @@ public class MainPanelComponent extends JPanel {
 		GradientPaint gradient = new GradientPaint(0, 0, color1, w / 2, 0, color2, true);
 
 		// Set left color
-		g2d.setPaint(gradient);
-		g2d.fillRoundRect(0, 0, w, h, 100, 100);
+		g2D.setPaint(gradient);
+		g2D.fillRoundRect(0, 0, w, h, 100, 100);
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

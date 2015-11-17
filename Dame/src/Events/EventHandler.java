@@ -170,15 +170,13 @@ public class EventHandler{
 
 	}
 
-	public class eMoveFiguresBoard implements ActionListener {
+	public class eFieldButton implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
-			if(e.getSource() instanceof Board) {
-				FieldButton pressed = (FieldButton) e.getSource();
-				pressed.setBackground(Color.BLUE);
-				Board.globalPointer.fieldPressed(pressed);
+			if(e.getSource() instanceof FieldButton) {
+				FieldButton button = (FieldButton) e.getSource();
+				Board.globalPointer.fieldPressed(button);
 			}
 		}
 	}
@@ -241,6 +239,53 @@ public class EventHandler{
 						else PlayerSettings.globalPointer.getKI2Button().setDisabled();
 					}
 				}
+			}
+		}
+	}
+	
+	public class eGameGUI implements ComponentListener{		
+
+		@Override
+		public void componentResized(ComponentEvent e) {}
+
+		@Override
+		public void componentHidden(ComponentEvent arg0) {}
+
+		@Override
+		public void componentMoved(ComponentEvent arg0) {}
+
+		@Override
+		public void componentShown(ComponentEvent e) {
+			Component component = e.getComponent();
+			if(component instanceof GameGUI){
+				GameGUI board = (GameGUI) component;
+				board.getGameboard().createField();
+			}
+		}
+	}
+	
+	public class eBoard implements ComponentListener{		
+
+		@Override
+		public void componentResized(ComponentEvent e) {
+			Component component = e.getComponent();
+			if(component instanceof Board){
+				Board board = (Board) component;
+				board.setSize();
+			}
+		}
+
+		@Override
+		public void componentHidden(ComponentEvent arg0) {}
+
+		@Override
+		public void componentMoved(ComponentEvent arg0) {}
+
+		@Override
+		public void componentShown(ComponentEvent e) {
+			Component component = e.getComponent();
+			if(component instanceof Board){
+				Board board = (Board) component;
 			}
 		}
 	}

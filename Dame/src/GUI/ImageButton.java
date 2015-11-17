@@ -45,7 +45,7 @@ public class ImageButton extends JButton  {
 
 	public ImageButton(String text){	
 		this();
-		
+
 		this.setText(text);
 	}
 
@@ -121,7 +121,15 @@ public class ImageButton extends JButton  {
 	//++ Methods (Override)
 
 	@Override
-	protected void paintComponent(Graphics g){			
+	protected void paintComponent(Graphics g){	
+		// Use better paint class
+		Graphics2D g2D = (Graphics2D) g;
+
+		// Render hints
+		g2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
 		// Detect current image
 		BufferedImage currentImage = null;
 		if(this.disabled){
@@ -143,7 +151,7 @@ public class ImageButton extends JButton  {
 		Dimension size = this.fitImageToSize(new Dimension(currentImage.getWidth(),currentImage.getHeight()));
 
 		// Draw image
-		g.drawImage(currentImage, 0, 0, (int)size.getWidth(), (int)size.getHeight(), this);
+		g2D.drawImage(currentImage, 0, 0, (int)size.getWidth(), (int)size.getHeight(), this);
 
 		// Set text
 		if(getModel().isRollover() && !this.getText().isEmpty()){			
@@ -151,9 +159,9 @@ public class ImageButton extends JButton  {
 			currentSize.setLocation(0, (int)currentSize.getHeight() - 25);
 			currentSize.setSize(currentSize.width, 10);
 
-			g.setFont(new Font("Gill Sans",Font.BOLD,20));
-			g.setColor(Color.white);
-			MainFrame.drawCenteredString(g, this.getText(), currentSize);
+			g2D.setFont(new Font("Gill Sans",Font.BOLD,20));
+			g2D.setColor(Color.white);
+			MainFrame.drawCenteredString(g2D, this.getText(), currentSize);
 		}
 	}
 
