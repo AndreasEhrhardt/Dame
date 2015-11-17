@@ -84,11 +84,11 @@ public class Spiel implements iBediener, Serializable {
 	 * @return
 	 */
 	public String posToString(Point position){
-		char firstLetter = (char)(65 + position.getY());
+		char firstLetter = (char)(65 + position.getX());
 		
 		StringBuilder returnValue = new StringBuilder();
 		returnValue.append(firstLetter);
-		returnValue.append((int)position.getX() + 1);
+		returnValue.append((int)position.getY() + 1);
 		 
 		return returnValue.toString();
 	}
@@ -112,7 +112,7 @@ public class Spiel implements iBediener, Serializable {
 
 					if (x < 0 || y < 0) throw new Spiel.eInvalidPointException();
 
-					point.setLocation(x, y);
+					point.setLocation(y, x);
 
 					return point;
 				} 
