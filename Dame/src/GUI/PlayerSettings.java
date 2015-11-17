@@ -150,14 +150,13 @@ public class PlayerSettings extends MainPanelComponent {
 		if(this.player1_KI.isEnabled) player1.setKI(new KI_Dame());
 		
 		Spieler player2 = new Spieler();
-		player2.setColor(FarbEnum.schwarz);
+		player2.setColor(FarbEnum.weiß);
 		if(this.name2.getText().isEmpty()) this.name2.setText("Spieler 2");
-		player1.setName(this.name2.getText());
+		player2.setName(this.name2.getText());
 		if(this.player2_KI.isEnabled) player2.setKI(new KI_Dame());
 		
 		MainFrame.globalPointer.getGame().setPlayer(1, player1);
 		MainFrame.globalPointer.getGame().setPlayer(2, player2);
-		
 		MainFrame.globalPointer.getGame().setCurrentGamer(FarbEnum.schwarz);
 	}
 

@@ -25,6 +25,9 @@ public class Spieler implements Serializable {
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Constructor
 
+	/**
+	 * 
+	 */
 	public Spieler() {
 		this.setName("");
 	}
@@ -170,16 +173,6 @@ public class Spieler implements Serializable {
 				throw new Spiel.eInvalidPointException();
 			}
 		}
-	}
-	
-	public String posToString(Point position){
-		char firstLetter = (char)(65 + position.getY());
-		
-		StringBuilder returnValue = new StringBuilder();
-		returnValue.append(firstLetter);
-		returnValue.append((int)position.getX() + 1);
-		 
-		return returnValue.toString();
 	}
 	
 

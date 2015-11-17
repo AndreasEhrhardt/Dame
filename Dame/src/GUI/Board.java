@@ -13,6 +13,8 @@ import javax.swing.*;
 
 import Events.EventHandler;
 import GameLogic.Spiel;
+import GameLogic.Spielbrett;
+import GameLogic.Spielfeld;
 
 //###########################################################
 //## Class
@@ -113,6 +115,12 @@ public class Board extends JPanel {
 			this.resetPressedButtons();
 		} 
 		else{
+			Spielbrett gameboard = MainFrame.globalPointer.getGame().getGameboard();
+			if(pressedButton.size() == 0){
+				Spielfeld field = gameboard.getField((int)button.getPosition().getX(), (int)button.getPosition().getY());
+				if(field.getFigure() == null) return;
+			}
+			
 			pressedButton.add(button);
 			if(pressedButton.size() == 2){
 				Control.globalPointer.startMove(pressedButton.get(0).getPosition(), pressedButton.get(1).getPosition());

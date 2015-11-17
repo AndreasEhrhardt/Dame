@@ -7,6 +7,8 @@ import java.io.*;
 import java.util.*;
 
 import Enumerations.FarbEnum;
+import GUI.Logging;
+import GUI.MainFrame;
 import Interfaces.iBediener;
 import Interfaces.iDatenzugriff;
 import KI.KI_Dame;
@@ -77,6 +79,20 @@ public class Spiel implements iBediener, Serializable {
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods
 
+	/**
+	 * @param position
+	 * @return
+	 */
+	public String posToString(Point position){
+		char firstLetter = (char)(65 + position.getY());
+		
+		StringBuilder returnValue = new StringBuilder();
+		returnValue.append(firstLetter);
+		returnValue.append((int)position.getX() + 1);
+		 
+		return returnValue.toString();
+	}
+	
 	/**
 	 * @param sPoint
 	 * @return
@@ -431,16 +447,16 @@ public class Spiel implements iBediener, Serializable {
 
 				// Check if figure can jump again
 				if (removed && this.canDestroyOtherFigures(toPoint).size() > 0) {
-					// Do next jump
-					currentGamer.move(this, toPoint);
+					
+				}
+				else{
+					// Set next player
+					if (this.currentGamer == this.gamer[0])
+						this.currentGamer = this.gamer[1];
+					else
+						this.currentGamer = this.gamer[0];
 				}
 			}
-
-			// Set next player
-			if (this.currentGamer == this.gamer[0])
-				this.currentGamer = this.gamer[1];
-			else
-				this.currentGamer = this.gamer[0];
 		} else {
 			// Some strange errors appears
 			throw new eSomeOtherMoveErrorsException();
@@ -545,37 +561,7 @@ public class Spiel implements iBediener, Serializable {
 		Point removePosition = null;
 
 		if (figures.size() > 0) {
-			System.out.println("");
-			System.out.println("Pusten-Regel tritt in Kraft!");
-			if (figures.size() == 1) {
-				removePosition = figures.get(0).getPosiiton();
-			} else {
-				Point position = null;
-				do {
-					removePosition = null;
-
-					System.out.println("Es stehen folgende Spielfiguren zur Auswahl:");
-					for (int i = 0; i < figures.size(); i++) {
-						if (i != 0)
-							System.out.print("; ");
-						System.out.print(i + ". " + this.currentGamer.posToString(figures.get(i).getPosiiton()));
-					}
-					System.out.println("");
-					System.out.print("Bitte Spielfigur eingeben: ");
-
-					try {
-						position = this.currentGamer.inputPosition();
-
-						for (Spielfigur figure : figures) {
-							if (figure.getPosiiton().equals(position)) removePosition = position;
-						}
-
-						if (removePosition == null) System.out.println("Fehler bei der Eingabe!");
-					} catch (Exception e) {
-						position = null;
-					}
-				} while (position == null || removePosition == null);
-			}
+			//int randomRemove = Math.random().
 		}
 
 		if (removePosition != null) {
@@ -584,8 +570,7 @@ public class Spiel implements iBediener, Serializable {
 
 			this.gameboard.getField(currentX, currentY).removeFigure();
 
-			System.out.println(
-					"[Pusten] Folgende Spielfigur wird entfern: " + this.currentGamer.posToString(removePosition));
+			Logging.globalPointer.addMessage("[Pusten] Folgende Spielfigur wird entfern: " + this.posToString(removePosition));
 		}
 	}
 

@@ -52,6 +52,7 @@ public class Control extends JPanel {
 		this.add(label);
 		this.add(felderEingabe);
 		this.add(start);
+		
 		start.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -87,6 +88,13 @@ public class Control extends JPanel {
 		Spiel game = MainFrame.globalPointer.getGame();
 		try{
 			game.move(start,end);
+			String startPos = game.posToString(start);
+			String endPos = game.posToString(end);
+			Logging.globalPointer.addMessage(startPos + " -> " + endPos);
+			
+			if(game.getCurrentGamer().getKi() != null){
+				game.getCurrentGamer().move(game, null);
+			}
 			
 			Board.globalPointer.updateUI();
 		}catch (Spiel.eSomeOtherMoveErrorsException e) {

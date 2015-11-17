@@ -40,20 +40,6 @@ public class KI_Dame extends KI implements Serializable {
 	 * @see KI.KI#move(GameLogic.Spiel, GameLogic.Spieler)
 	 */
 	public void move(Spiel game, Spieler player){
-		try{
-			System.out.print("("+ player.getName() + " - " + FarbEnum.getColorName(player.getColor()) + ")" + " Thinking");
-			int sleepTime = 200;
-			Thread.sleep(sleepTime * 1);
-			System.out.print(".");
-			Thread.sleep(sleepTime * 1);
-			System.out.print(".");
-			Thread.sleep(sleepTime * 1);
-			System.out.print(".");
-			Thread.sleep(sleepTime * 1);
-			System.out.println("");
-		}
-		catch(Exception e){}
-
 		// Check for blowing rule
 		ArrayList <Point> blowable = new ArrayList<>();
 		Spielfeld felder[][] = game.getGameboard().getFields();
@@ -66,7 +52,7 @@ public class KI_Dame extends KI implements Serializable {
 				}
 			}
 		}
-		
+
 		if(blowable.size() != 0){
 			try{
 				int random = (int)(Math.random() * (blowable.size() - 1));
