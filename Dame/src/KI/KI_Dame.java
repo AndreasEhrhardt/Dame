@@ -9,8 +9,13 @@ package KI;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import Enumerations.FarbEnum;
+import GUI.GameGUI;
+import GUI.Logging;
+import GUI.MainFrame;
 import GameLogic.Spiel;
 import GameLogic.Spieler;
 import GameLogic.Spielfeld;
@@ -24,17 +29,50 @@ public class KI_Dame extends KI implements Serializable {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
 
-	private Spieler kiPlayer;
+	Timer timer;
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
 	public KI_Dame(){
-		setKiPlayer();
+		timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				checkForMove();
+			}
+		}, 0, 1 * 1 * 50);
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//++ Methods
+	//++ Methods	
+
+	public void checkForMove(){
+		System.out.println("TEST");
+		if(GameGUI.globalPointer.isVisible() == true){
+			Spiel game = MainFrame.globalPointer.getGame();
+			if(game.getCurrentGamer() == this.player){
+				Timer moveTimer = new Timer();
+				moveTimer.schedule(new TimerTask() {
+					@Override
+					public void run() {
+						move(game, player);
+					}
+				}, 500); 
+			}
+		}
+	}
+
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Methods ( Getter)
+
+
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Methods ( Setter)
+
+
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Methods (Override)
 
 	/* (non-Javadoc)
 	 * @see KI.KI#move(GameLogic.Spiel, GameLogic.Spieler)
@@ -79,6 +117,8 @@ public class KI_Dame extends KI implements Serializable {
 				}
 			}
 
+			if(validFigures.size() == 0) return;
+
 			// Take random one figure and try to move the figure
 			Point fromPoint = null, toPoint = null;
 			do{
@@ -109,26 +149,10 @@ public class KI_Dame extends KI implements Serializable {
 			}while((fromPoint == null || toPoint == null));
 
 			try{
-				//System.out.println("MOVE FROM=" + fromPoint + " TO=" + toPoint);
 				game.move(fromPoint, toPoint);
 			}catch (Exception e){
-				System.out.println("Sry, some other problems ");
+				throw new RuntimeException();
 			}
 		}
 	}
-
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//++ Methods ( Getter)
-
-
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//++ Methods ( Setter)
-
-	private void setKiPlayer(){
-		this.kiPlayer = new Spieler();
-	}
-
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//++ Methods (Override)
-
 }

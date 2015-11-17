@@ -33,6 +33,7 @@ public class LoadingMenu extends MainPanelComponent {
 		loadingSerializeButton.setHoverImage("Images/Restore_Hover.png");
 		loadingSerializeButton.setPressImage("Images/Restore_Pressed.png");
 		loadingSerializeButton.setDisabledImage("Images/Restore_Disabled.png");
+		loadingSerializeButton.addActionListener(new EventHandler().new eLoadSerial());
 		
 		loadingCSVButton = new ImageButton("Load file");
 		loadingCSVButton.setDefaultImage("Images/Load_File.png");

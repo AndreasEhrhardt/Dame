@@ -53,7 +53,7 @@ public class jKI_Dame {
 				game.getCurrentGamer().move(game, null);
 				game.outputGameboardCSV();
 				
-				if(game.gameFinished()) break;
+				if(game.gameFinished() != null) break;
 			}
 			
 			game.outputGameboardCSV();

@@ -74,31 +74,30 @@ public class Control extends JPanel {
 		if(b== true){
 			String startFeld= eingabe.substring(0, 3);
 			String endFeld = eingabe.substring(4,7);
-			
+
 			Spiel game = MainFrame.globalPointer.getGame();
 			try{
 				start= game.stringToPoint(startFeld);
 				end = game.stringToPoint(endFeld);
 				startMove(start,end);
 			}catch(Spiel.eInvalidPointException e){ 
-				Logging.globalPointer.addErrorMessage("invalid input");
+				Logging.globalPointer.addErrorMessage("Invalid input");
 			}
-		}else { System.out.println("test");
+		}else {
+			Logging.globalPointer.addErrorMessage("Invalid input");
 		}
 	}
 
 
 	public void startMove(Point start,Point end){
+		if(MainFrame.globalPointer.getGame().getCurrentGamer().getKi() != null){
+			Logging.globalPointer.addErrorMessage("KI ist am zug");
+			return;
+		}
+
 		Spiel game = MainFrame.globalPointer.getGame();
 		try{
 			game.move(start,end);
-			String startPos = game.posToString(start);
-			String endPos = game.posToString(end);
-			Logging.globalPointer.addMessage(startPos + " -> " + endPos);
-
-			if(game.getCurrentGamer().getKi() != null){
-				game.getCurrentGamer().move(game, null);
-			}
 
 			Board.globalPointer.updateUI();
 		}catch (Spiel.eSomeOtherMoveErrorsException e) {
@@ -127,21 +126,26 @@ public class Control extends JPanel {
 			Logging.globalPointer.addErrorMessage("Sry, some other problems");
 		}
 	}
+	public void setFelderEingabe(String s){
+		this.felderEingabe.setText(s);
+	}
+
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Methods ( Getter)
+
+	public TextField getTextField(){
+		return this.felderEingabe;
+	}
+
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Methods ( Setter)
+
+
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Methods (Override)
+
+
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++ Inner class
+
 }
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//++ Methods ( Getter)
-
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//++ Methods ( Setter)
-
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//++ Methods (Override)
-
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//++ Inner class
-
-

@@ -1,14 +1,16 @@
 package SavegameManager;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import GameLogic.Spiel;
 import Interfaces.*;
 
 
 public class DatenzugriffSerialisiert implements iDatenzugriff{	
-	String defaultName = "savegameSerial.data";
-	String defaultPath = "./";
+	private static String defaultName = "savegameSerial.data";
+	private static String defaultPath = "./";
 	
 	/**
 	 * @param game
@@ -29,6 +31,11 @@ public class DatenzugriffSerialisiert implements iDatenzugriff{
 	 */
 	public boolean haveSaveGame(){
 		return this.haveSaveGame(defaultPath, defaultName);
+	}
+	
+	public static void deleteSaveGame(){
+		File file = new File(defaultPath + defaultName);
+		file.delete();
 	}
 	
 	/* (non-Javadoc)

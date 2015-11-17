@@ -23,9 +23,9 @@ public enum FarbEnum {
 
 	public static String getColorName(FarbEnum color) {
 		if (color == weiﬂ)
-			return "Weiﬂ";
+			return "White";
 		else if (color == schwarz)
-			return "Schwarz";
+			return "Black";
 		else
 			return "UNKOWN";
 	}

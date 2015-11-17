@@ -7,8 +7,10 @@ import java.io.*;
 import java.util.*;
 
 import Enumerations.FarbEnum;
+import GUI.GameGUI;
 import GUI.Logging;
 import GUI.MainFrame;
+import GUI.MainPanel;
 import Interfaces.iBediener;
 import Interfaces.iDatenzugriff;
 import KI.KI_Dame;
@@ -84,11 +86,11 @@ public class Spiel implements iBediener, Serializable {
 	 * @return
 	 */
 	public String posToString(Point position){
-		char firstLetter = (char)(65 + position.getY());
+		char firstLetter = (char)(65 + position.getX());
 		
 		StringBuilder returnValue = new StringBuilder();
 		returnValue.append(firstLetter);
-		returnValue.append((int)position.getX() + 1);
+		returnValue.append((int)position.getY() + 1);
 		 
 		return returnValue.toString();
 	}
@@ -112,7 +114,7 @@ public class Spiel implements iBediener, Serializable {
 
 					if (x < 0 || y < 0) throw new Spiel.eInvalidPointException();
 
-					point.setLocation(x, y);
+					point.setLocation(y, x);
 
 					return point;
 				} 
@@ -122,91 +124,6 @@ public class Spiel implements iBediener, Serializable {
 		}
 
 		throw new Spiel.eInvalidPointException();
-	}
-
-	/**
-	 * Initializes new game and creates a new gameboard and two new players.
-	 */
-	public void initialize() {
-		gamer = new Spieler[2];
-
-		// Create gameboard
-		this.gameboard = new Spielbrett();
-
-		// Ask if new game, restore last game or load CSV-File
-		int newGameState = askNewGame();
-
-		// Loading success
-		boolean loadingSuccess = false;
-
-		// If not new game, try to load
-		if(newGameState == 2){
-			DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
-			loadingSuccess = serial.loadGame(this);
-		} else if(newGameState == 3){
-
-		}
-
-		if (!loadingSuccess) {
-			if(newGameState != 1) System.out.println("Fehler beim laden! (Existiert die Datei?)");
-
-			// Lets create a new gameboard
-			this.setGameboard(this.createGameBoard());
-
-			// Create gamer 1
-			gamer[0] = createNewPlayer(1);
-
-			// Create gamer 2
-			gamer[1] = createNewPlayer(2);
-
-			// Set start player
-			this.currentGamer = gamer[1];
-		}
-	}
-
-	/**
-	 * The game-loop is the main loop of the application. The loop checks for
-	 * finished
-	 */
-	public void gameLoop() {
-		// Output start gameboard
-		this.outputGameboardCSV();
-
-		// Set info for first run
-		boolean firstRun = true;
-
-		while (!gameFinished()) {
-			if (!firstRun) {
-				// Save serialized
-				DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
-				serial.saveGame(this);
-
-			} else firstRun = false;
-
-			// Current player have to move
-			this.currentGamer.move(this, null);
-
-			// Output current gameboard
-			this.outputGameboardCSV();
-		}
-
-	}
-
-	/**
-	 * @param filePath
-	 * @return
-	 */
-	private String[] getPathAndName(String filePath){
-		// Get file path
-		String filePathSplittet[] = filePath.split("/");
-
-		// Check if splittet path has values
-		if(filePathSplittet.length <= 0) return new String[0];
-
-		// Remove filename to get path
-		filePath = filePath.replace(filePathSplittet[filePathSplittet.length - 1], "");
-
-		return new String[]{filePath,filePathSplittet[filePathSplittet.length - 1]};
 	}
 
 	/**
@@ -456,10 +373,25 @@ public class Spiel implements iBediener, Serializable {
 					else
 						this.currentGamer = this.gamer[0];
 				}
+				
+				// Save serialisiert
+				DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
+				serial.saveGame(this);
+				
+				String startPos = posToString(fromPoint);
+				String endPos = posToString(toPoint);
+				Logging.globalPointer.addMessage(startPos + " -> " + endPos);
+				
+				// Update user interface
+				GameGUI.globalPointer.updateUI();
 			}
 		} else {
 			// Some strange errors appears
 			throw new eSomeOtherMoveErrorsException();
+		}
+		
+		if(this.gameFinished() != null){
+			MainPanel.globalPointer.showWinningScreen();
 		}
 	}
 
@@ -561,7 +493,9 @@ public class Spiel implements iBediener, Serializable {
 		Point removePosition = null;
 
 		if (figures.size() > 0) {
-			//int randomRemove = Math.random().
+			Random rand = new Random();
+			int number = rand.nextInt(figures.size());
+			removePosition = figures.get(number).getPosiiton();
 		}
 
 		if (removePosition != null) {
@@ -569,7 +503,7 @@ public class Spiel implements iBediener, Serializable {
 			int currentY = (int) removePosition.getY();
 
 			this.gameboard.getField(currentX, currentY).removeFigure();
-
+			
 			Logging.globalPointer.addMessage("[Pusten] Folgende Spielfigur wird entfern: " + this.posToString(removePosition));
 		}
 	}
@@ -976,7 +910,7 @@ public class Spiel implements iBediener, Serializable {
 	 * This checks if game is finished
 	 */
 	@Override
-	public boolean gameFinished() {
+	public FarbEnum gameFinished() {
 		int whiteFigures = 0, blackFigures = 0;
 
 		Spielfeld felder[][] = this.gameboard.getFields();
@@ -992,12 +926,12 @@ public class Spiel implements iBediener, Serializable {
 			}
 		}
 
-		String winName;
+		FarbEnum winColor = null;
 		if (whiteFigures == 0 || blackFigures == 0) {
 			if (whiteFigures == 0)
-				winName = FarbEnum.getColorName(FarbEnum.schwarz);
+				winColor = FarbEnum.schwarz;
 			else
-				winName = FarbEnum.getColorName(FarbEnum.weiﬂ);
+				winColor = FarbEnum.weiﬂ;
 		} else {
 			boolean canMoveValue;
 			if (this.currentGamer.getColor() == FarbEnum.schwarz)
@@ -1007,15 +941,14 @@ public class Spiel implements iBediener, Serializable {
 
 			if (!canMoveValue) {
 				if (this.currentGamer.getColor() == FarbEnum.schwarz)
-					winName = FarbEnum.getColorName(FarbEnum.weiﬂ);
+					winColor = FarbEnum.weiﬂ;
 				else
-					winName = FarbEnum.getColorName(FarbEnum.schwarz);
+					winColor = FarbEnum.schwarz;
 			} else
-				return false;
+				return null;
 		}
 
-		System.out.println("Herzlichen Gl¸ckwunsch " + winName + "! Sie haben gewonnen");
-		return true;
+		return winColor;
 	}
 
 	/**

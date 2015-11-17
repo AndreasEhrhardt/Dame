@@ -90,8 +90,9 @@ public class EventHandler{
 			if(component instanceof LoadingMenu){
 				LoadingMenu lm = (LoadingMenu) component;
 				DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
-				if(!serial.haveSaveGame()) lm.getLoadingSerializeButton().setDisabled(true);;
-				lm.repaint();
+				if(!serial.haveSaveGame()) lm.getLoadingSerializeButton().setDisabled(true);
+				else lm.getLoadingSerializeButton().setDisabled(false);
+				lm.updateUI();;
 			}
 		}
 	}
@@ -202,6 +203,8 @@ public class EventHandler{
 				if(player == null || player.getKi() == null){
 					widget.getPlayer1Button().setEnabled();
 					widget.getKI1Button().setDisabled();
+
+					if(player != null) widget.getPlayer1Name().setText(player.getName());
 				}
 				else{
 					widget.getPlayer1Button().setDisabled();
@@ -212,6 +215,8 @@ public class EventHandler{
 				if(player == null || player.getKi() == null){
 					widget.getPlayer2Button().setEnabled();
 					widget.getKI2Button().setDisabled();
+
+					if(player != null) widget.getPlayer2Name().setText(player.getName());
 				}
 				else{
 					widget.getPlayer2Button().setDisabled();
@@ -220,7 +225,7 @@ public class EventHandler{
 			}
 		}
 	}
-	
+
 	public class ePlayerButtonClicked implements ActionListener {
 
 		@Override
@@ -242,11 +247,17 @@ public class EventHandler{
 			}
 		}
 	}
-	
+
 	public class eGameGUI implements ComponentListener{		
 
 		@Override
-		public void componentResized(ComponentEvent e) {}
+		public void componentResized(ComponentEvent e) {
+			Component component = e.getComponent();
+			if(component instanceof GameGUI){
+				GameGUI board = (GameGUI) component;
+				board.fitComponents();
+			}
+		}
 
 		@Override
 		public void componentHidden(ComponentEvent arg0) {}
@@ -260,10 +271,11 @@ public class EventHandler{
 			if(component instanceof GameGUI){
 				GameGUI board = (GameGUI) component;
 				board.getGameboard().createField();
+				board.fitComponents();
 			}
 		}
 	}
-	
+
 	public class eBoard implements ComponentListener{		
 
 		@Override
@@ -286,6 +298,39 @@ public class EventHandler{
 			Component component = e.getComponent();
 			if(component instanceof Board){
 				Board board = (Board) component;
+			}
+		}
+	}
+
+	public class eWinningScreen implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			DatenzugriffSerialisiert.deleteSaveGame();
+			MainPanel.globalPointer.showStartpage();
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+
+		@Override
+		public void mouseExited(MouseEvent e) {}
+
+		@Override
+		public void mousePressed(MouseEvent e) {}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+	}
+
+	public class eLoadSerial implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {			
+			DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
+			if(serial.haveSaveGame()){
+				serial.loadGame(MainFrame.globalPointer.getGame());
+				MainPanel.globalPointer.showGameGUI();
 			}
 		}
 	}

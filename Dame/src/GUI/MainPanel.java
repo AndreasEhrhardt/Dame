@@ -30,6 +30,7 @@ public class MainPanel extends JPanel {
 	private GameboardSettings gameboardSettings;
 	private PlayerSettings playerSettings;
 	private GameGUI gameGUI;
+	private WinningScreen winningScreen;
 	private ImageButton backButton;
 	private ImageButton forwardButton;
 
@@ -63,6 +64,7 @@ public class MainPanel extends JPanel {
 		gameboardSettings = new GameboardSettings();
 		playerSettings = new PlayerSettings();
 		gameGUI = new GameGUI();
+		winningScreen = new WinningScreen();
 
 		// Create back and forward buttons
 		backButton = new ImageButton("Back");
@@ -88,6 +90,7 @@ public class MainPanel extends JPanel {
 		this.add(this.startpage);
 		this.add(this.playerSettings);
 		this.add(this.gameGUI);
+		this.add(this.winningScreen);
 
 		// Set Z-Order
 		this.setComponentZOrder(backButton, 0);
@@ -123,7 +126,11 @@ public class MainPanel extends JPanel {
 		if(currentComponent instanceof LoadingMenu) this.showStartpage();
 		else if(currentComponent instanceof GameboardSettings) this.showStartpage();
 		else if(currentComponent instanceof PlayerSettings) this.showGameboardSettings();
-		else if(currentComponent instanceof GameGUI) this.showPlayerSettings();
+		else if(currentComponent instanceof GameGUI){ 
+			this.showPlayerSettings();
+			Logging.globalPointer.getTextArea().setText("");
+			Control.globalPointer.getTextField().setText("");
+		}
 	}
 
 	/**
@@ -188,7 +195,7 @@ public class MainPanel extends JPanel {
 			
 			this.fitComponent();
 			
-			this.repaint();
+			this.updateUI();
 		}
 	}
 
@@ -231,6 +238,10 @@ public class MainPanel extends JPanel {
 	 */
 	public void showGameGUI(){
 		setNewComponent(this.gameGUI);
+	}
+	
+	public void showWinningScreen(){
+		setNewComponent(this.winningScreen);
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

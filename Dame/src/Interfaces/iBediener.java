@@ -8,6 +8,7 @@ package Interfaces;
 
 import java.awt.Point;
 
+import Enumerations.FarbEnum;
 import GameLogic.Spiel;
 import GameLogic.Spieler;
 import GameLogic.Spiel.eOwnFigureIsBlockingException;
@@ -66,7 +67,7 @@ public interface iBediener {
 	 * Check if one player have won the game
 	 * @return Returns the current size of the gameboard
 	 */
-	boolean gameFinished();
+	FarbEnum gameFinished();
 	
 	/**
 	 * Ask if a new game should be generated or a exist one should be load

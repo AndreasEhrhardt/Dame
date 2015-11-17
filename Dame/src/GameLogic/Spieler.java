@@ -39,7 +39,6 @@ public class Spieler implements Serializable {
 	 * @param color
 	 */
 	public Spieler(KI ki_player, FarbEnum color) {
-		this.setName("NPC");
 		setKI(ki_player);
 		this.setColor(color);
 	}

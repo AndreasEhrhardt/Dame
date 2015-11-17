@@ -25,7 +25,7 @@ public class jSpiel {
 		for (int i = 0; i < felder.length; i++){
 			for(int j = 0; j < felder[i].length; j++) felder[i][j] = new Spielfeld();
 		}
-		
+
 		Spielfigur dame = new Spielfigur(FarbEnum.weiß, new Point(2,3));
 		dame.setDame(true);
 		Spielfigur normal = new Spielfigur(FarbEnum.schwarz, new Point(4,1));
@@ -37,12 +37,12 @@ public class jSpiel {
 		Spiel game = new Spiel(gameboard,new Spieler[]{new Spieler("Test",FarbEnum.weiß),new Spieler(new KI_Dame(),FarbEnum.schwarz)});
 		game.setCurrentGamer(FarbEnum.weiß);
 		game.move(new Point(2,3),new Point(5,0));
-		
+
 		// Check if game finished
-		boolean result = game.gameFinished();
-		Assert.assertTrue(result);
+		FarbEnum result = game.gameFinished();
+		Assert.assertTrue((result != null));
 	}
-	
+
 	@Test
 	public void testGameFinishedByBlocking() throws Exception{
 		// Output information
@@ -54,7 +54,7 @@ public class jSpiel {
 		for (int i = 0; i < felder.length; i++){
 			for(int j = 0; j < felder[i].length; j++) felder[i][j] = new Spielfeld();
 		}
-			
+
 		Spielfigur normalW = new Spielfigur(FarbEnum.weiß, new Point(0,1));
 		Spielfigur normalS = new Spielfigur(FarbEnum.schwarz, new Point(1,0));
 		felder[0][1].setFigure(normalS);
@@ -64,12 +64,12 @@ public class jSpiel {
 		// Create game
 		Spiel game = new Spiel(gameboard,new Spieler[]{new Spieler("Test",FarbEnum.weiß),new Spieler(new KI_Dame(),FarbEnum.schwarz)});
 		game.setCurrentGamer(FarbEnum.schwarz);
-		
+
 		// Check if game finished
-		boolean result = game.gameFinished();
-		Assert.assertTrue(result);
+		FarbEnum result = game.gameFinished();
+		Assert.assertTrue((result != null));
 	}
-	
+
 	@Test
 	public void testDameMove(){
 		// Output information
@@ -81,7 +81,7 @@ public class jSpiel {
 		for (int i = 0; i < felder.length; i++){
 			for(int j = 0; j < felder[i].length; j++) felder[i][j] = new Spielfeld();
 		}
-		
+
 		Spielfigur dame = new Spielfigur(FarbEnum.weiß, new Point(5,4));
 		dame.setDame(true);
 		Spielfigur normal = new Spielfigur(FarbEnum.schwarz, new Point(7,2));
@@ -111,7 +111,7 @@ public class jSpiel {
 		for (int i = 0; i < felder.length; i++){
 			for(int j = 0; j < felder[i].length; j++) felder[i][j] = new Spielfeld();
 		}
-		
+
 		Spielfigur dame = new Spielfigur(FarbEnum.weiß, new Point(2,3));
 		dame.setDame(true);
 		Spielfigur normal = new Spielfigur(FarbEnum.schwarz, new Point(4,1));
@@ -126,7 +126,7 @@ public class jSpiel {
 		game.setCurrentGamer(FarbEnum.weiß);
 		game.move(new Point(2,3),new Point(5,0));
 	}
-	
+
 	@Test(expected = Spiel.eDestinationPointIsBlockedException.class)
 	public void testBlockedDestinationField() throws Exception{
 		// Output information
@@ -138,7 +138,7 @@ public class jSpiel {
 		for (int i = 0; i < felder.length; i++){
 			for(int j = 0; j < felder[i].length; j++) felder[i][j] = new Spielfeld();
 		}
-		
+
 		Spielfigur normal1 = new Spielfigur(FarbEnum.weiß, new Point(2,3));
 		Spielfigur normal2 = new Spielfigur(FarbEnum.schwarz, new Point(3,2));
 		felder[2][3].setFigure(normal1);
