@@ -112,7 +112,7 @@ public class Spiel implements iBediener, Serializable {
 
 					if (x < 0 || y < 0) throw new Spiel.eInvalidPointException();
 
-					point.setLocation(x, y);
+					point.setLocation(y, x);
 
 					return point;
 				} 
