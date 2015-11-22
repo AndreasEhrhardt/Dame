@@ -239,7 +239,7 @@ public class PlayerSettings extends MainPanelComponent {
 
 			if(this.isKI){
 				name.setEnabled(false);
-				name.setText("Player " + this.playerID + " (Computer)");
+				name.setText("KI");
 			}
 			else{
 				name.setEnabled(true);

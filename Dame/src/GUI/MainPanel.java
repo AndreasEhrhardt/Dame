@@ -32,6 +32,7 @@ public class MainPanel extends JPanel {
 	private PlayerSettings playerSettings;
 	private GameGUI gameGUI;
 	private WinningScreen winningScreen;
+	private SaveGUI saveGUI;
 	private ImageButton backButton;
 	private ImageButton forwardButton;
 
@@ -66,6 +67,7 @@ public class MainPanel extends JPanel {
 		playerSettings = new PlayerSettings();
 		gameGUI = new GameGUI();
 		winningScreen = new WinningScreen();
+		saveGUI = new SaveGUI();
 
 		// Create back and forward buttons
 		backButton = new ImageButton("Back");
@@ -132,6 +134,7 @@ public class MainPanel extends JPanel {
 			Logging.globalPointer.getTextArea().setText("");
 			Control.globalPointer.getTextField().setText("");
 		}
+		else if(currentComponent instanceof SaveGUI) this.showGameGUI();
 	}
 
 	/**
@@ -158,6 +161,7 @@ public class MainPanel extends JPanel {
 		else if(currentComponent instanceof GameboardSettings) state = true;
 		else if(currentComponent instanceof PlayerSettings) state = true;
 		else if(currentComponent instanceof GameGUI) state = true;
+		else if(currentComponent instanceof SaveGUI) state = true;
 		
 		this.backButton.setVisible(state);
 	}
@@ -229,6 +233,9 @@ public class MainPanel extends JPanel {
 		setNewComponent(gameboardSettings);
 	}
 	
+	/**
+	 * 
+	 */
 	public void showPlayerSettings(){
 		setNewComponent(playerSettings);
 	}
@@ -240,8 +247,18 @@ public class MainPanel extends JPanel {
 		setNewComponent(this.gameGUI);
 	}
 	
+	/**
+	 * 
+	 */
 	public void showWinningScreen(){
 		setNewComponent(this.winningScreen);
+	}
+	
+	/**
+	 * 
+	 */
+	public void showSaveGUI(){
+		setNewComponent(this.saveGUI);
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -12,10 +12,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import Enumerations.FarbEnum;
-import GUI.GameGUI;
-import GUI.Logging;
-import GUI.MainFrame;
+import GUI.*;
 import GameLogic.Spiel;
 import GameLogic.Spieler;
 import GameLogic.Spielfeld;
@@ -24,12 +21,18 @@ import GameLogic.Spielfigur;
 //###########################################################
 //## Class
 
+/**
+ * @author ehrha
+ *
+ */
+@SuppressWarnings("serial")
 public class KI_Dame extends KI implements Serializable {
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
 
 	Timer timer;
+	boolean moveStarted = false;
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
@@ -47,15 +50,20 @@ public class KI_Dame extends KI implements Serializable {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods	
 
-	public void checkForMove(){
+	/**
+	 * 
+	 */
+	public void checkForMove(){		
 		if(GameGUI.globalPointer.isVisible() == true){
 			Spiel game = MainFrame.globalPointer.getGame();
-			if(game.getCurrentGamer() == this.player){
+			if(game.getCurrentGamer() == this.player && !moveStarted){
+				moveStarted = true;
 				Timer moveTimer = new Timer();
 				moveTimer.schedule(new TimerTask() {
 					@Override
 					public void run() {
 						move(game, player);
+						moveStarted = false;
 					}
 				}, 500); 
 			}
@@ -78,8 +86,10 @@ public class KI_Dame extends KI implements Serializable {
 	 */
 	public void move(Spiel game, Spieler player){
 		if(MainFrame.globalPointer.getGame().getCurrentGamer() != this.player) return;
+
+		//+++++++++++++++++++++++++++++++++++++++++++++++
+		//++ Check for blowing rule
 		
-		// Check for blowing rule
 		ArrayList <Point> blowable = new ArrayList<>();
 		Spielfeld felder[][] = game.getGameboard().getFields();
 		for(int i = 0; i < felder.length; i++){
@@ -106,7 +116,9 @@ public class KI_Dame extends KI implements Serializable {
 			}
 		}
 		else{
-			// Collect all available figures
+			//+++++++++++++++++++++++++++++++++++++++++++++++
+			//++ Get every valid move (save and unsafe moves)
+			
 			ArrayList <Point> validFigures = new ArrayList<>();
 			for(int i = 0; i < felder.length; i++){
 				for(int j = 0; j < felder[i].length; j++){
@@ -118,42 +130,99 @@ public class KI_Dame extends KI implements Serializable {
 				}
 			}
 
-			if(validFigures.isEmpty()) return;
-
 			// Take random one figure and try to move the figure
-			Point fromPoint = null, toPoint = null;
-			do{
-				// Take first figure
-				int random = (int)(Math.random() * (validFigures.size() - 1));
-				fromPoint = validFigures.get(random);
-
+			ArrayList <moveScenario> validToPosition = new ArrayList<>();
+			ArrayList <moveScenario> validSaveToPosition = new ArrayList<>();
+			
+			for(Point figure : validFigures){
 				// Check for valid fields
-				ArrayList <Point> validToPosition = new ArrayList<>();
 				for(int i = 0; i < felder.length; i++){
 					for(int j = 0; j < felder[i].length; j++){
 						Point currentPoint = new Point(i,j);
-						try{
-							if(game.moveIsValid(fromPoint, currentPoint)) validToPosition.add(currentPoint);
+						try{							
+							if(game.moveIsValid(figure.getLocation(), currentPoint)){
+								Spiel tempGame = game.clone();
+								tempGame.move(figure.getLocation(), currentPoint);
+								
+								if(tempGame.willBeDestroyed(currentPoint)) validToPosition.add(new moveScenario(figure.getLocation(), currentPoint));
+								else validSaveToPosition.add(new moveScenario(figure.getLocation(), currentPoint));
+							}
 						}catch(Exception e){}
 					}
 				}
-
-				// Check if at least one toPoint was valid
-				if(validToPosition.size() > 0){
-					random = (int)(Math.random() * (validToPosition.size() - 1));
-					toPoint = validToPosition.get(random);
-				}
-				else{
-					// Remove figure from list
-					validFigures.remove(fromPoint);
-				}
-			}while((fromPoint == null || toPoint == null));
+			}
 
 			try{
-				game.move(fromPoint, toPoint);
+				moveScenario choosenScenario = null;
+				
+				// Choose one of those move-scenarios
+				if(validSaveToPosition.size() > 0){
+					int random = (int)(Math.random() * (validSaveToPosition.size() - 1));
+					choosenScenario = validSaveToPosition.get(random);
+				}
+				else if(validToPosition.size() > 0){
+					int random = (int)(Math.random() * (validToPosition.size() - 1));
+					choosenScenario = validToPosition.get(random);
+				}
+				else throw new RuntimeException();
+				
+				if(choosenScenario != null) game.move(choosenScenario.from, choosenScenario.to);
 			}catch (Exception e){
+				System.out.println("Unexpected exception: " + e);
 				throw new RuntimeException();
 			}
 		}
+	}
+	
+	//###########################################################
+	//## Inner class
+
+	public class moveScenario{
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		//++ Properties
+
+		private Point from;
+		private Point to;
+
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		//++ Constructor
+
+		public moveScenario(Point from, Point to){
+			this.setFrom(from);
+			this.setTo(to);
+		}
+
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		//++ Methods
+
+
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		//++ Methods ( Getter)
+
+		public Point getFrom(){
+			return this.from;
+		}
+		
+		public Point getTo(){
+			return this.to;
+		}
+
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		//++ Methods ( Setter)
+
+		public void setFrom(Point from){
+			this.from = from;
+		}
+		
+		public void setTo(Point to){
+			this.to = to;
+		}
+
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		//++ Methods (Override)
+
+		
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		//++ Inner class
 	}
 }

@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.regex.*;
 import javax.swing.*;
+
+import Enumerations.FarbEnum;
 import GameLogic.*;
 
 //###########################################################
@@ -25,7 +27,9 @@ public class Control extends JPanel {
 	private JTextField felderEingabe;
 	private JLabel label;
 	private JLabel labelCurrentPlayer;
+	private JLabel labelSave;
 	private ImageButton start;
+	private ImageButton saveButton;
 	private currentPlayer player1;
 	private currentPlayer player2;
 
@@ -46,17 +50,23 @@ public class Control extends JPanel {
 		labelCurrentPlayer.setHorizontalAlignment(JLabel.CENTER);
 		labelCurrentPlayer.setFont(new Font("Gill Sans",Font.BOLD,30));
 		labelCurrentPlayer.setForeground(Color.white);
-		
+
 		// Create player overview
 		player1 = new currentPlayer(1);
 		player2 = new currentPlayer(2);
-		
+
 		// Label
-		label = new JLabel("Eingabe");
+		label = new JLabel("Insert");
 		label.setHorizontalAlignment(JLabel.CENTER);
 		label.setFont(new Font("Gill Sans",Font.BOLD,30));
 		label.setForeground(Color.white);
 
+		labelSave = new JLabel("Save");
+		labelSave.setHorizontalAlignment(JLabel.CENTER);
+		labelSave.setFont(new Font("Gill Sans",Font.BOLD,30));
+		labelSave.setForeground(Color.white);
+		
+		// Text fields
 		felderEingabe = new JTextField();
 		felderEingabe.setPreferredSize(new Dimension(100,30));
 
@@ -66,12 +76,20 @@ public class Control extends JPanel {
 		start.setHoverImage("Images/Play_Hover.png");
 		start.setPressImage("Images/Play_Pressed.png");
 		start.setPreferredSize(new Dimension(60,60));
+		
+		// Save button
+		saveButton = new ImageButton("Save");
+		saveButton.setDefaultImage("Images/Save.png");
+		saveButton.setHoverImage("Images/Save_Hover.png");
+		saveButton.setPressImage("Images/Save_Pressed.png");
+		saveButton.setPreferredSize(new Dimension(60,60));
 
 		// Layout
 		GridBagConstraints c = new GridBagConstraints();
-		c.insets = new Insets(10,10,10,10);
-		
+		c.insets = new Insets(5,5,5,5);
+
 		innerPanels mp = new innerPanels();
+		mp.setPreferredSize(new Dimension(250,200));
 		mp.setLayout(new GridBagLayout());
 		c.gridx = 0; c.gridy = 0; 
 		mp.add(labelCurrentPlayer,c);
@@ -79,21 +97,32 @@ public class Control extends JPanel {
 		mp.add(player1,c);
 		c.gridx = 0; c.gridy = 2;
 		mp.add(player2,c);
-		
+
 		innerPanels mp2 = new innerPanels();
+		mp2.setPreferredSize(new Dimension(250,140));
 		mp2.setLayout(new GridBagLayout());
-		c.gridx = 0; c.gridy = 0; 
+		c.gridx = 0; c.gridy = 0; c.gridwidth = 2;
 		mp2.add(label,c);
-		c.gridx = 0; c.gridy = 1;
+		c.gridx = 0; c.gridy = 1; c.gridwidth = 1;
 		mp2.add(felderEingabe,c);
-		c.gridx = 0; c.gridy = 2;
+		c.gridx = 2; c.gridy = 1;
 		mp2.add(start,c);
 		
+		innerPanels mp3 = new innerPanels();
+		mp3.setPreferredSize(new Dimension(250,140));
+		mp3.setLayout(new GridBagLayout());
+		c.gridx = 0; c.gridy = 0; 
+		mp3.add(labelSave,c);
+		c.gridx = 0; c.gridy = 1;
+		mp3.add(saveButton,c);
+
 		this.setLayout(new GridBagLayout());
 		c.gridx = 0; c.gridy = 0; 
 		this.add(mp,c);
 		c.gridx = 0; c.gridy = 1;
 		this.add(mp2,c);
+		c.gridx = 0; c.gridy = 2;
+		this.add(mp3,c);
 
 		start.addActionListener(new ActionListener(){
 			@Override
@@ -189,7 +218,7 @@ public class Control extends JPanel {
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Inner class
-	
+
 	public class innerPanels extends JPanel{
 		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		//++ Properties
@@ -199,7 +228,7 @@ public class Control extends JPanel {
 		//++ Constructor
 
 		public innerPanels(){
-			this.setPreferredSize(new Dimension(250,250));
+			
 		}
 
 		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -233,7 +262,6 @@ public class Control extends JPanel {
 
 			// Create gradient
 			Color color = new Color(20,20,20);
-			Color color2 = new Color(150,150,150);
 			GradientPaint gradient = new GradientPaint(0, 0, color, this.getWidth() / 2, 0, color.darker(), true);
 
 			// Set left color
@@ -242,7 +270,7 @@ public class Control extends JPanel {
 			//g2D.fillRoundRect(5, 5, this.getWidth() - 10, this.getHeight() - 10, 100, 100);
 			g2D.fillRect(5, 5, this.getWidth() - 10, this.getHeight() - 10);
 		}
-		
+
 		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		//++ Inner class
 	}
@@ -258,7 +286,7 @@ public class Control extends JPanel {
 
 		public currentPlayer(int playerID){
 			this.playerID = playerID;
-			
+
 			this.setPreferredSize(new Dimension(200,50));
 		}
 
@@ -275,7 +303,7 @@ public class Control extends JPanel {
 
 		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		//++ Methods ( Setter)
-		
+
 
 		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		//++ Methods (Override)
@@ -310,12 +338,27 @@ public class Control extends JPanel {
 			g2D.fillRect(5, 5, this.getWidth() - 10, this.getHeight() - 10);
 
 			// Draw text
-			g2D.setColor(Color.white);
-			g2D.setFont(new Font("Gill Sans",Font.BOLD,25));
-			String text = "Player ";
-			if(this.playerID == 1) text += "1 (black)";
-			else if(this.playerID == 2) text += "2 (white)";
-			MainFrame.drawCenteredString(g2D, text, new Rectangle(0,0,this.getWidth(), this.getHeight()));
+			Spieler player = MainFrame.globalPointer.getGame().getPlayer(this.playerID);
+			if(player != null){
+				// Set font
+				g2D.setColor(Color.white);
+				g2D.setFont(new Font("Gill Sans",Font.BOLD,25));
+				
+				// Draw player name
+				MainFrame.drawCenteredString(g2D, player.getName(), new Rectangle(5,5,this.getWidth() - 10, this.getHeight() - 10));
+			
+				// Get color for borders
+				Color border = null;
+				if(player.getColor() == FarbEnum.schwarz) border = new Color(0,0,0);
+				else border = new Color(255,255,255);
+				
+				// Set the new color
+				g2D.setColor(border);
+				
+				// Draw borders
+				g2D.fillRect(5, 5, this.getWidth(), this.getHeight() - 10);
+				g2D.fillRect(this.getWidth() - 5, 5, 5, this.getHeight() - 10);
+			}
 		}
 
 		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

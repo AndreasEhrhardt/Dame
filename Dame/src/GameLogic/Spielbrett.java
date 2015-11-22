@@ -11,9 +11,10 @@ import Enumerations.FarbEnum;
 //## Class
 
 /**
- * @author Andreas, Schie, Mintaha, Marvin
+ * @author ehrha
  *
  */
+@SuppressWarnings("serial")
 public class Spielbrett implements Serializable  {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
@@ -44,6 +45,9 @@ public class Spielbrett implements Serializable  {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods
 
+	/**
+	 * @param size
+	 */
 	private void createField(int size){
 		// Create field
 		felder = new Spielfeld[size][size];
@@ -62,9 +66,11 @@ public class Spielbrett implements Serializable  {
 		this.setID();
 	}
 
+	/**
+	 * 
+	 */
 	private void addFigure(){
 		int xPos = 0;
-
 		// Add white figures
 		for(int i = 0; i < (this.felder.length / 2) - 1; i++){
 			for(int j = xPos; j < this.felder.length; j = j + 2){
@@ -74,8 +80,8 @@ public class Spielbrett implements Serializable  {
 			xPos = ++xPos % 2;
 		}
 
-		xPos = 1;
-		
+		xPos = 0;
+		if(this.felder.length % 2 == 0) xPos = 1;
 		// Add black figures
 		for(int i = felder.length - 1; i >= felder.length - (this.felder.length / 2) + 1; i--){
 			for(int j = xPos; j < this.felder.length; j = j + 2){
@@ -86,6 +92,9 @@ public class Spielbrett implements Serializable  {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	private void setID(){
 		// Define start variable
 		char currentRow = (char)65;
@@ -124,6 +133,11 @@ public class Spielbrett implements Serializable  {
 		return felder;
 	}
 	
+	/**
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public Spielfeld getField(int x, int y){
 		return this.felder[x][y];
 	}
@@ -144,6 +158,11 @@ public class Spielbrett implements Serializable  {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Override )
 
+	public Spielbrett clone(){
+		Spielbrett newObj = new Spielbrett();
+		for(int i = 0; i < )
+	}
+	
 	/**
 	 * Compares if object is the same as this.
 	 * If not it is casted to an object of this class.

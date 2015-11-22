@@ -59,6 +59,10 @@ public class Spiel implements iBediener, Serializable {
 
 		this.gameboard = new Spielbrett();
 	}
+	
+	public Spieler[] getGamer(){
+		return this.gamer;
+	}
 
 	/**
 	 * @param gameboard
@@ -87,14 +91,14 @@ public class Spiel implements iBediener, Serializable {
 	 */
 	public String posToString(Point position){
 		char firstLetter = (char)(65 + position.getX());
-		
+
 		StringBuilder returnValue = new StringBuilder();
 		returnValue.append(firstLetter);
 		returnValue.append((int)position.getY() + 1);
-		 
+
 		return returnValue.toString();
 	}
-	
+
 	/**
 	 * @param sPoint
 	 * @return
@@ -180,7 +184,7 @@ public class Spiel implements iBediener, Serializable {
 			throw new Spiel.eNoDiagonalMoveException();
 
 		// Check if toPoint and fromPoint are valid fields
-		if (!this.isValidField(fromPoint, toPoint))
+		if (!this.isValidField(fromPoint) || !this.isValidField(toPoint))
 			throw new Spiel.eOutOfGameboardException();
 
 		// Check if field have figure
@@ -312,12 +316,11 @@ public class Spiel implements iBediener, Serializable {
 	 * @param toPoint
 	 * @return
 	 */
-	private boolean isValidField(Point fromPoint, Point toPoint) {
+	private boolean isValidField(Point point) {
 		int boardSize = this.gameboard.getFields().length;
 
-		if (fromPoint.getX() < 0 || fromPoint.getX() >= boardSize || fromPoint.getY() < 0
-				|| fromPoint.getY() >= boardSize || toPoint.getX() < 0 || toPoint.getX() >= boardSize
-				|| toPoint.getY() < 0 || toPoint.getY() >= boardSize) {
+		if (point.getX() < 0 || point.getX() >= boardSize || 
+				point.getY() < 0 || point.getY() >= boardSize) {
 			return false;
 		} else {
 			return true;
@@ -361,22 +364,22 @@ public class Spiel implements iBediener, Serializable {
 
 				// Check for new dame
 				checkForNewDames();
-				
+
 				// Save serialisiert
 				DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
 				serial.saveGame(this);
-				
+
 				String startPos = posToString(fromPoint);
 				String endPos = posToString(toPoint);
 				Logging.globalPointer.addMessage(startPos + " -> " + endPos);
-				
+
 				// Update user interface
 				GameGUI.globalPointer.updateUI();
 			}
-			
+
 			// Check if figure can jump again
 			if (removed && this.canDestroyOtherFigures(toPoint).size() > 0) {
-				
+
 			}
 			else{
 				// Set next player
@@ -389,10 +392,34 @@ public class Spiel implements iBediener, Serializable {
 			// Some strange errors appears
 			throw new eSomeOtherMoveErrorsException();
 		}
-		
+
 		if(this.gameFinished() != null){
 			MainPanel.globalPointer.showWinningScreen();
 		}
+	}
+
+	public boolean willBeDestroyed(Point point){
+		Point checkAblePositions[] = new Point[4];
+		checkAblePositions[0] = new Point((int)point.getX() - 1, (int)point.getY() + 1); // TopLeft
+		checkAblePositions[1] = new Point((int)point.getX() + 1, (int)point.getY() + 1); // TopRight
+		checkAblePositions[2] = new Point((int)point.getX() + 1, (int)point.getY() - 1); // BottomRight
+		checkAblePositions[3] = new Point((int)point.getX() - 1, (int)point.getY() - 1); // BottomLeft
+
+		for(Point checkAblePoint : checkAblePositions){
+			if(this.isValidField(checkAblePoint)){
+				ArrayList<Point> blowable = this.canDestroyOtherFigures(checkAblePoint);
+				if(blowable.size() != 0){
+					for(Point blowPoint : blowable){
+						if((blowPoint.getX() + checkAblePoint.getX()) / 2 == point.getX() &&
+								(blowPoint.getY() + checkAblePoint.getY()) / 2 == point.getY()){
+							return true;
+						}
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -400,10 +427,16 @@ public class Spiel implements iBediener, Serializable {
 	 * @return
 	 */
 	public ArrayList<Point> canDestroyOtherFigures(Point point) {
-		int xCurrent = (int) point.getX(), yCurrent = (int) point.getY();
-
+		// Create new list with blowable move directions
 		ArrayList<Point> blowable = new ArrayList<>();
 
+		// Check if point is valid
+		if(!this.isValidField(point)) return blowable;
+
+		// Create current x and y coords
+		int xCurrent = (int) point.getX(), yCurrent = (int) point.getY();
+
+		// Detect moveable fields
 		Spielfeld felder[][] = this.gameboard.getFields();
 		for (int i = 0; i < felder.length; i++) {
 			for (int j = 0; j < felder[i].length; j++) {
@@ -503,7 +536,7 @@ public class Spiel implements iBediener, Serializable {
 			int currentY = (int) removePosition.getY();
 
 			this.gameboard.getField(currentX, currentY).removeFigure();
-			
+
 			Logging.globalPointer.addMessage("[Pusten] Folgende Spielfigur wird entfernt: " + this.posToString(removePosition));
 		}
 	}
@@ -689,6 +722,17 @@ public class Spiel implements iBediener, Serializable {
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods (Override)
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public Spiel clone(){
+		Spiel newObj = new Spiel(this.getGameboard(),this.getGamer());
+		newObj.setCurrentGamer(this.currentGamer.getColor());
+		
+		return newObj;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

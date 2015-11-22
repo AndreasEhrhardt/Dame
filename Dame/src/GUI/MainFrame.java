@@ -35,7 +35,7 @@ public class MainFrame extends JFrame {
 		MainFrame.globalPointer = this;
 
 		// Undecorate the windows
-		this.setUndecorated(false);
+		this.setUndecorated(true);
 
 		// Set close handling
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -48,7 +48,9 @@ public class MainFrame extends JFrame {
 		this.setContentPane(mp);
 
 		// Set size of game
-		Rectangle rec = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+		//Rectangle rec = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		Rectangle rec = new Rectangle(0,0,(int)screenSize.getWidth(),(int)screenSize.getHeight());
 		this.setSize(rec.width,rec.height);
 		this.setLocation(0,0);
 
@@ -83,10 +85,16 @@ public class MainFrame extends JFrame {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
 
+	/**
+	 * @return
+	 */
 	public MainPanel getMainPanel(){
 		return this.mp;
 	}
 
+	/**
+	 * @return
+	 */
 	public Spiel getGame(){
 		return this.game;
 	}
@@ -94,6 +102,9 @@ public class MainFrame extends JFrame {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Setter)
 
+	/**
+	 * @param game
+	 */
 	public void setGame(Spiel game){
 		if(game == null) throw new RuntimeException();
 

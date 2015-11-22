@@ -269,9 +269,17 @@ public class EventHandler{
 		public void componentShown(ComponentEvent e) {
 			Component component = e.getComponent();
 			if(component instanceof GameGUI){
+				// Parse object to gameGUI
 				GameGUI board = (GameGUI) component;
+				
+				// Create fields
 				board.getGameboard().createField();
+				
+				// Fit the size of the componentes
 				board.fitComponents();
+				
+				// Update GUI
+				board.updateUI();
 			}
 		}
 	}
@@ -331,6 +339,16 @@ public class EventHandler{
 			if(serial.haveSaveGame()){
 				serial.loadGame(MainFrame.globalPointer.getGame());
 				MainPanel.globalPointer.showGameGUI();
+			}
+		}
+	}
+	
+	public class eSaveButton implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {			
+			if(e.getSource() instanceof ImageButton){
+				MainPanel.globalPointer.showSaveGUI();
 			}
 		}
 	}
