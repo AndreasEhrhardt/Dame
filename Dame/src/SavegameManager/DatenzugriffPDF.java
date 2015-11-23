@@ -1,5 +1,6 @@
 package SavegameManager;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
@@ -13,6 +14,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import Enumerations.FarbEnum;
 import GameLogic.Spiel;
+import GameLogic.Spielfigur;
 import Interfaces.iDatenzugriff;
 
 public class DatenzugriffPDF implements iDatenzugriff{
@@ -22,7 +24,11 @@ public class DatenzugriffPDF implements iDatenzugriff{
 	public boolean saveGame(String path, String fileName, Spiel game) {
 		if(!path.endsWith("/")) path += "/";
 		if(!fileName.endsWith(".pdf")) fileName += ".pdf";
-		
+
+		// Create folder if not exist
+		File dir = new File(path);
+		if(!dir.exists()) dir.mkdir();
+
 		Document document = new Document();
 		String gameString = "";
 		gameString += "Spieler1: "+ game.getPlayer(1).getName() + " Farbe: " + game.getPlayer(1).getColor();
@@ -49,7 +55,11 @@ public class DatenzugriffPDF implements iDatenzugriff{
 			for(int i = 0; i < game.getGameboardSize(); i++){
 				for(int j = 0; j < game.getGameboardSize(); j++) {
 					for(int k = 0; k < Math.pow(game.getGameboardSize(), 2); k++) {
-						if (game.getGameboard().getField(i, j).getFigure().getColor() == FarbEnum.weiß) {
+						Spielfigur figure = game.getGameboard().getField(i, j).getFigure();
+						
+						if(figure == null){
+							cell = new PdfPCell(new Paragraph("e "));
+						}else if (game.getGameboard().getField(i, j).getFigure().getColor() == FarbEnum.weiß) {
 							if (game.getGameboard().getField(i, j).getFigure().isDame()) {
 								cell = new PdfPCell(new Paragraph("W+"));
 							} else {
@@ -60,7 +70,7 @@ public class DatenzugriffPDF implements iDatenzugriff{
 						} else {
 							cell = new PdfPCell(new Paragraph("S "));
 						}
-						
+
 						table.addCell(cell);
 					}
 				}
@@ -79,7 +89,7 @@ public class DatenzugriffPDF implements iDatenzugriff{
 	public boolean loadGame(String path, String filename, Spiel game) {
 		if(!path.endsWith("/")) path += "/";
 		if(!filename.endsWith(".pdf")) filename += ".pdf";
-		
+
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -88,7 +98,7 @@ public class DatenzugriffPDF implements iDatenzugriff{
 	public boolean haveSaveGame(String path, String filename) {
 		if(!path.endsWith("/")) path += "/";
 		if(!filename.endsWith(".pdf")) filename += ".pdf";
-		
+
 		// TODO Auto-generated method stub
 		return false;
 	} 

@@ -21,6 +21,7 @@ import GameLogic.Spiel;
 //###########################################################
 //## Class
 
+@SuppressWarnings("serial")
 public class MainPanel extends JPanel {
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -34,6 +35,8 @@ public class MainPanel extends JPanel {
 	private WinningScreen winningScreen;
 	private SaveGUI saveGUI;
 	private LoadGUI loadGUI;
+	private MailSending mailSending;
+	
 	private ImageButton backButton;
 	private ImageButton forwardButton;
 
@@ -70,6 +73,7 @@ public class MainPanel extends JPanel {
 		winningScreen = new WinningScreen();
 		saveGUI = new SaveGUI();
 		loadGUI = new LoadGUI();
+		mailSending = new MailSending();
 
 		// Create back and forward buttons
 		backButton = new ImageButton("Back");
@@ -97,7 +101,8 @@ public class MainPanel extends JPanel {
 		this.add(this.gameGUI);
 		this.add(this.winningScreen);
 		this.add(this.saveGUI);
-		this.add(loadGUI);
+		this.add(this.loadGUI);
+		this.add(this.mailSending);
 
 		// Set Z-Order
 		this.setComponentZOrder(backButton, 0);
@@ -140,6 +145,7 @@ public class MainPanel extends JPanel {
 		}
 		else if(currentComponent instanceof SaveGUI) this.showGameGUI();
 		else if(currentComponent instanceof LoadGUI) this.showLoadingMenu();
+		else if(currentComponent instanceof MailSending) this.showGameGUI();
 	}
 
 	/**
@@ -168,6 +174,7 @@ public class MainPanel extends JPanel {
 		else if(currentComponent instanceof GameGUI) state = true;
 		else if(currentComponent instanceof SaveGUI) state = true;
 		else if(currentComponent instanceof LoadGUI) state = true;
+		else if(currentComponent instanceof MailSending) state = true;
 		
 		this.backButton.setVisible(state);
 	}
@@ -272,6 +279,13 @@ public class MainPanel extends JPanel {
 	 */
 	public void showLoadGUI(){
 		setNewComponent(this.loadGUI);
+	}
+	
+	/**
+	 * 
+	 */
+	public void showMailSending(){
+		setNewComponent(this.mailSending);
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

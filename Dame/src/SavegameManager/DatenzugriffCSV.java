@@ -25,6 +25,11 @@ public class DatenzugriffCSV implements iDatenzugriff {
 		if(!path.endsWith("/")) path += "/";
 		if(!fileName.endsWith(".csv")) fileName += ".csv";
 		
+		// Create folder if not exist
+		File dir = new File(path);
+		if(!dir.exists()) dir.mkdir();
+		
+		
 		PrintWriter pw = null;
 		try {
 			pw = new PrintWriter(new FileWriter(path + fileName));

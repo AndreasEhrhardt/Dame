@@ -30,7 +30,7 @@ public class ImageButton extends JButton  {
 	private BufferedImage pressImage = null;
 	private BufferedImage disabledImage = null;
 
-	boolean disabled = false;
+	private boolean disabled = false;
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
@@ -77,6 +77,9 @@ public class ImageButton extends JButton  {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
 
+	public boolean getDisabled(){
+		return this.disabled;
+	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Setter)
@@ -115,6 +118,9 @@ public class ImageButton extends JButton  {
 
 	public void setDisabled(boolean state){
 		this.disabled = state;
+
+		// Start repaint
+		this.repaint();
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

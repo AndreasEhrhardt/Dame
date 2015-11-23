@@ -31,6 +31,7 @@ public class Control extends JPanel {
 	private JLabel labelSave;
 	private ImageButton start;
 	private ImageButton saveButton;
+	private ImageButton sendButton;
 	private currentPlayer player1;
 	private currentPlayer player2;
 
@@ -62,7 +63,7 @@ public class Control extends JPanel {
 		label.setFont(new Font("Gill Sans",Font.BOLD,30));
 		label.setForeground(Color.white);
 
-		labelSave = new JLabel("Save");
+		labelSave = new JLabel("Save / Send");
 		labelSave.setHorizontalAlignment(JLabel.CENTER);
 		labelSave.setFont(new Font("Gill Sans",Font.BOLD,30));
 		labelSave.setForeground(Color.white);
@@ -85,6 +86,13 @@ public class Control extends JPanel {
 		saveButton.setPressImage("Images/Save_Pressed.png");
 		saveButton.setPreferredSize(new Dimension(60,60));
 		saveButton.addActionListener(new EventHandler().new eSaveButton());
+		
+		sendButton = new ImageButton("Send");
+		sendButton.setDefaultImage("Images/EMail.png");
+		sendButton.setHoverImage("Images/EMail_Hover.png");
+		sendButton.setPressImage("Images/EMail_Pressed.png");
+		sendButton.setPreferredSize(new Dimension(60,60));
+		sendButton.addActionListener(new EventHandler().new eSendButton());
 
 		// Layout
 		GridBagConstraints c = new GridBagConstraints();
@@ -113,10 +121,12 @@ public class Control extends JPanel {
 		GroupBox mp3 = new GroupBox();
 		mp3.setPreferredSize(new Dimension(250,140));
 		mp3.setLayout(new GridBagLayout());
-		c.gridx = 0; c.gridy = 0; 
+		c.gridx = 0; c.gridy = 0; c.gridwidth = 2;
 		mp3.add(labelSave,c);
-		c.gridx = 0; c.gridy = 1;
+		c.gridx = 0; c.gridy = 1;c.gridwidth = 1;
 		mp3.add(saveButton,c);
+		c.gridx = 1; c.gridy = 1;
+		mp3.add(sendButton,c);
 
 		this.setLayout(new GridBagLayout());
 		c.gridx = 0; c.gridy = 0; 
