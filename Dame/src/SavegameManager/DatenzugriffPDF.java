@@ -31,41 +31,40 @@ public class DatenzugriffPDF implements iDatenzugriff{
 
 		Document document = new Document();
 		String gameString = "";
-		gameString += "Spieler1: "+ game.getPlayer(1).getName() + " Farbe: " + game.getPlayer(1).getColor();
+		gameString += "Spieler1: "+ game.getPlayer(1).getName() + "; Farbe: " + game.getPlayer(1).getColor();
 		if (game.getPlayer(1).getKi() == null) {
-			gameString += "KI: Nein" + "\n";
+			gameString += "; KI: Nein" + "\n";
 		}
 		else {
-			gameString += "KI: Ja" + "\n";
+			gameString += "; KI: Ja" + "\n";
 		}
-		gameString += "Spieler2: " + game.getPlayer(2).getName() + " Farbe: " + game.getPlayer(2).getColor();
+		gameString += "Spieler2: " + game.getPlayer(2).getName() + "; Farbe: " + game.getPlayer(2).getColor();
 		if (game.getPlayer(2).getKi() == null) {
-			gameString += "KI: Nein" + "\n";
+			gameString += "; KI: Nein" + "\n";
 		}
 		else {
-			gameString += "KI: Ja" + "\n";
+			gameString += "; KI: Ja" + "\n";
 		}
-		gameString += "Aktueller Spieler: " + game.getCurrentGamer().getColor() + "\n" + "Spielfeldgröße: " + game.getGameboard().getFields().length + "\n";
+		gameString += "Aktueller Spieler: " + game.getCurrentGamer().getColor() + "\n" + "Spielfeldgröße: " + game.getGameboardSize() + " * " + game.getGameboardSize() + "\n";
 		try {
 			PdfWriter.getInstance(document, new FileOutputStream(path + fileName));
 			document.open();
 			document.add(new Paragraph(gameString));
 			PdfPTable table = new PdfPTable(game.getGameboardSize());
 			PdfPCell cell;
-			for(int i = 0; i < game.getGameboardSize(); i++){
+			for(int i = game.getGameboardSize() - 1; i >= 0; i--) {
 				for(int j = 0; j < game.getGameboardSize(); j++) {
-					for(int k = 0; k < Math.pow(game.getGameboardSize(), 2); k++) {
-						Spielfigur figure = game.getGameboard().getField(i, j).getFigure();
+						Spielfigur figure = game.getGameboard().getField(j, i).getFigure();
 						
 						if(figure == null){
 							cell = new PdfPCell(new Paragraph("e "));
-						}else if (game.getGameboard().getField(i, j).getFigure().getColor() == FarbEnum.weiß) {
-							if (game.getGameboard().getField(i, j).getFigure().isDame()) {
+						}else if (game.getGameboard().getField(j, i).getFigure().getColor() == FarbEnum.weiß) {
+							if (game.getGameboard().getField(j, i).getFigure().isDame()) {
 								cell = new PdfPCell(new Paragraph("W+"));
 							} else {
 								cell = new PdfPCell(new Paragraph("W "));
 							}
-						} else if (game.getGameboard().getField(i, j).getFigure().isDame()) {
+						} else if (game.getGameboard().getField(j, i).getFigure().isDame()) {
 							cell = new PdfPCell(new Paragraph("S+"));
 						} else {
 							cell = new PdfPCell(new Paragraph("S "));
@@ -74,7 +73,8 @@ public class DatenzugriffPDF implements iDatenzugriff{
 						table.addCell(cell);
 					}
 				}
-			}
+			table.setSpacingBefore(10);
+			document.add(table);
 			document.close();
 		} catch (FileNotFoundException e) {
 			return false;
