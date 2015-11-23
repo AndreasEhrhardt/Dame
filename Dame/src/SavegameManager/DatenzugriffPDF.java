@@ -19,7 +19,10 @@ public class DatenzugriffPDF implements iDatenzugriff{
 
 
 	@Override
-	public boolean saveGame(String path, String filename, Spiel game) {
+	public boolean saveGame(String path, String fileName, Spiel game) {
+		if(!path.endsWith("/")) path += "/";
+		if(!fileName.endsWith(".pdf")) fileName += ".pdf";
+		
 		Document document = new Document();
 		String gameString = "";
 		gameString += "Spieler1: "+ game.getPlayer(1).getName() + " Farbe: " + game.getPlayer(1).getColor();
@@ -38,7 +41,7 @@ public class DatenzugriffPDF implements iDatenzugriff{
 		}
 		gameString += "Aktueller Spieler: " + game.getCurrentGamer().getColor() + "\n" + "Spielfeldgröße: " + game.getGameboard().getFields().length + "\n";
 		try {
-			PdfWriter.getInstance(document, new FileOutputStream(path + filename));
+			PdfWriter.getInstance(document, new FileOutputStream(path + fileName));
 			document.open();
 			document.add(new Paragraph(gameString));
 			PdfPTable table = new PdfPTable(game.getGameboardSize());
@@ -74,12 +77,18 @@ public class DatenzugriffPDF implements iDatenzugriff{
 
 	@Override
 	public boolean loadGame(String path, String filename, Spiel game) {
+		if(!path.endsWith("/")) path += "/";
+		if(!filename.endsWith(".pdf")) filename += ".pdf";
+		
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean haveSaveGame(String path, String filename) {
+		if(!path.endsWith("/")) path += "/";
+		if(!filename.endsWith(".pdf")) filename += ".pdf";
+		
 		// TODO Auto-generated method stub
 		return false;
 	} 

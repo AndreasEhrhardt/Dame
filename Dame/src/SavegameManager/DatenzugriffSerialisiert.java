@@ -1,8 +1,6 @@
 package SavegameManager;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 import GameLogic.Spiel;
 import Interfaces.*;
@@ -34,8 +32,13 @@ public class DatenzugriffSerialisiert implements iDatenzugriff{
 	}
 	
 	public static void deleteSaveGame(){
-		File file = new File(defaultPath + defaultName);
-		file.delete();
+		deleteSaveGame(defaultPath, defaultName);
+	}
+	
+	public static void deleteSaveGame(String path, String filename){
+		File file = new File(path + filename);
+		System.out.println(path + filename);
+		System.out.println(file.delete());
 	}
 	
 	/* (non-Javadoc)

@@ -27,21 +27,21 @@ import Events.EventHandler;
  *
  */
 @SuppressWarnings("serial")
-public class SaveGUI extends MainPanelComponent {
+public class LoadGUI extends MainPanelComponent {
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
 
-	private ImageButton saveCSVButton;
-	private ImageButton savePDFButton;
+	private ImageButton loadCSVButton;
+	private ImageButton loadPDFButton;
 	private JLabel statusLabel;
 	
-	public static SaveGUI globalPointer = null;
+	public static LoadGUI globalPointer = null;
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
-	public SaveGUI(){
+	public LoadGUI(){
 		// Set global pointer
 		globalPointer = this;
 		
@@ -49,15 +49,15 @@ public class SaveGUI extends MainPanelComponent {
 		this.setOpaque(false);
 		
 		// Create image buttons
-		saveCSVButton = new ImageButton("Save as CSV");
-		saveCSVButton.setDefaultImage("Images/Save_CSV.png");
-		saveCSVButton.setHoverImage("Images/Save_CSV_Hover.png");
-		saveCSVButton.setPressImage("Images/Save_CSV_Pressed.png");
+		loadCSVButton = new ImageButton("Load as CSV");
+		loadCSVButton.setDefaultImage("Images/Load_CSV.png");
+		loadCSVButton.setHoverImage("Images/Load_CSV_Hover.png");
+		loadCSVButton.setPressImage("Images/Load_CSV_Pressed.png");
 
-		savePDFButton = new ImageButton("Save as PDF");
-		savePDFButton.setDefaultImage("Images/Save_PDF.png");
-		savePDFButton.setHoverImage("Images/Save_PDF_Hover.png");
-		savePDFButton.setPressImage("Images/Save_PDF_Pressed.png");
+		loadPDFButton = new ImageButton("Load as PDF");
+		loadPDFButton.setDefaultImage("Images/Load_PDF.png");
+		loadPDFButton.setHoverImage("Images/Load_PDF_Hover.png");
+		loadPDFButton.setPressImage("Images/Load_PDF_Pressed.png");
 		
 		// Create status label
 		statusLabel = new JLabel("");
@@ -66,12 +66,12 @@ public class SaveGUI extends MainPanelComponent {
 		statusLabel.setForeground(new Color(255,255,255));
 		
 		// Set pref size
-		saveCSVButton.setPreferredSize(new Dimension(200, 200));
-		savePDFButton.setPreferredSize(new Dimension(200, 200));
+		loadCSVButton.setPreferredSize(new Dimension(200, 200));
+		loadPDFButton.setPreferredSize(new Dimension(200, 200));
 		
 		// Add event handler to buttons
-		saveCSVButton.addActionListener(new EventHandler().new eSaveCSVButton());
-		savePDFButton.addActionListener(new EventHandler().new eSavePDFButton());
+		loadCSVButton.addActionListener(new EventHandler().new eLoadCSVButton());
+		loadPDFButton.addActionListener(new EventHandler().new eLoadPDFButton());
 
 		// Create constraints
 		GridBagConstraints c = new GridBagConstraints();
@@ -85,14 +85,14 @@ public class SaveGUI extends MainPanelComponent {
 		
 		c.insets = new Insets(0,0,0,0);
 		c.gridx = 0; c.gridy = 1; c.gridwidth = 1; 
-		this.add(this.saveCSVButton, c);
+		this.add(this.loadCSVButton, c);
 		
 		c.insets = new Insets(0,150,0,0);
 		c.gridx = 1; c.gridy = 1;
-		this.add(this.savePDFButton, c);
+		this.add(this.loadPDFButton, c);
 		
 		// Add event handler to panel
-		this.addComponentListener(new EventHandler().new eSaveGUI());
+		this.addComponentListener(new EventHandler().new eLoadGUI());
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

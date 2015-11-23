@@ -160,7 +160,22 @@ public class Spielbrett implements Serializable  {
 
 	public Spielbrett clone(){
 		Spielbrett newObj = new Spielbrett();
-		for(int i = 0; i < )
+		
+		Spielfeld newFelder[][] = new Spielfeld[this.felder.length][];
+		
+		for(int i = 0; i < this.felder.length; i++){
+			
+			Spielfeld newFelderRow[] = new Spielfeld[this.felder[i].length];
+			
+			for(int j = 0; j < this.felder[i].length; j++){
+				newFelderRow[j] = this.felder[i][j].clone();
+			}
+			
+			newFelder[i] = newFelderRow;
+		}
+		newObj.setFelder(newFelder);
+		
+		return newObj;
 	}
 	
 	/**

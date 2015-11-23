@@ -13,6 +13,7 @@ import java.util.regex.*;
 import javax.swing.*;
 
 import Enumerations.FarbEnum;
+import Events.EventHandler;
 import GameLogic.*;
 
 //###########################################################
@@ -83,12 +84,13 @@ public class Control extends JPanel {
 		saveButton.setHoverImage("Images/Save_Hover.png");
 		saveButton.setPressImage("Images/Save_Pressed.png");
 		saveButton.setPreferredSize(new Dimension(60,60));
+		saveButton.addActionListener(new EventHandler().new eSaveButton());
 
 		// Layout
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(5,5,5,5);
 
-		innerPanels mp = new innerPanels();
+		GroupBox mp = new GroupBox();
 		mp.setPreferredSize(new Dimension(250,200));
 		mp.setLayout(new GridBagLayout());
 		c.gridx = 0; c.gridy = 0; 
@@ -98,7 +100,7 @@ public class Control extends JPanel {
 		c.gridx = 0; c.gridy = 2;
 		mp.add(player2,c);
 
-		innerPanels mp2 = new innerPanels();
+		GroupBox mp2 = new GroupBox();
 		mp2.setPreferredSize(new Dimension(250,140));
 		mp2.setLayout(new GridBagLayout());
 		c.gridx = 0; c.gridy = 0; c.gridwidth = 2;
@@ -108,7 +110,7 @@ public class Control extends JPanel {
 		c.gridx = 2; c.gridy = 1;
 		mp2.add(start,c);
 		
-		innerPanels mp3 = new innerPanels();
+		GroupBox mp3 = new GroupBox();
 		mp3.setPreferredSize(new Dimension(250,140));
 		mp3.setLayout(new GridBagLayout());
 		c.gridx = 0; c.gridy = 0; 
@@ -218,62 +220,6 @@ public class Control extends JPanel {
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Inner class
-
-	public class innerPanels extends JPanel{
-		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		//++ Properties
-
-
-		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		//++ Constructor
-
-		public innerPanels(){
-			
-		}
-
-		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		//++ Methods
-
-
-		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		//++ Methods ( Getter)
-
-
-		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		//++ Methods ( Setter)
-
-
-		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		//++ Methods (Override)
-
-		public void paintComponent(Graphics g){
-			// Create better paint device
-			Graphics2D g2D = (Graphics2D) g;
-
-			// Render hints
-			g2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-			g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
-			// Draw background
-			g2D.setColor(Color.black);
-			//g2D.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), 100, 100);
-			g2D.fillRect(0, 0, this.getWidth(), this.getHeight());
-
-			// Create gradient
-			Color color = new Color(20,20,20);
-			GradientPaint gradient = new GradientPaint(0, 0, color, this.getWidth() / 2, 0, color.darker(), true);
-
-			// Set left color
-			g2D.setPaint(gradient);
-
-			//g2D.fillRoundRect(5, 5, this.getWidth() - 10, this.getHeight() - 10, 100, 100);
-			g2D.fillRect(5, 5, this.getWidth() - 10, this.getHeight() - 10);
-		}
-
-		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		//++ Inner class
-	}
 
 	public class currentPlayer extends JPanel{
 		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

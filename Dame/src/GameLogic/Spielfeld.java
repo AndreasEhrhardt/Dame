@@ -103,4 +103,27 @@ public class Spielfeld implements Serializable {
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods (Override)
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public Spielfeld clone(){
+		Spielfeld newObj = new Spielfeld();
+		
+		if(this.figure != null) newObj.setFigure(this.figure.clone());
+		else newObj.setFigure(null);
+		
+		newObj.setID(this.ID);
+		
+		return newObj;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString(){
+		return "Spielfeld = { ID=" + this.getID() + "; figure=" + this.getFigure() + " }";
+	}
+	
 }

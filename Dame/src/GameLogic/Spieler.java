@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import Enumerations.FarbEnum;
 import KI.KI;
+import KI.KI_Dame;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import java.io.Serializable;
 //###########################################################
 //## Class
 
+@SuppressWarnings("serial")
 public class Spieler implements Serializable {
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -20,7 +22,7 @@ public class Spieler implements Serializable {
 
 	String name;
 	FarbEnum color;
-	KI ki_player = null;
+	KI_Dame ki_player = null;
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Constructor
@@ -38,7 +40,7 @@ public class Spieler implements Serializable {
 	 * @param ki_player
 	 * @param color
 	 */
-	public Spieler(KI ki_player, FarbEnum color) {
+	public Spieler(KI_Dame ki_player, FarbEnum color) {
 		setKI(ki_player);
 		this.setColor(color);
 	}
@@ -212,7 +214,7 @@ public class Spieler implements Serializable {
 	 * 
 	 * @param ki_player
 	 */
-	public void setKI(KI ki_player) {
+	public void setKI(KI_Dame ki_player) {
 		this.ki_player = ki_player;
 		if(this.ki_player != null) {
 			this.ki_player.setPlayer(this);
@@ -240,4 +242,11 @@ public class Spieler implements Serializable {
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods (Override)
 
+	public Spieler clone(){
+		Spieler newObj = new Spieler();
+		newObj.setColor(this.getColor());
+		newObj.setKI(this.ki_player.clone());
+		
+		return newObj;
+	}
 }

@@ -21,10 +21,13 @@ import KI.KI_Dame;
 
 public class DatenzugriffCSV implements iDatenzugriff {	
 	@Override
-	public boolean saveGame(String path, String filename, Spiel game){
+	public boolean saveGame(String path, String fileName, Spiel game){
+		if(!path.endsWith("/")) path += "/";
+		if(!fileName.endsWith(".csv")) fileName += ".csv";
+		
 		PrintWriter pw = null;
 		try {
-			pw = new PrintWriter(new FileWriter(path + filename));
+			pw = new PrintWriter(new FileWriter(path + fileName));
 
 			// Write string to CSV
 			pw.write((String)game.csvString());
@@ -42,6 +45,9 @@ public class DatenzugriffCSV implements iDatenzugriff {
 
 	@Override
 	public boolean loadGame(String path, String filename, Spiel game) {
+		if(!path.endsWith("/")) path += "/";
+		if(!filename.endsWith(".csv")) filename += ".csv";
+		
 		if(!this.haveSaveGame(path, filename)) return false;
 
 		try {
@@ -159,6 +165,9 @@ public class DatenzugriffCSV implements iDatenzugriff {
 
 	@Override
 	public boolean haveSaveGame(String path, String filename) {
+		if(!path.endsWith("/")) path += "/";
+		if(!filename.endsWith(".csv")) filename += ".csv";
+		
 		File f = new File(path + filename);
 		if(!f.exists() || f.isDirectory()){
 			return false;

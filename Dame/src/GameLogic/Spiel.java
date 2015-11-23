@@ -46,6 +46,8 @@ public class Spiel implements iBediener, Serializable {
 	private Spielbrett gameboard;
 	private Spieler gamer[];
 	private Spieler currentGamer;
+	private boolean isTemporary = false;
+	
 	static int maxLoopCount = 10;
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -79,7 +81,9 @@ public class Spiel implements iBediener, Serializable {
 		if (gamer == null || gamer.length != 2 || gamer[0] == null || gamer[1] == null) {
 			throw new RuntimeException();
 		}
-		this.gamer = gamer;
+		
+		this.setPlayer(1, gamer[0]);
+		this.setPlayer(2, gamer[1]);
 	}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -326,6 +330,14 @@ public class Spiel implements iBediener, Serializable {
 			return true;
 		}
 	}
+	
+	/**
+	 * 
+	 */
+	public void switchCurrentPlayer(){
+		if(this.currentGamer == this.gamer[0]) this.currentGamer = this.gamer[1];
+		else this.currentGamer = this.gamer[0];
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -371,10 +383,13 @@ public class Spiel implements iBediener, Serializable {
 
 				String startPos = posToString(fromPoint);
 				String endPos = posToString(toPoint);
-				Logging.globalPointer.addMessage(startPos + " -> " + endPos);
-
-				// Update user interface
-				GameGUI.globalPointer.updateUI();
+				if(!this.isTemporary){
+					// Output status to logging
+					Logging.globalPointer.addMessage(startPos + " -> " + endPos);
+					
+					// Update user interface
+					GameGUI.globalPointer.updateUI();
+				}
 			}
 
 			// Check if figure can jump again
@@ -397,21 +412,50 @@ public class Spiel implements iBediener, Serializable {
 			MainPanel.globalPointer.showWinningScreen();
 		}
 	}
+	
+	public Point getNextFigure(Point currentPos, int xIncrease, int yIncrease){
+		Spielfigur figure;
+		do{
+			currentPos.setLocation(currentPos.getX() + xIncrease, currentPos.getY() + yIncrease);
+			
+			if(this.isValidField(currentPos))
+				figure = this.getGameboard().getField((int) currentPos.getX(), (int) currentPos.getY()).getFigure();
+			else {
+				figure = null;
+				break;
+			}
+			
+		}while(figure == null);
+		
+		if(figure == null) return null;
+		else return currentPos;
+	}
 
 	public boolean willBeDestroyed(Point point){
 		Point checkAblePositions[] = new Point[4];
-		checkAblePositions[0] = new Point((int)point.getX() - 1, (int)point.getY() + 1); // TopLeft
-		checkAblePositions[1] = new Point((int)point.getX() + 1, (int)point.getY() + 1); // TopRight
-		checkAblePositions[2] = new Point((int)point.getX() + 1, (int)point.getY() - 1); // BottomRight
-		checkAblePositions[3] = new Point((int)point.getX() - 1, (int)point.getY() - 1); // BottomLeft
+		checkAblePositions[0] = getNextFigure(new Point((int)point.getX(),(int) point.getY()), -1,  1); // TopLeft
+		checkAblePositions[1] = getNextFigure(new Point((int)point.getX(),(int) point.getY()),  1,  1); // TopRight
+		checkAblePositions[2] = getNextFigure(new Point((int)point.getX(),(int) point.getY()),  1, -1); // BottomRight
+		checkAblePositions[3] = getNextFigure(new Point((int)point.getX(),(int) point.getY()), -1, -1); // BottomLeft
 
 		for(Point checkAblePoint : checkAblePositions){
+			// Check if point is valid
+			if(checkAblePoint == null) continue;
+			
 			if(this.isValidField(checkAblePoint)){
 				ArrayList<Point> blowable = this.canDestroyOtherFigures(checkAblePoint);
 				if(blowable.size() != 0){
 					for(Point blowPoint : blowable){
-						if((blowPoint.getX() + checkAblePoint.getX()) / 2 == point.getX() &&
-								(blowPoint.getY() + checkAblePoint.getY()) / 2 == point.getY()){
+						Point resultetPoint = new Point();
+						
+						if(blowPoint.getX() < checkAblePoint.getX()) resultetPoint.setLocation(blowPoint.getX() + 1, blowPoint.getY());
+						else resultetPoint.setLocation(blowPoint.getX() - 1, resultetPoint.getY());
+						
+						if(blowPoint.getY() < checkAblePoint.getY()) resultetPoint.setLocation(resultetPoint.getX(), blowPoint.getY() + 1);
+						else resultetPoint.setLocation(resultetPoint.getX(), blowPoint.getY() - 1);
+						
+						if(resultetPoint.getX() == point.getX() && 
+								resultetPoint.getY() == point.getY()){
 							return true;
 						}
 					}
@@ -674,14 +718,17 @@ public class Spiel implements iBediener, Serializable {
 	}
 
 	public Spieler getCurrentGamer() {
-		if (this.currentGamer == null)
-			throw new RuntimeException();
+		if (this.currentGamer == null) return null;
 
 		return this.currentGamer;
 	}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods ( Setter)
+	
+	public void setIsTemporary(boolean state){
+		this.isTemporary = state;
+	}
 
 	public void setGameboard(Spielbrett gameboard) {
 		if (gameboard != null)
@@ -727,8 +774,11 @@ public class Spiel implements iBediener, Serializable {
 	 */
 	@Override
 	public Spiel clone(){
-		Spiel newObj = new Spiel(this.getGameboard(),this.getGamer());
-		newObj.setCurrentGamer(this.currentGamer.getColor());
+		Spiel newObj = new Spiel();
+		if(this.gameboard != null) newObj.setGameboard(this.getGameboard().clone());
+		if(this.getPlayer(1) != null) newObj.setPlayer(1, this.getPlayer(1).clone());
+		//if(this.getPlayer(2) != null)newObj.setPlayer(2, this.getPlayer(2).clone());
+		//if(this.currentGamer != null)newObj.setCurrentGamer(this.currentGamer.getColor());
 		
 		return newObj;
 	}

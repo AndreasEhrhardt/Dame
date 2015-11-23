@@ -14,13 +14,18 @@ import Events.*;
 //###########################################################
 //## Class
 
+/**
+ * @author Andreas
+ *
+ */
+@SuppressWarnings("serial")
 public class LoadingMenu extends MainPanelComponent {
 	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
 
 	ImageButton loadingSerializeButton = null;
-	ImageButton loadingCSVButton = null;
+	ImageButton loadingButton = null;
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
@@ -35,13 +40,14 @@ public class LoadingMenu extends MainPanelComponent {
 		loadingSerializeButton.setDisabledImage("Images/Restore_Disabled.png");
 		loadingSerializeButton.addActionListener(new EventHandler().new eLoadSerial());
 		
-		loadingCSVButton = new ImageButton("Load file");
-		loadingCSVButton.setDefaultImage("Images/Load_File.png");
-		loadingCSVButton.setHoverImage("Images/Load_File_Hover.png");
-		loadingCSVButton.setPressImage("Images/Load_File_Pressed.png");
+		loadingButton = new ImageButton("Load file");
+		loadingButton.setDefaultImage("Images/Load_File.png");
+		loadingButton.setHoverImage("Images/Load_File_Hover.png");
+		loadingButton.setPressImage("Images/Load_File_Pressed.png");
+		loadingButton.addActionListener(new EventHandler().new eFileLoadingButton());
 		
 		loadingSerializeButton.setPreferredSize(new Dimension(200,200));
-		loadingCSVButton.setPreferredSize(new Dimension(200,200));
+		loadingButton.setPreferredSize(new Dimension(200,200));
 		
 		// Prepare grid-layout
 		this.setLayout(new GridBagLayout());
@@ -52,7 +58,7 @@ public class LoadingMenu extends MainPanelComponent {
         this.add(loadingSerializeButton, c);
         c.insets = new Insets(0,150,0,0);
         c.gridx = 1; c.gridy = 0;
-        this.add(loadingCSVButton, c);
+        this.add(loadingButton, c);
 	}
 	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

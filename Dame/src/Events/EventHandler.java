@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import GUI.*;
 import GUI.PlayerSettings.PlayerSelectionButton;
@@ -271,13 +272,13 @@ public class EventHandler{
 			if(component instanceof GameGUI){
 				// Parse object to gameGUI
 				GameGUI board = (GameGUI) component;
-				
+
 				// Create fields
 				board.getGameboard().createField();
-				
+
 				// Fit the size of the componentes
 				board.fitComponents();
-				
+
 				// Update GUI
 				board.updateUI();
 			}
@@ -342,7 +343,7 @@ public class EventHandler{
 			}
 		}
 	}
-	
+
 	public class eSaveButton implements ActionListener{
 
 		@Override
@@ -352,4 +353,158 @@ public class EventHandler{
 			}
 		}
 	}
+
+	public class eSaveCSVButton implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {			
+			if(e.getSource() instanceof ImageButton){
+				JFileChooser fc = new JFileChooser("Spielstand sichern (CSV)");
+				fc.addChoosableFileFilter(new FileNameExtensionFilter("CSV - File", "csv"));
+				fc.setAcceptAllFileFilterUsed(false);
+				fc.showSaveDialog(null);
+
+				String dirPath = fc.getCurrentDirectory().toString();
+				if(fc.getSelectedFile() != null){
+					String fileName = fc.getSelectedFile().getName();
+
+					DatenzugriffCSV savegame = new DatenzugriffCSV();
+					if(savegame.saveGame(dirPath, fileName, MainFrame.globalPointer.getGame())){
+						SaveGUI.globalPointer.setMessage("Save was successfully");
+						return;
+					}
+				}
+
+				SaveGUI.globalPointer.setMessage("Couldn't save the game :(");
+			}
+		}
+	}
+
+	public class eSavePDFButton implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {			
+			if(e.getSource() instanceof ImageButton){
+				JFileChooser fc = new JFileChooser("Spielstand sichern (PDF)");
+				fc.addChoosableFileFilter(new FileNameExtensionFilter("PDF - File", "pdf"));
+				fc.setAcceptAllFileFilterUsed(false);
+				fc.showSaveDialog(null);
+
+				String dirPath = fc.getCurrentDirectory().toString();
+				if(fc.getSelectedFile() != null){
+					String fileName = fc.getSelectedFile().getName();
+
+					DatenzugriffPDF savegame = new DatenzugriffPDF();
+					if(savegame.saveGame(dirPath, fileName, MainFrame.globalPointer.getGame())){
+						SaveGUI.globalPointer.setMessage("Save was successfully");
+					}
+				}
+				SaveGUI.globalPointer.setMessage("Couldn't save the game :(");
+
+			}
+		}
+	}
+
+	public class eSaveGUI implements ComponentListener{		
+
+		@Override
+		public void componentResized(ComponentEvent e) {}
+
+		@Override
+		public void componentHidden(ComponentEvent arg0) {}
+
+		@Override
+		public void componentMoved(ComponentEvent arg0) {}
+
+		@Override
+		public void componentShown(ComponentEvent e) {
+			Component component = e.getComponent();
+			if(component instanceof SaveGUI){
+				SaveGUI saveGUI = (SaveGUI) component;
+				saveGUI.clearMessage();
+			}
+		}
+	}
+
+	public class eLoadCSVButton implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {			
+			if(e.getSource() instanceof ImageButton){
+				JFileChooser fc = new JFileChooser("Spielstand laden (CSV)");
+				fc.addChoosableFileFilter(new FileNameExtensionFilter("CSV - File", "csv"));
+				fc.setAcceptAllFileFilterUsed(false);
+				fc.showSaveDialog(null);
+
+				String dirPath = fc.getCurrentDirectory().toString();
+				if(fc.getSelectedFile() != null){
+					String fileName = fc.getSelectedFile().getName();
+
+					DatenzugriffCSV savegame = new DatenzugriffCSV();
+					if(savegame.loadGame(dirPath, fileName, MainFrame.globalPointer.getGame())){
+						MainPanel.globalPointer.showGameGUI();
+					}
+				}
+				SaveGUI.globalPointer.setMessage("Couldn't save the game :(");
+
+			}
+		}
+	}
+
+	public class eLoadPDFButton implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {			
+			if(e.getSource() instanceof ImageButton){
+				JFileChooser fc = new JFileChooser("Spielstand laden (PDF)");
+				fc.addChoosableFileFilter(new FileNameExtensionFilter("PDF - File", "pdf"));
+				fc.setAcceptAllFileFilterUsed(false);
+				fc.showOpenDialog(null);
+
+				String dirPath = fc.getCurrentDirectory().toString();
+				if(fc.getSelectedFile() != null){
+					String fileName = fc.getSelectedFile().getName();
+
+					DatenzugriffPDF savegame = new DatenzugriffPDF();
+					if(savegame.loadGame(dirPath, fileName, MainFrame.globalPointer.getGame())){
+						MainPanel.globalPointer.showGameGUI();
+					}
+				}
+				SaveGUI.globalPointer.setMessage("Couldn't save the game :(");
+
+			}
+		}
+	}
+
+	public class eLoadGUI implements ComponentListener{		
+
+		@Override
+		public void componentResized(ComponentEvent e) {}
+
+		@Override
+		public void componentHidden(ComponentEvent arg0) {}
+
+		@Override
+		public void componentMoved(ComponentEvent arg0) {}
+
+		@Override
+		public void componentShown(ComponentEvent e) {
+			Component component = e.getComponent();
+			if(component instanceof LoadGUI){
+				LoadGUI loadGUI = (LoadGUI) component;
+				loadGUI.clearMessage();
+			}
+		}
+	}
+
+	public class eFileLoadingButton implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {			
+			if(e.getSource() instanceof ImageButton){
+				MainPanel.globalPointer.showLoadGUI();
+			}
+		}
+	}
+
 }
