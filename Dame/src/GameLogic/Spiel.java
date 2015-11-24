@@ -6,6 +6,8 @@ package GameLogic;
 import java.io.*;
 import java.util.*;
 
+import javax.swing.JOptionPane;
+
 import Enumerations.FarbEnum;
 import GUI.GameGUI;
 import GUI.Logging;
@@ -367,6 +369,7 @@ public class Spiel implements iBediener, Serializable {
 
 			// Check if figure is after blowing already exist
 			if (fromField.getFigure() == gameFigure) {
+				
 				// Set new coordinations to figure
 				gameFigure.setPoint(toPoint);
 
@@ -377,13 +380,14 @@ public class Spiel implements iBediener, Serializable {
 				// Check for new dame
 				checkForNewDames();
 
-				// Save serialisiert
+				// Save serialized
 				DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
 				serial.saveGame(this);
 
 				String startPos = posToString(fromPoint);
 				String endPos = posToString(toPoint);
 				if(!this.isTemporary){
+					
 					// Output status to logging
 					Logging.globalPointer.addMessage(startPos + " -> " + endPos);
 					
@@ -397,11 +401,8 @@ public class Spiel implements iBediener, Serializable {
 
 			}
 			else{
-				// Set next player
-				if (this.currentGamer == this.gamer[0])
-					this.currentGamer = this.gamer[1];
-				else
-					this.currentGamer = this.gamer[0];
+				// JOptionPane.showMessageDialog(null,"KI have moved");
+				this.switchCurrentPlayer();
 			}
 		} else {
 			// Some strange errors appears

@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.JOptionPane;
+
 import Enumerations.FarbEnum;
 import GUI.*;
 import GameLogic.Spiel;
@@ -233,7 +235,9 @@ public class KI_Dame extends KI implements Serializable {
 				}
 				else throw new RuntimeException();
 
-				if(choosenScenario != null) game.move(choosenScenario.from, choosenScenario.to);
+				if(choosenScenario != null){
+					game.move(choosenScenario.from, choosenScenario.to);
+				}
 			}catch (Exception e){
 				System.out.println("Unexpected exception: " + e);
 				throw new RuntimeException();
