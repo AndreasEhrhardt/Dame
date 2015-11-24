@@ -462,7 +462,7 @@ public class EventHandler{
 				JFileChooser fc = new JFileChooser("Spielstand laden (CSV)");
 				fc.addChoosableFileFilter(new FileNameExtensionFilter("CSV - File", "csv"));
 				fc.setAcceptAllFileFilterUsed(false);
-				int result = fc.showSaveDialog(null);
+				int result = fc.showOpenDialog(null);
 
 				boolean error = false;
 

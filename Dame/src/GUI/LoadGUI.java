@@ -89,7 +89,7 @@ public class LoadGUI extends MainPanelComponent {
 		
 		c.insets = new Insets(0,150,0,0);
 		c.gridx = 1; c.gridy = 1;
-		this.add(this.loadPDFButton, c);
+		//this.add(this.loadPDFButton, c);
 		
 		// Add event handler to panel
 		this.addComponentListener(new EventHandler().new eLoadGUI());
