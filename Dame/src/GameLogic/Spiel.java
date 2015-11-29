@@ -401,7 +401,7 @@ public class Spiel implements iBediener, Serializable {
 
 			}
 			else{
-				// JOptionPane.showMessageDialog(null,"KI have moved");
+				if(this.currentGamer.getKi() != null) JOptionPane.showMessageDialog(null,"KI have moved");
 				this.switchCurrentPlayer();
 			}
 		} else {
