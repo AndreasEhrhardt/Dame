@@ -2,7 +2,7 @@ package SavegameManager;
 
 import java.io.*;
 
-import GameLogic.Spiel;
+import GameLogic.SpielBean;
 import Interfaces.*;
 
 
@@ -13,14 +13,14 @@ public class DatenzugriffSerialisiert implements iDatenzugriff{
 	/**
 	 * @param game
 	 */
-	public boolean saveGame(Spiel game){
+	public boolean saveGame(SpielBean game){
 		return this.saveGame(defaultPath, defaultName, game);
 	}
 	
 	/**
 	 * @param game
 	 */
-	public boolean loadGame(Spiel game){
+	public boolean loadGame(SpielBean game){
 		return this.loadGame(defaultPath, defaultName, game);
 	}
 	
@@ -45,7 +45,7 @@ public class DatenzugriffSerialisiert implements iDatenzugriff{
 	 * @see Interfaces.iDatenzugriff#saveGame(java.lang.String, java.lang.String, GameLogic.Spiel)
 	 */
 	@Override
-	public boolean saveGame(String path, String filename, Spiel game) {
+	public boolean saveGame(String path, String filename, SpielBean game) {
 		try{
 			// Save game state
 			FileOutputStream gameOS = new FileOutputStream(path + filename);
@@ -68,7 +68,7 @@ public class DatenzugriffSerialisiert implements iDatenzugriff{
 	 * @see Interfaces.iDatenzugriff#loadGame(java.lang.String, java.lang.String, GameLogic.Spiel)
 	 */
 	@Override
-	public boolean loadGame(String path, String filename, Spiel game) {
+	public boolean loadGame(String path, String filename, SpielBean game) {
 		try{
 			// Open file stream
 			FileInputStream f_in = new FileInputStream(path + filename);
@@ -78,9 +78,9 @@ public class DatenzugriffSerialisiert implements iDatenzugriff{
 			Object obj = obj_in.readObject();
 
 			// Check if object is from same class
-			if(obj.getClass() == Spiel.class){
+			if(obj.getClass() == SpielBean.class){
 				// Parse object
-				Spiel lastGame = (Spiel)obj;
+				SpielBean lastGame = (SpielBean)obj;
 
 				// Get game-data
 				game.setPlayer(1, lastGame.getPlayer(1));

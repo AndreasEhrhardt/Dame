@@ -13,7 +13,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import Enumerations.FarbEnum;
-import GameLogic.Spiel;
+import GameLogic.SpielBean;
 import GameLogic.Spielfigur;
 import Interfaces.iDatenzugriff;
 
@@ -21,7 +21,7 @@ public class DatenzugriffPDF implements iDatenzugriff{
 
 
 	@Override
-	public boolean saveGame(String path, String fileName, Spiel game) {
+	public boolean saveGame(String path, String fileName, SpielBean game) {
 		if(!path.endsWith("/")) path += "/";
 		if(!fileName.endsWith(".pdf")) fileName += ".pdf";
 
@@ -86,7 +86,7 @@ public class DatenzugriffPDF implements iDatenzugriff{
 	}
 
 	@Override
-	public boolean loadGame(String path, String filename, Spiel game) {
+	public boolean loadGame(String path, String filename, SpielBean game) {
 		if(!path.endsWith("/")) path += "/";
 		if(!filename.endsWith(".pdf")) filename += ".pdf";
 

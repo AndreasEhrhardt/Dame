@@ -22,7 +22,7 @@ public class MainFrame extends JFrame {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
 
-	private Spiel game;
+	private SpielBean game;
 	private MainPanel mp;
 
 	public static MainFrame globalPointer = null;
@@ -41,7 +41,7 @@ public class MainFrame extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Create game
-		this.game = new Spiel();
+		this.game = new SpielBean();
 
 		// Create main panel
 		mp = new MainPanel();
@@ -95,7 +95,7 @@ public class MainFrame extends JFrame {
 	/**
 	 * @return
 	 */
-	public Spiel getGame(){
+	public SpielBean getGame(){
 		return this.game;
 	}
 
@@ -105,7 +105,7 @@ public class MainFrame extends JFrame {
 	/**
 	 * @param game
 	 */
-	public void setGame(Spiel game){
+	public void setGame(SpielBean game){
 		if(game == null) throw new RuntimeException();
 
 		this.game = game;

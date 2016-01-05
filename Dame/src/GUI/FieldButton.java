@@ -9,7 +9,7 @@ import java.awt.RenderingHints;
 import javax.swing.JButton;
 
 import Enumerations.FarbEnum;
-import GameLogic.Spiel;
+import GameLogic.SpielBean;
 import GameLogic.Spielfigur;
 
 public class FieldButton extends JButton {
@@ -48,7 +48,7 @@ public class FieldButton extends JButton {
 		g2D.fillRect(0, 0, this.getWidth(), this.getWidth());
 		
 		// Draw figure
-		Spiel game = MainFrame.globalPointer.getGame();
+		SpielBean game = MainFrame.globalPointer.getGame();
 		Spielfigur figure = game.getGameboard().getField(x, y).getFigure();
 		if (figure != null){		
 			if(selected){

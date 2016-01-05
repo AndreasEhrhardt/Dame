@@ -16,7 +16,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import Events.*;
-import GameLogic.Spiel;
+import GameLogic.SpielBean;
 
 //###########################################################
 //## Class

@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import Enumerations.FarbEnum;
-import GameLogic.Spiel;
+import GameLogic.SpielBean;
 import GameLogic.Spielbrett;
 import GameLogic.Spieler;
 import GameLogic.Spielfigur;
@@ -21,7 +21,7 @@ import KI.KI_Dame;
 
 public class DatenzugriffCSV implements iDatenzugriff {	
 	@Override
-	public boolean saveGame(String path, String fileName, Spiel game){
+	public boolean saveGame(String path, String fileName, SpielBean game){
 		if(!path.endsWith("/")) path += "/";
 		if(!fileName.endsWith(".csv")) fileName += ".csv";
 		
@@ -49,7 +49,7 @@ public class DatenzugriffCSV implements iDatenzugriff {
 	}
 
 	@Override
-	public boolean loadGame(String path, String filename, Spiel game) {
+	public boolean loadGame(String path, String filename, SpielBean game) {
 		if(!path.endsWith("/")) path += "/";
 		if(!filename.endsWith(".csv")) filename += ".csv";
 		

@@ -34,7 +34,7 @@ public class jSpiel {
 		gameboard.setFelder(felder);
 
 		// Create game
-		Spiel game = new Spiel(gameboard,new Spieler[]{new Spieler("Test",FarbEnum.weiﬂ),new Spieler(new KI_Dame(),FarbEnum.schwarz)});
+		SpielBean game = new SpielBean(gameboard,new Spieler[]{new Spieler("Test",FarbEnum.weiﬂ),new Spieler(new KI_Dame(),FarbEnum.schwarz)});
 		game.setCurrentGamer(FarbEnum.weiﬂ);
 		game.move(new Point(2,3),new Point(5,0));
 
@@ -62,7 +62,7 @@ public class jSpiel {
 		gameboard.setFelder(felder);
 
 		// Create game
-		Spiel game = new Spiel(gameboard,new Spieler[]{new Spieler("Test",FarbEnum.weiﬂ),new Spieler(new KI_Dame(),FarbEnum.schwarz)});
+		SpielBean game = new SpielBean(gameboard,new Spieler[]{new Spieler("Test",FarbEnum.weiﬂ),new Spieler(new KI_Dame(),FarbEnum.schwarz)});
 		game.setCurrentGamer(FarbEnum.schwarz);
 
 		// Check if game finished
@@ -90,7 +90,7 @@ public class jSpiel {
 		gameboard.setFelder(felder);
 
 		// Create game
-		Spiel game = new Spiel(gameboard,new Spieler[]{new Spieler("Test",FarbEnum.weiﬂ),new Spieler(new KI_Dame(),FarbEnum.schwarz)});
+		SpielBean game = new SpielBean(gameboard,new Spieler[]{new Spieler("Test",FarbEnum.weiﬂ),new Spieler(new KI_Dame(),FarbEnum.schwarz)});
 		try{
 			game.setCurrentGamer(FarbEnum.weiﬂ);
 			game.move(new Point(2,3),new Point(5,0));
@@ -100,7 +100,7 @@ public class jSpiel {
 		}
 	}
 
-	@Test(expected = Spiel.eWayIsBlockedException.class)
+	@Test(expected = SpielBean.eWayIsBlockedException.class)
 	public void testWayBlocked() throws Exception{
 		// Output information
 		System.out.println("[TEST] Test way is blocked");
@@ -122,12 +122,12 @@ public class jSpiel {
 		gameboard.setFelder(felder);
 
 		// Create game
-		Spiel game = new Spiel(gameboard,new Spieler[]{new Spieler("Test",FarbEnum.weiﬂ),new Spieler(new KI_Dame(),FarbEnum.schwarz)});
+		SpielBean game = new SpielBean(gameboard,new Spieler[]{new Spieler("Test",FarbEnum.weiﬂ),new Spieler(new KI_Dame(),FarbEnum.schwarz)});
 		game.setCurrentGamer(FarbEnum.weiﬂ);
 		game.move(new Point(2,3),new Point(5,0));
 	}
 
-	@Test(expected = Spiel.eDestinationPointIsBlockedException.class)
+	@Test(expected = SpielBean.eDestinationPointIsBlockedException.class)
 	public void testBlockedDestinationField() throws Exception{
 		// Output information
 		System.out.println("[TEST] Test way is blocked");
@@ -146,7 +146,7 @@ public class jSpiel {
 		gameboard.setFelder(felder);
 
 		// Create game
-		Spiel game = new Spiel(gameboard,new Spieler[]{new Spieler("Test",FarbEnum.weiﬂ),new Spieler(new KI_Dame(),FarbEnum.schwarz)});
+		SpielBean game = new SpielBean(gameboard,new Spieler[]{new Spieler("Test",FarbEnum.weiﬂ),new Spieler(new KI_Dame(),FarbEnum.schwarz)});
 		game.setCurrentGamer(FarbEnum.weiﬂ);
 		game.move(new Point(2,3),new Point(3,2));
 	}

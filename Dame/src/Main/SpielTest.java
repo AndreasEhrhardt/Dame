@@ -1,6 +1,6 @@
 package Main;
 import GUI.MainFrame;
-import GameLogic.Spiel;
+import GameLogic.SpielBean;
 
 public class SpielTest {
 	/**

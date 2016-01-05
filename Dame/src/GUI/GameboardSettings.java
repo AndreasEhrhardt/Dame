@@ -79,7 +79,7 @@ public class GameboardSettings extends MainPanelComponent{
 	}
 	
 	public void save(){
-		Spiel game = MainFrame.globalPointer.getGame();
+		SpielBean game = MainFrame.globalPointer.getGame();
 		game.setGameboard(new Spielbrett(this.slider.getValue()));
 	}
 

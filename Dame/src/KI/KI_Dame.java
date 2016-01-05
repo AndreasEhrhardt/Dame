@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 
 import Enumerations.FarbEnum;
 import GUI.*;
-import GameLogic.Spiel;
+import GameLogic.SpielBean;
 import GameLogic.Spieler;
 import GameLogic.Spielfeld;
 import GameLogic.Spielfigur;
@@ -65,7 +65,7 @@ public class KI_Dame extends KI implements Serializable {
 	 */
 	public void checkForMove(){		
 		if(GameGUI.globalPointer.isVisible() == true){
-			Spiel game = MainFrame.globalPointer.getGame();
+			SpielBean game = MainFrame.globalPointer.getGame();
 			if(game.getCurrentGamer() == this.player && !moveStarted){
 				moveStarted = true;
 				Timer moveTimer = new Timer();
@@ -104,7 +104,7 @@ public class KI_Dame extends KI implements Serializable {
 	/* (non-Javadoc)
 	 * @see KI.KI#move(GameLogic.Spiel, GameLogic.Spieler)
 	 */
-	public void move(Spiel game, Spieler player){
+	public void move(SpielBean game, Spieler player){
 		if(MainFrame.globalPointer.getGame().getCurrentGamer() != this.player) return;
 
 		//+++++++++++++++++++++++++++++++++++++++++++++++

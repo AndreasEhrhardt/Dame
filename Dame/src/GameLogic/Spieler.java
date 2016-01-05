@@ -64,7 +64,7 @@ public class Spieler implements Serializable {
 	 * 
 	 * @param game
 	 */
-	public void move(Spiel game, Point fromPoint) {
+	public void move(SpielBean game, Point fromPoint) {
 		if(this.ki_player != null){
 			this.ki_player.move(game, this);
 			return;
@@ -93,29 +93,29 @@ public class Spieler implements Serializable {
 				game.move(fromPoint, toPoint);
 				
 				success = true;
-			}catch (Spiel.eInvalidPointException e) {
+			}catch (SpielBean.eInvalidPointException e) {
 				System.out.println("Ungültige Positions-Eingabe");
-			}catch (Spiel.eSomeOtherMoveErrorsException e) {
+			}catch (SpielBean.eSomeOtherMoveErrorsException e) {
 				System.out.println("Unbekannter Fehler. sorry");
-			}catch (Spiel.eDestinationPointIsBlockedException e) {
+			}catch (SpielBean.eDestinationPointIsBlockedException e) {
 				System.out.println("Ziel-Feld ist blockiert");
-			}catch (Spiel.eNoDiagonalMoveException e) {
+			}catch (SpielBean.eNoDiagonalMoveException e) {
 				System.out.println("Ungültige Bewegungsrichtung (nur diagonal ist erlaubt)");
-			}catch (Spiel.eNoFigureFoundOnFieldException e) {
+			}catch (SpielBean.eNoFigureFoundOnFieldException e) {
 				System.out.println("Feld hat keine gültige Spielfigur");
-			}catch (Spiel.eOutOfGameboardException e) {
+			}catch (SpielBean.eOutOfGameboardException e) {
 				System.out.println("Position ist außerhalb des Spielfeldes");
-			}catch (Spiel.eSamePositionException e) {
+			}catch (SpielBean.eSamePositionException e) {
 				System.out.println("Spielfigur-Feld und Ziel-Feld sind identisch");
-			}catch (Spiel.eDistanceToFarException e){
+			}catch (SpielBean.eDistanceToFarException e){
 				System.out.println("Bauern dürfen nur 1 Feld weit springen");
-			}catch(Spiel.eEnemyFigureSelectedException e){
+			}catch(SpielBean.eEnemyFigureSelectedException e){
 				System.out.println("Es ist nicht erlaubt die Spielfigur des Gegners zu verschieben");
-			}catch(Spiel.eOwnFigureIsBlockingException e){
+			}catch(SpielBean.eOwnFigureIsBlockingException e){
 				System.out.println("Kann keine eigenen Steine überspringen");
-			}catch(Spiel.eNoBackJumpExcpetion e){
+			}catch(SpielBean.eNoBackJumpExcpetion e){
 				System.out.println("Falsche Richtung. Nur erlaubt beim Schlagen einer Figur oder als Dame");
-			}catch(Spiel.eWayIsBlockedException e){
+			}catch(SpielBean.eWayIsBlockedException e){
 				System.out.println("Es dürfen keine 2 Stein gleichzeitig übersürungen werden");
 			}catch (Exception e){
 				System.out.println("Sry, some other problems ");
@@ -129,7 +129,7 @@ public class Spieler implements Serializable {
 	 * 
 	 * @return point 
 	 */
-	public Point inputPosition() throws Spiel.eInvalidPointException {
+	public Point inputPosition() throws SpielBean.eInvalidPointException {
 		// Create keyboard reader
 		Scanner scanner = new Scanner(System.in);
 
@@ -142,7 +142,7 @@ public class Spieler implements Serializable {
 		// Check if 3 chars are typed in
 		if (sPoint.length() != 3) {
 			// Not enough or to many chars -> Invalid input
-			throw new Spiel.eInvalidPointException();
+			throw new SpielBean.eInvalidPointException();
 		} else {
 			// Check if first char is a letter
 			if (sPoint.charAt(0) >= 65 && sPoint.charAt(0) <= 90) {
@@ -157,21 +157,21 @@ public class Spieler implements Serializable {
 						x += (sPoint.charAt(2) - 48) - 1;
 						
 						if (x < 0 || y < 0)
-							throw new Spiel.eInvalidPointException();
+							throw new SpielBean.eInvalidPointException();
 
 						point.setLocation(x, y);
 
 						return point;
 					} else {
-						throw new Spiel.eInvalidPointException();
+						throw new SpielBean.eInvalidPointException();
 					}
 
 				} else {
-					throw new Spiel.eInvalidPointException();
+					throw new SpielBean.eInvalidPointException();
 				}
 
 			} else {
-				throw new Spiel.eInvalidPointException();
+				throw new SpielBean.eInvalidPointException();
 			}
 		}
 	}

@@ -7,7 +7,7 @@ public class SpielTestLaden {
 
 	public static void main(String[] args) {
 
-		Spiel game = new Spiel();
+		SpielBean game = new SpielBean();
 		iDatenzugriff serialisiert = new DatenzugriffSerialisiert();
 		game.load("./", "dame");
 		

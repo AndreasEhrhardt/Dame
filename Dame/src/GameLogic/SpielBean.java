@@ -24,7 +24,7 @@ import java.awt.*;
 //## Class
 
 @SuppressWarnings("serial")
-public class Spiel implements iBediener, Serializable {
+public class SpielBean implements iBediener, Serializable {
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Exceptions
@@ -58,7 +58,7 @@ public class Spiel implements iBediener, Serializable {
 	/**
 	 * Constructor
 	 */
-	public Spiel() {
+	public SpielBean() {
 		gamer = new Spieler[2];
 
 		this.gameboard = new Spielbrett();
@@ -72,7 +72,7 @@ public class Spiel implements iBediener, Serializable {
 	 * @param gameboard
 	 * @param gamer
 	 */
-	public Spiel(Spielbrett gameboard, Spieler gamer[]) {
+	public SpielBean(Spielbrett gameboard, Spieler gamer[]) {
 		// Call default constructor
 		this();
 
@@ -108,9 +108,9 @@ public class Spiel implements iBediener, Serializable {
 	/**
 	 * @param sPoint
 	 * @return
-	 * @throws Spiel.eInvalidPointException
+	 * @throws SpielBean.eInvalidPointException
 	 */
-	public Point stringToPoint(String sPoint) throws Spiel.eInvalidPointException{
+	public Point stringToPoint(String sPoint) throws SpielBean.eInvalidPointException{
 		if (sPoint.charAt(0) >= 65 && sPoint.charAt(0) <= 90) {
 			Point point = new Point();
 			int y = sPoint.charAt(0) - 65;
@@ -122,7 +122,7 @@ public class Spiel implements iBediener, Serializable {
 				if (sPoint.charAt(2) >= 48 && sPoint.charAt(2) <= 57) {
 					x += (sPoint.charAt(2) - 48) - 1;
 
-					if (x < 0 || y < 0) throw new Spiel.eInvalidPointException();
+					if (x < 0 || y < 0) throw new SpielBean.eInvalidPointException();
 
 					point.setLocation(y, x);
 
@@ -133,7 +133,7 @@ public class Spiel implements iBediener, Serializable {
 
 		}
 
-		throw new Spiel.eInvalidPointException();
+		throw new SpielBean.eInvalidPointException();
 	}
 
 	/**
@@ -164,16 +164,16 @@ public class Spiel implements iBediener, Serializable {
 	 * @param fromPoint
 	 * @param toPoint
 	 * @return True if move is valid
-	 * @throws Spiel.eSamePositionException
-	 * @throws Spiel.eNoDiagonalMoveException
-	 * @throws Spiel.eOutOfGameboardException
-	 * @throws Spiel.eNoFigureFoundOnFieldException
-	 * @throws Spiel.eDestinationPointIsBlockedException
+	 * @throws SpielBean.eSamePositionException
+	 * @throws SpielBean.eNoDiagonalMoveException
+	 * @throws SpielBean.eOutOfGameboardException
+	 * @throws SpielBean.eNoFigureFoundOnFieldException
+	 * @throws SpielBean.eDestinationPointIsBlockedException
 	 */
 	public boolean moveIsValid(Point fromPoint, Point toPoint)
-			throws Spiel.eSamePositionException, Spiel.eNoDiagonalMoveException, Spiel.eOutOfGameboardException,
-			Spiel.eNoFigureFoundOnFieldException, Spiel.eDestinationPointIsBlockedException,
-			Spiel.eDistanceToFarException, Spiel.eEnemyFigureSelectedException, Spiel.eNoBackJumpExcpetion,
+			throws SpielBean.eSamePositionException, SpielBean.eNoDiagonalMoveException, SpielBean.eOutOfGameboardException,
+			SpielBean.eNoFigureFoundOnFieldException, SpielBean.eDestinationPointIsBlockedException,
+			SpielBean.eDistanceToFarException, SpielBean.eEnemyFigureSelectedException, SpielBean.eNoBackJumpExcpetion,
 			eOwnFigureIsBlockingException, eWayIsBlockedException {
 		int diffX = (int) (toPoint.getX() - fromPoint.getX());
 		int diffY = (int) (toPoint.getY() - fromPoint.getY());
@@ -183,61 +183,61 @@ public class Spiel implements iBediener, Serializable {
 
 		// Check if both fields are the same
 		if (fromPoint.equals(toPoint))
-			throw new Spiel.eSamePositionException();
+			throw new SpielBean.eSamePositionException();
 
 		// Check if move is diagonal
 		if (!(diffX == diffY || (diffX * (-1) == diffY)))
-			throw new Spiel.eNoDiagonalMoveException();
+			throw new SpielBean.eNoDiagonalMoveException();
 
 		// Check if toPoint and fromPoint are valid fields
 		if (!this.isValidField(fromPoint) || !this.isValidField(toPoint))
-			throw new Spiel.eOutOfGameboardException();
+			throw new SpielBean.eOutOfGameboardException();
 
 		// Check if field have figure
 		Spielfigur gameFigure = fromField.getFigure();
 		if (gameFigure == null)
-			throw new Spiel.eNoFigureFoundOnFieldException();
+			throw new SpielBean.eNoFigureFoundOnFieldException();
 
 		// Check if destination have already a figure
 		Spielfigur destinationfigure = toField.getFigure();
 		if (destinationfigure != null)
-			throw new Spiel.eDestinationPointIsBlockedException();
+			throw new SpielBean.eDestinationPointIsBlockedException();
 
 		// Check if figure is jumping to far or in wrong way
 		if (!gameFigure.isDame()) {
 			if (diffX > 1 || (diffX * (-1)) > 1) {
 				if (!((diffX == 2 || (diffX * (-1)) == 2))) {
-					throw new Spiel.eDistanceToFarException();
+					throw new SpielBean.eDistanceToFarException();
 				} else {
 					Spielfigur midfigure = this.gameboard
 							.getField((int) fromPoint.getX() + (diffX / 2), (int) fromPoint.getY() + (diffY / 2))
 							.getFigure();
 					if (midfigure == null) {
-						throw new Spiel.eDistanceToFarException();
+						throw new SpielBean.eDistanceToFarException();
 					} else if (midfigure.getColor() == this.currentGamer.getColor()) {
-						throw new Spiel.eOwnFigureIsBlockingException();
+						throw new SpielBean.eOwnFigureIsBlockingException();
 					}
 
 				}
 			} else {
 				if (gameFigure.getColor() == FarbEnum.schwarz && diffY > 0)
-					throw new Spiel.eNoBackJumpExcpetion();
+					throw new SpielBean.eNoBackJumpExcpetion();
 				else if (gameFigure.getColor() == FarbEnum.weiﬂ && diffY < 0)
-					throw new Spiel.eNoBackJumpExcpetion();
+					throw new SpielBean.eNoBackJumpExcpetion();
 			}
 		} else {
 			// Check for double stones
 			if (doubleFiguresFound(fromPoint, toPoint))
-				throw new Spiel.eWayIsBlockedException();
+				throw new SpielBean.eWayIsBlockedException();
 
 			// Check if blocked by own figure
 			if (this.blockedByOwnFigure(fromPoint, toPoint))
-				throw new Spiel.eOwnFigureIsBlockingException();
+				throw new SpielBean.eOwnFigureIsBlockingException();
 		}
 
 		// Check if figure is from enemy team
 		if (gameFigure.getColor() != this.currentGamer.getColor())
-			throw new Spiel.eEnemyFigureSelectedException();
+			throw new SpielBean.eEnemyFigureSelectedException();
 
 		return true;
 	}
@@ -348,10 +348,10 @@ public class Spiel implements iBediener, Serializable {
 	 */
 	@Override
 	public void move(Point fromPoint, Point toPoint)
-			throws Spiel.eSamePositionException, Spiel.eNoDiagonalMoveException, Spiel.eOutOfGameboardException,
-			Spiel.eNoFigureFoundOnFieldException, Spiel.eDestinationPointIsBlockedException,
-			Spiel.eSomeOtherMoveErrorsException, Spiel.eDistanceToFarException, Spiel.eEnemyFigureSelectedException,
-			Spiel.eNoBackJumpExcpetion, Spiel.eOwnFigureIsBlockingException, Spiel.eWayIsBlockedException {
+			throws SpielBean.eSamePositionException, SpielBean.eNoDiagonalMoveException, SpielBean.eOutOfGameboardException,
+			SpielBean.eNoFigureFoundOnFieldException, SpielBean.eDestinationPointIsBlockedException,
+			SpielBean.eSomeOtherMoveErrorsException, SpielBean.eDistanceToFarException, SpielBean.eEnemyFigureSelectedException,
+			SpielBean.eNoBackJumpExcpetion, SpielBean.eOwnFigureIsBlockingException, SpielBean.eWayIsBlockedException {
 		if (this.moveIsValid(fromPoint, toPoint)) {
 			// Get fields
 			Spielfeld fromField = this.gameboard.getField((int) fromPoint.getX(), (int) fromPoint.getY());
@@ -774,8 +774,8 @@ public class Spiel implements iBediener, Serializable {
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
-	public Spiel clone(){
-		Spiel newObj = new Spiel();
+	public SpielBean clone(){
+		SpielBean newObj = new SpielBean();
 		if(this.gameboard != null) newObj.setGameboard(this.getGameboard().clone());
 		if(this.getPlayer(1) != null) newObj.setPlayer(1, this.getPlayer(1).clone());
 		//if(this.getPlayer(2) != null)newObj.setPlayer(2, this.getPlayer(2).clone());

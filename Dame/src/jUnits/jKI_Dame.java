@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import Enumerations.FarbEnum;
-import GameLogic.Spiel;
+import GameLogic.SpielBean;
 import GameLogic.Spielbrett;
 import GameLogic.Spieler;
 import GameLogic.Spielfeld;
@@ -44,7 +44,7 @@ public class jKI_Dame {
 			gameboard.setFelder(felder);
 
 			// Create game
-			Spiel game = new Spiel(gameboard,new Spieler[]{ali,bob});
+			SpielBean game = new SpielBean(gameboard,new Spieler[]{ali,bob});
 			game.setCurrentGamer(FarbEnum.schwarz);
 			
 			game.outputGameboardCSV();

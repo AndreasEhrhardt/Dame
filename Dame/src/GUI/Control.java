@@ -158,12 +158,12 @@ public class Control extends JPanel {
 			String startFeld= eingabe.substring(0, 3);
 			String endFeld = eingabe.substring(4,7);
 
-			Spiel game = MainFrame.globalPointer.getGame();
+			SpielBean game = MainFrame.globalPointer.getGame();
 			try{
 				start= game.stringToPoint(startFeld);
 				end = game.stringToPoint(endFeld);
 				startMove(start,end);
-			}catch(Spiel.eInvalidPointException e){ 
+			}catch(SpielBean.eInvalidPointException e){ 
 				Logging.globalPointer.addErrorMessage("Invalid input");
 			}
 		}else {
@@ -178,32 +178,32 @@ public class Control extends JPanel {
 			return;
 		}
 
-		Spiel game = MainFrame.globalPointer.getGame();
+		SpielBean game = MainFrame.globalPointer.getGame();
 		try{
 			game.move(start,end);
 
 			Board.globalPointer.updateUI();
-		}catch (Spiel.eSomeOtherMoveErrorsException e) {
+		}catch (SpielBean.eSomeOtherMoveErrorsException e) {
 			Logging.globalPointer.addErrorMessage("Unbekannter Fehler. Sorry.");
-		}catch (Spiel.eDestinationPointIsBlockedException e) {
+		}catch (SpielBean.eDestinationPointIsBlockedException e) {
 			Logging.globalPointer.addErrorMessage("Ziel-Feld ist blockiert");
-		}catch (Spiel.eNoDiagonalMoveException e) {
+		}catch (SpielBean.eNoDiagonalMoveException e) {
 			Logging.globalPointer.addErrorMessage("Ungültige Bewegungsrichtung (nur diagonal ist erlaubt)");
-		}catch (Spiel.eNoFigureFoundOnFieldException e) {
+		}catch (SpielBean.eNoFigureFoundOnFieldException e) {
 			Logging.globalPointer.addErrorMessage("Feld hat keine gültige Spielfigur");
-		}catch (Spiel.eOutOfGameboardException e) {
+		}catch (SpielBean.eOutOfGameboardException e) {
 			Logging.globalPointer.addErrorMessage("Position ist außerhalb des Spielfeldes");
-		}catch (Spiel.eSamePositionException e) {
+		}catch (SpielBean.eSamePositionException e) {
 			Logging.globalPointer.addErrorMessage("Spielfigur-Feld und Ziel-Feld sind identisch");
-		}catch (Spiel.eDistanceToFarException e){
+		}catch (SpielBean.eDistanceToFarException e){
 			Logging.globalPointer.addErrorMessage("Sorry.Steine dürfen nur 1 Feld weit springen");
-		}catch(Spiel.eEnemyFigureSelectedException e){
+		}catch(SpielBean.eEnemyFigureSelectedException e){
 			Logging.globalPointer.addErrorMessage("Es ist nicht erlaubt die Spielfigur des Gegners zu verschieben");
-		}catch(Spiel.eOwnFigureIsBlockingException e){
+		}catch(SpielBean.eOwnFigureIsBlockingException e){
 			Logging.globalPointer.addErrorMessage("Kann keine eigenen Steine überspringen");
-		}catch(Spiel.eNoBackJumpExcpetion e){
+		}catch(SpielBean.eNoBackJumpExcpetion e){
 			Logging.globalPointer.addErrorMessage("Falsche Richtung. Nur erlaubt beim Schlagen einer Figur oder als Dame");
-		}catch(Spiel.eWayIsBlockedException e){
+		}catch(SpielBean.eWayIsBlockedException e){
 			Logging.globalPointer.addErrorMessage("Es dürfen keine 2 Stein gleichzeitig übersürungen werden");
 		}catch (Exception e){
 			Logging.globalPointer.addErrorMessage("Sry, some other problems");
@@ -280,7 +280,7 @@ public class Control extends JPanel {
 
 			// Draw inner rect
 			Color color;
-			Spiel game = MainFrame.globalPointer.getGame();
+			SpielBean game = MainFrame.globalPointer.getGame();
 			if(game.getCurrentGamer() == game.getPlayer(this.playerID)) color = new Color(0,175,220);
 			else color = new Color(150,150,150);
 

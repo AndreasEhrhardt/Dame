@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import Events.EventHandler;
-import GameLogic.Spiel;
+import GameLogic.SpielBean;
 import GameLogic.Spielbrett;
 import GameLogic.Spielfeld;
 
@@ -48,7 +48,7 @@ public class Board extends JPanel {
 		this.removeAll();
 
 		// Get game
-		Spiel game = MainFrame.globalPointer.getGame();
+		SpielBean game = MainFrame.globalPointer.getGame();
 
 		// Set layout
 		this.setLayout(new GridBagLayout());
@@ -88,7 +88,7 @@ public class Board extends JPanel {
 
 	public void setSize(){
 		// Get game
-		Spiel game = MainFrame.globalPointer.getGame();
+		SpielBean game = MainFrame.globalPointer.getGame();
 
 		// Get all components
 		Component components [] = this.getComponents();

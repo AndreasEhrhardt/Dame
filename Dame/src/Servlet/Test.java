@@ -21,7 +21,7 @@ import com.itextpdf.text.pdf.codec.Base64.OutputStream;
 import com.itextpdf.text.pdf.parser.clipper.Paths;
 
 import Enumerations.FarbEnum;
-import GameLogic.Spiel;
+import GameLogic.SpielBean;
 import GameLogic.Spielbrett;
 import GameLogic.Spieler;
 import KI.KI_Dame;
@@ -58,7 +58,7 @@ public class Test extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/Header.jsp").include(request, response);
 
 		// Get active game object
-		Spiel game = (Spiel)this.getServletConfig().getServletContext().getAttribute("GAME");
+		SpielBean game = (SpielBean)this.getServletConfig().getServletContext().getAttribute("GAME");
 
 		// Check if game exist or new game should be created -> Show setup site
 		if(game == null || (request.getParameter("CreateNewGame") == "true" && game.gameFinished() != null)){
@@ -70,7 +70,7 @@ public class Test extends HttpServlet {
 
 			if((player1 != null && !player1.isEmpty()) && 
 					(player2 != null && !player2.isEmpty())){
-				game = new Spiel();
+				game = new SpielBean();
 				
 				game.setGameboard(new Spielbrett(12));
 				
