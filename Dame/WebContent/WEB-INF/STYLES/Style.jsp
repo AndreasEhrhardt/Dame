@@ -4,11 +4,6 @@
 	    margin: 0 auto;
 	}
 	
-	.marginContainer{
-		height:186px;
-		width:100%;
-	}
-	
 	.floatLeft{
 		float:left;
 	}
@@ -153,13 +148,39 @@
 		background-color:black;	
 	}
 	
+	p{
+		color:white;	
+	}
+	
 	#mainDiv{
 		background-color:rgba(0,0,0,0.5);
 		
 		margin-top:50px;
 		
-		height: 1000px;
-		width: 1000px;
+		height: 600px;
+		width: 800px;
 	}
 	
+	/*##################################################*/
+	/*## Settings layout */
+	
+	#SettingsContainer{
+		position:relative;
+		top: 100px;
+		
+		text-align:center;
+	}
+	
+	#SettingsContainer, #SettingsContainer input{
+		font-size:30px;
+	}
+	
+	#SettingsContainer input{
+		margin-left:50px;
+	}
+	
+	#SettingsHeader{
+		font-size:50px;
+		padding-bottom:50px;
+	}
 </style>
