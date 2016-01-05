@@ -25,7 +25,7 @@ import GameLogic.Spiel;
 /**
  * Servlet implementation class Test
  */
-@WebServlet("/")
+@WebServlet("/Dame")
 public class Test extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -47,21 +47,21 @@ public class Test extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		
 		// Include CSS
-		request.getRequestDispatcher("./WEB-INF/STYLES/Style.jsp").include(request, response);;
+		request.getRequestDispatcher("/WEB-INF/STYLES/Style.jsp").include(request, response);;
 		
 		// Create header
-		request.getRequestDispatcher("./WEB-INF/Header.jsp").include(request, response);
+		request.getRequestDispatcher("/WEB-INF/Header.jsp").include(request, response);
 		
 		// Get active game object
 		Spiel game = (Spiel)this.getServletConfig().getServletContext().getAttribute("GAME");
 		
 		// Check if game exist or new game should be created -> Show setup site
 		if(game == null || (request.getParameter("CreateNewGame") == "true" && game.gameFinished() != null)){
-			request.getRequestDispatcher("./WEB-INF/Setting.jsp").include(request, response); 
+			request.getRequestDispatcher("/WEB-INF/Setting.jsp").include(request, response); 
 		}
 		
 		// Create footer
-		request.getRequestDispatcher("./WEB-INF/Footer.jsp").include(request, response);
+		request.getRequestDispatcher("/WEB-INF/Footer.jsp").include(request, response);
 	}
 
 	/**
