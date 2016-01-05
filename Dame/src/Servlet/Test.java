@@ -20,7 +20,11 @@ import javax.servlet.http.HttpSession;
 import com.itextpdf.text.pdf.codec.Base64.OutputStream;
 import com.itextpdf.text.pdf.parser.clipper.Paths;
 
+import Enumerations.FarbEnum;
 import GameLogic.Spiel;
+import GameLogic.Spielbrett;
+import GameLogic.Spieler;
+import KI.KI_Dame;
 
 /**
  * Servlet implementation class Test
@@ -29,37 +33,69 @@ import GameLogic.Spiel;
 public class Test extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * Default constructor. 
-     */
-    public Test() {
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * Default constructor. 
+	 */
+	public Test() {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		PrintWriter out = response.getWriter();
-		
+
 		// Get Sessions
 		HttpSession session = request.getSession(true);
-		
+		session.setMaxInactiveInterval(-1);
+
 		// Include CSS
 		request.getRequestDispatcher("/WEB-INF/STYLES/Style.jsp").include(request, response);;
-		
+
 		// Create header
 		request.getRequestDispatcher("/WEB-INF/Header.jsp").include(request, response);
-		
+
 		// Get active game object
 		Spiel game = (Spiel)this.getServletConfig().getServletContext().getAttribute("GAME");
-		
+
 		// Check if game exist or new game should be created -> Show setup site
 		if(game == null || (request.getParameter("CreateNewGame") == "true" && game.gameFinished() != null)){
-			request.getRequestDispatcher("/WEB-INF/Setting.jsp").include(request, response); 
+			// Remove game object
+			this.getServletConfig().getServletContext().removeAttribute("GAME");
+
+			String player1 = request.getParameter("PLAYER1");
+			String player2 = request.getParameter("PLAYER2");
+
+			if((player1 != null && !player1.isEmpty()) && 
+					(player2 != null && !player2.isEmpty())){
+				game = new Spiel();
+				
+				game.setGameboard(new Spielbrett(12));
+				
+				if(request.getParameter("P1_KI") != null && request.getParameter("P1_KI").compareTo("1") == 0)
+					game.setPlayer(1, new Spieler(new KI_Dame(),FarbEnum.schwarz));
+				else
+					game.setPlayer(1, new Spieler(player1,FarbEnum.schwarz));
+				
+				if(request.getParameter("P2_KI") != null && request.getParameter("P2_KI").compareTo("1") == 0)
+					game.setPlayer(2, new Spieler(new KI_Dame(),FarbEnum.weiß));
+				else
+					game.setPlayer(2, new Spieler(player2,FarbEnum.weiß));
+				
+				game.setCurrentGamer(FarbEnum.weiß);
+			}else{
+				// Import start page
+				request.getRequestDispatcher("/WEB-INF/Setting.jsp").include(request, response); 
+			}
 		}
 		
+		// Show gameboard
+		if(game != null){
+			
+		}
+
 		// Create footer
 		request.getRequestDispatcher("/WEB-INF/Footer.jsp").include(request, response);
 	}
@@ -71,7 +107,7 @@ public class Test extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	
+
 	@Override
 	public void init(){
 	}
