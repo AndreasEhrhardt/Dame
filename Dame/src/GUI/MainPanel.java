@@ -16,6 +16,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import Events.*;
+import GameLogic.Logging;
 import GameLogic.SpielBean;
 
 //###########################################################
@@ -140,7 +141,6 @@ public class MainPanel extends JPanel {
 		else if(currentComponent instanceof PlayerSettings) this.showGameboardSettings();
 		else if(currentComponent instanceof GameGUI){ 
 			this.showPlayerSettings();
-			Logging.globalPointer.getTextArea().setText("");
 			Control.globalPointer.getTextField().setText("");
 		}
 		else if(currentComponent instanceof SaveGUI) this.showGameGUI();

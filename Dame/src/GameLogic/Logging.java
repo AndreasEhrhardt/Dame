@@ -1,31 +1,24 @@
 //###########################################################
 //## Package
 
-package GUI;
+package GameLogic;
 
 //###########################################################
 //## Imports
 
-import java.awt.*;
-import java.sql.*;
-import java.text.*;
 import java.time.LocalDateTime;
-
-import javax.swing.*;
-import javax.swing.text.*;
+import java.util.ArrayList;
 
 //###########################################################
 //## Class
 
-@SuppressWarnings("serial")
-public class Logging extends JScrollPane   {
+public class Logging  {
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
 
-	private JTextArea textArea;
-
 	public static Logging globalPointer = null;
+	ArrayList <String> logs = new ArrayList<>();
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
@@ -33,27 +26,6 @@ public class Logging extends JScrollPane   {
 	public Logging(){
 		// Set global pointer
 		Logging.globalPointer = this;
-
-		// Create text area
-		textArea =  new JTextArea();
-
-		// Set font color
-		textArea.setDisabledTextColor(new Color(0,0,0));
-
-		// Disable logging
-		textArea.setEnabled(false);
-
-		// Set margin
-		textArea.setMargin( new Insets(10,10,10,10) );
-		
-		// Set font
-		textArea.setFont(new Font("Gill Sans",Font.PLAIN,14));
-
-		// Add text area to scroll pane
-		this.setViewportView(textArea);
-
-		// Always show scrollbar
-		this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS );
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -63,17 +35,13 @@ public class Logging extends JScrollPane   {
 	 * @param message
 	 */
 	public void addMessage(String message){		
-		if(!textArea.getText().isEmpty()) textArea.append("\n");
-
 		int day = LocalDateTime.now().getDayOfMonth();
 		int month = LocalDateTime.now().getMonth().getValue();
 		int year = LocalDateTime.now().getYear();
 		int minute = LocalDateTime.now().getMinute();
 		int hour = LocalDateTime.now().getHour();
 
-		textArea.append(day + "." + month + "." + year + " (" + hour + ":" + minute + "): " + message);
-		JScrollBar vertical = this.getVerticalScrollBar();
-		vertical.setValue( vertical.getMaximum() );
+		logs.add(day + "." + month + "." + year + " (" + hour + ":" + minute + "): " + message);
 	}
 
 	/**
@@ -86,8 +54,8 @@ public class Logging extends JScrollPane   {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
 
-	public JTextArea getTextArea(){
-		return this.textArea;
+	public ArrayList<String> getLogs(){
+		return this.logs;
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

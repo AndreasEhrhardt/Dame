@@ -28,8 +28,8 @@ public abstract class KI{
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods
 	
-	public abstract void move(SpielBean game, Spieler player);
-	
+	public abstract void move(SpielBean game);
+
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
 

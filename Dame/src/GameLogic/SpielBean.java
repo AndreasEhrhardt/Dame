@@ -12,20 +12,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import Enumerations.FarbEnum;
-import GUI.GameGUI;
-import GUI.Logging;
-import GUI.MainFrame;
-import GUI.MainPanel;
 import Interfaces.iBediener;
 import Interfaces.iDatenzugriff;
-import KI.KI_Dame;
 import SavegameManager.*;
 
 import java.awt.*;
 
 //###########################################################
 //## Class
-
 
 @XmlRootElement(namespace = "DameSpiel")
 @SuppressWarnings("serial")
@@ -54,7 +48,11 @@ public class SpielBean implements iBediener, Serializable {
 	private Spieler gamer[];
 	private Spieler currentGamer;
 	private boolean isTemporary = false;
-	
+	private Point fieldClicked = null;
+
+	@SuppressWarnings("unused")
+	private Logging log = new Logging();
+
 	static int maxLoopCount = 10;
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -67,11 +65,6 @@ public class SpielBean implements iBediener, Serializable {
 		gamer = new Spieler[2];
 
 		this.gameboard = new Spielbrett();
-	}
-	
-	@XmlElement( name = "player")
-	public Spieler[] getGamer(){
-		return this.gamer;
 	}
 
 	/**
@@ -89,13 +82,57 @@ public class SpielBean implements iBediener, Serializable {
 		if (gamer == null || gamer.length != 2 || gamer[0] == null || gamer[1] == null) {
 			throw new RuntimeException();
 		}
-		
+
 		this.setPlayer(1, gamer[0]);
 		this.setPlayer(2, gamer[1]);
 	}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods
+
+	public void nextFieldClicked(String position){
+		try{
+			Point pos = stringToPoint(position);
+			System.out.println(pos);
+
+			if(this.fieldClicked != null){
+				try{
+					move(fieldClicked,pos);
+				}catch (SpielBean.eSomeOtherMoveErrorsException e) {
+					Logging.globalPointer.addErrorMessage("Unbekannter Fehler. Sorry.");
+				}catch (SpielBean.eDestinationPointIsBlockedException e) {
+					Logging.globalPointer.addErrorMessage("Ziel-Feld ist blockiert");
+				}catch (SpielBean.eNoDiagonalMoveException e) {
+					Logging.globalPointer.addErrorMessage("Ungültige Bewegungsrichtung (nur diagonal ist erlaubt)");
+				}catch (SpielBean.eNoFigureFoundOnFieldException e) {
+					Logging.globalPointer.addErrorMessage("Feld hat keine gültige Spielfigur");
+				}catch (SpielBean.eOutOfGameboardException e) {
+					Logging.globalPointer.addErrorMessage("Position ist außerhalb des Spielfeldes");
+				}catch (SpielBean.eSamePositionException e) {
+					Logging.globalPointer.addErrorMessage("Spielfigur-Feld und Ziel-Feld sind identisch");
+				}catch (SpielBean.eDistanceToFarException e){
+					Logging.globalPointer.addErrorMessage("Sorry, Steine dürfen nur 1 Feld weit springen");
+				}catch(SpielBean.eEnemyFigureSelectedException e){
+					Logging.globalPointer.addErrorMessage("Es ist nicht erlaubt die Spielfigur des Gegners zu verschieben");
+				}catch(SpielBean.eOwnFigureIsBlockingException e){
+					Logging.globalPointer.addErrorMessage("Kann keine eigenen Steine überspringen");
+				}catch(SpielBean.eNoBackJumpExcpetion e){
+					Logging.globalPointer.addErrorMessage("Falsche Richtung. Nur erlaubt beim Schlagen einer Figur oder als Dame");
+				}catch(SpielBean.eWayIsBlockedException e){
+					Logging.globalPointer.addErrorMessage("Es dürfen keine 2 Stein gleichzeitig übersürungen werden");
+				}catch (Exception e){
+					Logging.globalPointer.addErrorMessage("Sry, some other problems");
+				}finally{
+					this.fieldClicked = null;
+				}
+			}
+			else{
+				this.fieldClicked = pos;
+			}
+		}catch(eInvalidPointException e){
+			Logging.globalPointer.addErrorMessage("Field is invalid");
+		}
+	}
 
 	/**
 	 * @param position
@@ -114,29 +151,33 @@ public class SpielBean implements iBediener, Serializable {
 	/**
 	 * @param sPoint
 	 * @return
-	 * @throws SpielBean.eInvalidPointException
+	 * @throws Spiel.eInvalidPointException
 	 */
 	public Point stringToPoint(String sPoint) throws SpielBean.eInvalidPointException{
-		if (sPoint.charAt(0) >= 65 && sPoint.charAt(0) <= 90) {
-			Point point = new Point();
-			int y = sPoint.charAt(0) - 65;
+		if(sPoint.length() >= 2){
+			if (sPoint.charAt(0) >= 65 && sPoint.charAt(0) <= 90) {
+				Point point = new Point();
+				int y = sPoint.charAt(0) - 65;
 
-			if (sPoint.charAt(1) >= 48 && sPoint.charAt(1) <= 57) {
-				int x = -1;
-				x = (sPoint.charAt(1) - 48) * 10;
+				if (sPoint.charAt(1) >= 48 && sPoint.charAt(1) <= 57) {
+					int x = -1;
+					x = (sPoint.charAt(1) - 48) - 1;
 
-				if (sPoint.charAt(2) >= 48 && sPoint.charAt(2) <= 57) {
-					x += (sPoint.charAt(2) - 48) - 1;
+					
+					if (sPoint.length() > 2 && sPoint.charAt(2) >= 48 && sPoint.charAt(2) <= 57) {
+						
+						x = x * 10;
+						
+						x += (sPoint.charAt(2) - 48) - 1;
 
-					if (x < 0 || y < 0) throw new SpielBean.eInvalidPointException();
-
+						if (x < 0 || y < 0) throw new SpielBean.eInvalidPointException();
+					} 
+					
 					point.setLocation(y, x);
-
 					return point;
+
 				} 
-
-			} 
-
+			}
 		}
 
 		throw new SpielBean.eInvalidPointException();
@@ -170,11 +211,11 @@ public class SpielBean implements iBediener, Serializable {
 	 * @param fromPoint
 	 * @param toPoint
 	 * @return True if move is valid
-	 * @throws SpielBean.eSamePositionException
-	 * @throws SpielBean.eNoDiagonalMoveException
-	 * @throws SpielBean.eOutOfGameboardException
-	 * @throws SpielBean.eNoFigureFoundOnFieldException
-	 * @throws SpielBean.eDestinationPointIsBlockedException
+	 * @throws Spiel.eSamePositionException
+	 * @throws Spiel.eNoDiagonalMoveException
+	 * @throws Spiel.eOutOfGameboardException
+	 * @throws Spiel.eNoFigureFoundOnFieldException
+	 * @throws Spiel.eDestinationPointIsBlockedException
 	 */
 	public boolean moveIsValid(Point fromPoint, Point toPoint)
 			throws SpielBean.eSamePositionException, SpielBean.eNoDiagonalMoveException, SpielBean.eOutOfGameboardException,
@@ -338,7 +379,7 @@ public class SpielBean implements iBediener, Serializable {
 			return true;
 		}
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -370,12 +411,11 @@ public class SpielBean implements iBediener, Serializable {
 			boolean removed = this.removeFigures(fromPoint, toPoint);
 
 			// Check for the "blowing"-rule
-			if (!removed)
-				this.checkForBlowing();
+			if (!removed) this.checkForBlowing();
 
 			// Check if figure is after blowing already exist
 			if (fromField.getFigure() == gameFigure) {
-				
+
 				// Set new coordinations to figure
 				gameFigure.setPoint(toPoint);
 
@@ -386,22 +426,12 @@ public class SpielBean implements iBediener, Serializable {
 				// Check for new dame
 				checkForNewDames();
 
-				// Save serialized
-				DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
-				serial.saveGame(this);
-				
-				iDatenzugriff xml = new DatenzugriffXML();
-				xml.saveGame("C:\\Users\\Adina\\Documents", "Dame.xml", this);
-
 				String startPos = posToString(fromPoint);
 				String endPos = posToString(toPoint);
 				if(!this.isTemporary){
-					
+
 					// Output status to logging
 					Logging.globalPointer.addMessage(startPos + " -> " + endPos);
-					
-					// Update user interface
-					GameGUI.globalPointer.updateUI();
 				}
 			}
 
@@ -410,33 +440,28 @@ public class SpielBean implements iBediener, Serializable {
 
 			}
 			else{
-				if(this.currentGamer.getKi() != null) JOptionPane.showMessageDialog(null,"KI have moved");
 				this.switchCurrentPlayer();
 			}
 		} else {
 			// Some strange errors appears
 			throw new eSomeOtherMoveErrorsException();
 		}
-
-		if(this.gameFinished() != null){
-			MainPanel.globalPointer.showWinningScreen();
-		}
 	}
-	
+
 	public Point getNextFigure(Point currentPos, int xIncrease, int yIncrease){
 		Spielfigur figure;
 		do{
 			currentPos.setLocation(currentPos.getX() + xIncrease, currentPos.getY() + yIncrease);
-			
+
 			if(this.isValidField(currentPos))
 				figure = this.getGameboard().getField((int) currentPos.getX(), (int) currentPos.getY()).getFigure();
 			else {
 				figure = null;
 				break;
 			}
-			
+
 		}while(figure == null);
-		
+
 		if(figure == null) return null;
 		else return currentPos;
 	}
@@ -451,19 +476,19 @@ public class SpielBean implements iBediener, Serializable {
 		for(Point checkAblePoint : checkAblePositions){
 			// Check if point is valid
 			if(checkAblePoint == null) continue;
-			
+
 			if(this.isValidField(checkAblePoint)){
 				ArrayList<Point> blowable = this.canDestroyOtherFigures(checkAblePoint);
 				if(blowable.size() != 0){
 					for(Point blowPoint : blowable){
 						Point resultetPoint = new Point();
-						
+
 						if(blowPoint.getX() < checkAblePoint.getX()) resultetPoint.setLocation(blowPoint.getX() + 1, blowPoint.getY());
 						else resultetPoint.setLocation(blowPoint.getX() - 1, resultetPoint.getY());
-						
+
 						if(blowPoint.getY() < checkAblePoint.getY()) resultetPoint.setLocation(resultetPoint.getX(), blowPoint.getY() + 1);
 						else resultetPoint.setLocation(resultetPoint.getX(), blowPoint.getY() - 1);
-						
+
 						if(resultetPoint.getX() == point.getX() && 
 								resultetPoint.getY() == point.getY()){
 							return true;
@@ -704,10 +729,15 @@ public class SpielBean implements iBediener, Serializable {
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods ( Getter)
 
-	/**
-	 * @return
-	 */
+	@XmlElement( name = "player")
+	public Spieler[] getGamer(){
+		return this.gamer;
+	}
 	
+	public Point getFieldClicked(){
+		return this.fieldClicked;
+	}
+
 	@XmlElement (name = "gameboard")
 	public Spielbrett getGameboard() {
 		return this.gameboard;
@@ -728,6 +758,7 @@ public class SpielBean implements iBediener, Serializable {
 		// Get gamer
 		return this.gamer[playerID - 1];
 	}
+
 	@XmlElement (name = "currentGamer")
 	public Spieler getCurrentGamer() {
 		if (this.currentGamer == null) return null;
@@ -737,7 +768,7 @@ public class SpielBean implements iBediener, Serializable {
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods ( Setter)
-	
+
 	public void setIsTemporary(boolean state){
 		this.isTemporary = state;
 	}
@@ -791,10 +822,10 @@ public class SpielBean implements iBediener, Serializable {
 		if(this.getPlayer(1) != null) newObj.setPlayer(1, this.getPlayer(1).clone());
 		//if(this.getPlayer(2) != null)newObj.setPlayer(2, this.getPlayer(2).clone());
 		//if(this.currentGamer != null)newObj.setCurrentGamer(this.currentGamer.getColor());
-		
+
 		return newObj;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -844,96 +875,6 @@ public class SpielBean implements iBediener, Serializable {
 	@Override
 	public int getGameboardSize() {
 		return this.gameboard.felder.length;
-	}
-
-	/**
-	 * This method is used to check if players are human or KIs and asks for the
-	 * name of human players. If all entry is valid, it starts the game with the
-	 * given data. If user fails to properly decide if player is human or KI
-	 * multiple times, it is set to KI automatically If user fails to enter a
-	 * proper name multiple times, it is set to Peter automatically
-	 * 
-	 * @param playerNumber
-	 * @return
-	 * 
-	 */
-	@Override
-	public Spieler createNewPlayer(int playerNumber) {
-		// create Scanner
-		Scanner sc = new Scanner(System.in);
-
-		// create Gamer
-		int gamerID = 0;
-		for (int i = 0; i <= maxLoopCount; i++) {
-			try {
-				// Get current color name
-				String colorName;
-				if (playerNumber == 1)
-					colorName = "white";
-				else
-					colorName = "black";
-
-				// Get gamer type
-				System.out.println("Spieler " + playerNumber + " (" + colorName + "): Spieler (1) oder KI(2)?");
-				System.out.print("Ihre Eingabe: ");
-				gamerID = sc.nextInt();
-				System.out.println("");
-
-				// Check if type is valid
-				if (gamerID == 1 || gamerID == 2)
-					break;
-			} catch (NoSuchElementException | IllegalStateException e) {
-				// Clear input buffer
-				sc.nextLine();
-			} finally {
-				// Check if endless loop
-				if (i == maxLoopCount) {
-					System.out.println("No valid number detected, we will choose KI for you");
-					gamerID = 2;
-				}
-			}
-
-		}
-
-		// Create temp-reference
-		Spieler newGamer;
-
-		// Set player color
-		FarbEnum color;
-		if (playerNumber == 1)
-			color = FarbEnum.weiß;
-		else
-			color = FarbEnum.schwarz;
-
-		// Create player
-		if (gamerID == 1) {
-			String gamerName = "";
-			for (int i = 0; i <= maxLoopCount; i++) {
-				System.out.print("Bitte Spielername eingeben:");
-				gamerName = sc.next();
-				System.out.println("");
-
-				if (!gamerName.isEmpty())
-					break;
-
-				if (i == maxLoopCount) {
-					System.out.println("No name insert, we will call you Peter");
-					gamerName = "Peter";
-				}
-			}
-
-			// Create new normal player
-			newGamer = new Spieler(gamerName, color);
-		} else if (gamerID == 2) {
-			// Create new KI-Player
-			newGamer = new Spieler(new KI_Dame(), color);
-		} else {
-			// Create a default player
-			newGamer = new Spieler();
-		}
-
-		// Return new gamer
-		return newGamer;
 	}
 
 	/**

@@ -144,8 +144,10 @@
 	
 	body{
 		background-image:url("./IMAGES/background.png");
-		background-size: 100% 100%;
-		background-color:black;	
+		background-color:black;
+		
+		margin:0px;
+		padding:0px;	
 	}
 	
 	p{
@@ -156,9 +158,31 @@
 		background-color:rgba(0,0,0,0.5);
 		
 		margin-top:50px;
+		padding-bottom:70px;
 		
 		height: 600px;
 		width: 800px;
+	}
+	
+	#footer{
+		position:fixed;
+		
+		height:50px;
+		width:100%;
+		
+		border:0px solid gray;
+		border-top-width:2px;
+		
+		margin:0px;
+		padding:0px;
+		margin-top:-52px;
+		
+		bottom:0;
+		
+		text-align:center;
+		background-color:black;
+		
+		clear:left;
 	}
 	
 	/*##################################################*/
@@ -177,10 +201,106 @@
 	
 	#SettingsContainer input{
 		margin-left:50px;
+		margin-right:50px;
 	}
 	
 	#SettingsHeader{
 		font-size:50px;
 		padding-bottom:50px;
+	}
+	
+	/*##################################################*/
+	/*## Game layout */
+	
+	#GameGameboard{
+		margin-top:20px;
+	}
+	
+	#GameGameboard td{
+		width:30px;
+		height:30px;
+		
+		padding:0px;
+		
+		text-align:center;
+	}
+	
+	#GameCurrentPlayer{
+		border:0px solid gray;
+		border-bottom-width:2px;
+	}
+	
+	#GameCurrentPlayer p{
+		margin:0px;
+		margin-top:5px;
+		text-align:center;
+		font-size:25px;
+	}
+	
+	#GameCurrentPlayer > div:nth-of-type(1), #GameCurrentPlayer > div:nth-of-type(2){
+		margin-left:5%;
+		margin-right:5%;
+		margin-top:20px;
+		margin-bottom:20px;
+		
+		background-color:black;
+		
+		border:2px solid gray;
+		border-radius:10px;
+		
+		height:40px;
+		width:30%;
+	}
+	
+	#GameFoot{
+		width:100%;
+		
+		border:0px solid gray;
+		border-top-width:2px;
+		
+		padding-top:10px;
+		
+		text-align:center;
+	}
+	
+	#GameLogging textarea{
+		width:600px;
+		height:50px;
+		
+		resize: none;
+		margin:0px;
+		margin-top:10px;
+		margin-left:10px;
+		
+		border:2px solid;
+		border-radius:10px;
+		
+		background-color:black;
+		color:white;
+	}
+	
+	#GameField{
+		height:100%;
+		width:100%;
+	}
+	
+	#GameField a {
+		display:block;
+		height:100%;
+	}
+	
+	#GameFigure{
+		position:relative;
+
+		width:100%;
+		height:0px;
+	}
+	
+	#GameFigure > div{	
+		height:25px;
+		width:25px;
+		
+		border:2px solid;
+		border-radius:50%;
 	}
 </style>

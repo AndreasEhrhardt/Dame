@@ -5,6 +5,7 @@ package GameLogic;
 import java.util.Scanner;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import Enumerations.FarbEnum;
@@ -16,7 +17,6 @@ import java.io.Serializable;
 
 //###########################################################
 //## Class
-
 
 @SuppressWarnings("serial")
 public class Spieler implements Serializable {
@@ -70,7 +70,7 @@ public class Spieler implements Serializable {
 	 */
 	public void move(SpielBean game, Point fromPoint) {
 		if(this.ki_player != null){
-			this.ki_player.move(game, this);
+			this.ki_player.move(game);
 			return;
 		}
 		

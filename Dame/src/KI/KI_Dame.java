@@ -14,6 +14,8 @@ import java.util.TimerTask;
 
 import javax.swing.JOptionPane;
 
+import com.itextpdf.text.log.SysoCounter;
+
 import Enumerations.FarbEnum;
 import GUI.*;
 import GameLogic.SpielBean;
@@ -34,51 +36,18 @@ public class KI_Dame extends KI implements Serializable {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Properties
 
-	private Timer timer;
 	private boolean moveStarted = false;
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Constructor
 
 	public KI_Dame(){
-		this.createTimer();
+		
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods	
 
-	/**
-	 * 
-	 */
-	public void createTimer(){
-		timer = new Timer();
-		timer.scheduleAtFixedRate(new TimerTask() {
-			@Override
-			public void run() {
-				checkForMove();
-			}
-		}, 0, 1 * 1 * 50);
-	}
-
-	/**
-	 * 
-	 */
-	public void checkForMove(){		
-		if(GameGUI.globalPointer.isVisible() == true){
-			SpielBean game = MainFrame.globalPointer.getGame();
-			if(game.getCurrentGamer() == this.player && !moveStarted){
-				moveStarted = true;
-				Timer moveTimer = new Timer();
-				moveTimer.schedule(new TimerTask() {
-					@Override
-					public void run() {
-						move(game, player);
-						moveStarted = false;
-					}
-				}, 500); 
-			}
-		}
-	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)
@@ -104,9 +73,7 @@ public class KI_Dame extends KI implements Serializable {
 	/* (non-Javadoc)
 	 * @see KI.KI#move(GameLogic.Spiel, GameLogic.Spieler)
 	 */
-	public void move(SpielBean game, Spieler player){
-		if(MainFrame.globalPointer.getGame().getCurrentGamer() != this.player) return;
-
+	public void move(SpielBean game){
 		//+++++++++++++++++++++++++++++++++++++++++++++++
 		//++ Check for blowing rule
 

@@ -86,13 +86,6 @@ public interface iBediener {
 	 * @return
 	 */
 	boolean load(String path, String name);
-	
-	/**
-	 * Creates a new player or KI
-	 * @param playerNumber Current player number (valid = 1-2)
-	 * @return The new player will be returned
-	 */
-	Spieler createNewPlayer(int playerNumber);
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Getter)

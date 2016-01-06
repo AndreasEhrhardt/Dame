@@ -2,6 +2,8 @@ package GUI;
 
 import java.awt.BorderLayout;
 
+import GameLogic.Logging;
+
 public class GamePanel extends MainPanel{
 	
 	private Control control;
@@ -14,7 +16,6 @@ public class GamePanel extends MainPanel{
 		logging = new Logging();
 		board = new Board();
 		this.add(control,BorderLayout.EAST);
-		this.add(logging,BorderLayout.SOUTH);
 		this.add(board,BorderLayout.CENTER);
 		
 		}

@@ -9,6 +9,7 @@ package GUI;
 import java.awt.*;
 import javax.swing.*;
 import Events.EventHandler;
+import GameLogic.Logging;
 
 //###########################################################
 //## Class
@@ -46,12 +47,8 @@ public class GameGUI extends MainPanelComponent{
 		// Set layout maanger
 		layoutPanel.setLayout(new BorderLayout());
 		
-		// Set prefered size
-		this.log.setPreferredSize(new Dimension(400,50));
-
 		// Add widgets to layout
 		layoutPanel.add(gameboard,BorderLayout.CENTER);
-		layoutPanel.add(log,BorderLayout.SOUTH);
 		layoutPanel.add(control,BorderLayout.EAST);
 
 		this.addComponentListener(new EventHandler().new eGameGUI());
