@@ -5,6 +5,10 @@ package GameLogic;
 import java.awt.*;
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+
 import Enumerations.FarbEnum;
 
 //###########################################################
@@ -14,6 +18,7 @@ import Enumerations.FarbEnum;
  * @author Andreas
  *
  */
+
 public class Spielfigur implements Serializable  {
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -68,6 +73,7 @@ public class Spielfigur implements Serializable  {
 	 * 
 	 * @return Return property "dame"
 	 */
+	@XmlElement (name = "dame")
 	public boolean isDame(){
 		return this.dame;
 	}
@@ -89,6 +95,7 @@ public class Spielfigur implements Serializable  {
 	 * 
 	 * @return color Get the current color of the figure
 	 */
+	@XmlElement (name = "colour")
 	public FarbEnum getColor() {
 		return color;
 	}
@@ -98,6 +105,7 @@ public class Spielfigur implements Serializable  {
 	 * 
 	 * @return Returns the current position of the figure
 	 */
+	@XmlTransient
 	public Point getPosiiton() {
 		return this.pos;
 	}

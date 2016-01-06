@@ -4,6 +4,9 @@ package GameLogic;
 
 import java.util.Scanner;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 import Enumerations.FarbEnum;
 import KI.KI;
 import KI.KI_Dame;
@@ -13,6 +16,7 @@ import java.io.Serializable;
 
 //###########################################################
 //## Class
+
 
 @SuppressWarnings("serial")
 public class Spieler implements Serializable {
@@ -185,6 +189,7 @@ public class Spieler implements Serializable {
 	 * 
 	 * @return
 	 */
+	@XmlElement (name = "ki")
 	public KI getKi() {
 		return this.ki_player;
 	}
@@ -193,6 +198,7 @@ public class Spieler implements Serializable {
 	 * @return
 	 * Gets the name
 	 */
+	@XmlElement (name = "name")
 	public String getName() {
 		return this.name;
 	}
@@ -202,6 +208,7 @@ public class Spieler implements Serializable {
 	 * 
 	 * @return
 	 */
+	@XmlElement (name = "colour")
 	public FarbEnum getColor() {
 		return this.color;
 	}

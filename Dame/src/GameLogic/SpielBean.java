@@ -7,6 +7,9 @@ import java.io.*;
 import java.util.*;
 
 import javax.swing.JOptionPane;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 import Enumerations.FarbEnum;
 import GUI.GameGUI;
@@ -23,6 +26,8 @@ import java.awt.*;
 //###########################################################
 //## Class
 
+
+@XmlRootElement(namespace = "DameSpiel")
 @SuppressWarnings("serial")
 public class SpielBean implements iBediener, Serializable {
 
@@ -64,6 +69,7 @@ public class SpielBean implements iBediener, Serializable {
 		this.gameboard = new Spielbrett();
 	}
 	
+	@XmlElement( name = "player")
 	public Spieler[] getGamer(){
 		return this.gamer;
 	}
@@ -383,6 +389,9 @@ public class SpielBean implements iBediener, Serializable {
 				// Save serialized
 				DatenzugriffSerialisiert serial = new DatenzugriffSerialisiert();
 				serial.saveGame(this);
+				
+				iDatenzugriff xml = new DatenzugriffXML();
+				xml.saveGame("C:\\Users\\Adina\\Documents", "Dame.xml", this);
 
 				String startPos = posToString(fromPoint);
 				String endPos = posToString(toPoint);
@@ -698,6 +707,8 @@ public class SpielBean implements iBediener, Serializable {
 	/**
 	 * @return
 	 */
+	
+	@XmlElement (name = "gameboard")
 	public Spielbrett getGameboard() {
 		return this.gameboard;
 	}
@@ -717,7 +728,7 @@ public class SpielBean implements iBediener, Serializable {
 		// Get gamer
 		return this.gamer[playerID - 1];
 	}
-
+	@XmlElement (name = "currentGamer")
 	public Spieler getCurrentGamer() {
 		if (this.currentGamer == null) return null;
 

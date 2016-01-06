@@ -5,6 +5,8 @@ package GameLogic;
 import java.awt.*;
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlElement;
+
 import Enumerations.FarbEnum;
 
 //################################################################################
@@ -129,6 +131,7 @@ public class Spielbrett implements Serializable  {
 	/**
 	 * Gets the number of Felder
 	 */
+	@XmlElement (name = "Column")
 	public Spielfeld[][] getFields() {
 		return felder;
 	}
@@ -138,6 +141,7 @@ public class Spielbrett implements Serializable  {
 	 * @param y
 	 * @return
 	 */
+	
 	public Spielfeld getField(int x, int y){
 		return this.felder[x][y];
 	}

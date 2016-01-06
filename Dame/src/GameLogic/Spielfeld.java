@@ -4,6 +4,9 @@ package GameLogic;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 //###########################################################
 //## Class
 
@@ -66,6 +69,7 @@ public class Spielfeld implements Serializable {
 	 * 
 	 * @return 
 	 */
+	@XmlElement (name = "figure")
 	public Spielfigur getFigure() {
 		return this.figure;
 	}
@@ -75,6 +79,7 @@ public class Spielfeld implements Serializable {
 	 * 
 	 * @return 
 	 */
+	@XmlElement (name ="FieldId")
 	public String getID() {
 		return this.ID;
 	}
