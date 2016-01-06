@@ -76,7 +76,7 @@
 							String figure = "<div id=\"GameFigure\">";
 
 							if (field.getFigure().getColor() == FarbEnum.schwarz)
-								figure += "<div class=\"centerDiv\" style=\"border-color:rgb(40,40,40); background-color:rgb(0,0,0)\">";
+								figure += "<div class=\"centerDiv\" style=\"border-color:rgb(150,150,150); background-color:rgb(0,0,0)\">";
 							else
 								figure += "<div class=\"centerDiv\" style=\"border-color:rgb(150,150,150); background-color:rgb(255,255,255)\">";
 

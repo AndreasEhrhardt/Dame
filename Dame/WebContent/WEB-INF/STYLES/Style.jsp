@@ -157,11 +157,16 @@
 	#mainDiv{
 		background-color:rgba(0,0,0,0.5);
 		
-		margin-top:50px;
-		padding-bottom:70px;
+		margin-top:20px;
+		margin-bottom:70px;
 		
-		height: 600px;
+		height: 650px;
 		width: 800px;
+		
+		border:2px solid black;
+		border-radius:10px;
+		
+		overflow:hidden;
 	}
 	
 	#footer{
@@ -254,18 +259,20 @@
 	
 	#GameFoot{
 		width:100%;
+		height:100%;
 		
 		border:0px solid gray;
 		border-top-width:2px;
 		
 		padding-top:10px;
+		padding-bottom:10px;
 		
 		text-align:center;
 	}
 	
 	#GameLogging textarea{
 		width:600px;
-		height:50px;
+		height:80px;
 		
 		resize: none;
 		margin:0px;
