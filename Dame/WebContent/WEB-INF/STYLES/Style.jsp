@@ -310,4 +310,50 @@
 		border:2px solid;
 		border-radius:50%;
 	}
+	
+	/*##################################################*/
+	/*## Winnning layout */
+	
+	#winViewContainer{
+		width:100%;
+		height:100%;
+	}
+	
+	#winViewContainer > div{
+		width:500px;
+		height:500px;
+		
+		margin-top:50px;
+		
+		border:5px solid gray;
+		border-radius:50%;
+		
+		text-align:center;
+		
+		-moz-box-sizing:    border-box;
+	   -webkit-box-sizing: border-box;
+	    box-sizing:        border-box;
+	    
+	    font-size:45px;
+	}
+	
+	#winViewBlack p, #winViewWhite p{
+		padding-top:60px;
+	}
+	
+	#winViewBlack p{
+		color:black;
+	}
+	
+	#winViewBlack{
+		background-color:black;
+	}
+	
+	#winViewWhite p{
+		color:black;
+	}
+	
+	#winViewWhite{
+		background-color:white;
+	}
 </style>
