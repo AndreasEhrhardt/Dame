@@ -70,12 +70,6 @@ public interface iBediener {
 	FarbEnum gameFinished();
 	
 	/**
-	 * Ask if a new game should be generated or a exist one should be load
-	 * @return
-	 */
-	int askNewGame();
-	
-	/**
 	 * 
 	 * @return
 	 */

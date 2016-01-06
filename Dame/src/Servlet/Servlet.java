@@ -106,6 +106,8 @@ public class Servlet extends HttpServlet {
 				this.getServletConfig().getServletContext().setAttribute("GAME", game);
 				
 				// Set player as active gamer
+				this.getServletConfig().getServletContext().setAttribute("P1_SESSION", false);
+				this.getServletConfig().getServletContext().setAttribute("P2_SESSION", false);
 				if(game.getPlayer(1).getKi() == null){
 					this.getServletConfig().getServletContext().setAttribute("P1_SESSION", true);
 					session.setAttribute("NAME", player1);
@@ -114,6 +116,9 @@ public class Servlet extends HttpServlet {
 					this.getServletConfig().getServletContext().setAttribute("P2_SESSION", true);
 					session.setAttribute("NAME", player2);
 				}
+				
+				// Set gameid
+				if(session.getAttribute("NAME") != null) session.setAttribute("GAME_ID", game.getID());
 				
 				// Output information
 				System.out.println("Gameobject created!");
@@ -125,8 +130,24 @@ public class Servlet extends HttpServlet {
 		
 		// Show gameboard
 		if(game != null){
+			if(session.getAttribute("NAME") == null || 
+					!(session.getAttribute("GAME_ID") != null && (int)session.getAttribute("GAME_ID") == game.getID())
+					){
+				session.removeAttribute("GAME_ID");
+				session.removeAttribute("NAME");
+				
+				if((boolean)this.getServletConfig().getServletContext().getAttribute("P2_SESSION") != true){
+					if(game.getPlayer(2).getKi() == null){
+						this.getServletConfig().getServletContext().setAttribute("P2_SESSION", true);
+						session.setAttribute("NAME", game.getPlayer(2).getName());
+						session.setAttribute("GAME_ID", game.getID());
+					}
+				}
+			}
+				
 			// Check if currently KI on move
-			if(game.getCurrentGamer().getKi() != null) game.getCurrentGamer().getKi().move(game);
+			if(game.getCurrentGamer().getKi() != null) 
+				game.getCurrentGamer().getKi().move(game);
 			else{
 				if(session.getAttribute("NAME") instanceof String && game.getCurrentGamer().getName().compareTo((String)session.getAttribute("NAME")) == 0){
 					if(request.getParameter("FieldPressed") != null){

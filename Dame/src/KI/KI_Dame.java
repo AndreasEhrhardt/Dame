@@ -93,6 +93,7 @@ public class KI_Dame extends KI implements Serializable {
 			try{
 				int random = (int)(Math.random() * (blowable.size() - 1));
 				Point fromPoint = blowable.get(random);
+				if(game.getFieldClicked() != null) fromPoint = game.getFieldClicked();
 				ArrayList <Point> movePoints = game.canDestroyOtherFigures(fromPoint);
 
 				random = (int)(Math.random() * (movePoints.size() - 1));

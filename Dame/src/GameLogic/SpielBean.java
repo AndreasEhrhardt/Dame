@@ -6,11 +6,8 @@ package GameLogic;
 import java.io.*;
 import java.util.*;
 
-import javax.swing.JOptionPane;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-
 import Enumerations.FarbEnum;
 import Interfaces.iBediener;
 import Interfaces.iDatenzugriff;
@@ -49,6 +46,8 @@ public class SpielBean implements iBediener, Serializable {
 	private Spieler currentGamer;
 	private boolean isTemporary = false;
 	private Point fieldClicked = null;
+	private boolean lockFieldClicked = false;
+	private int gameID;
 
 	@SuppressWarnings("unused")
 	private Logging log = new Logging();
@@ -63,6 +62,8 @@ public class SpielBean implements iBediener, Serializable {
 	 */
 	public SpielBean() {
 		gamer = new Spieler[2];
+		
+		gameID = (new Random()).nextInt((99999999 - 1) + 1) + 1;
 
 		this.gameboard = new Spielbrett();
 	}
@@ -93,7 +94,6 @@ public class SpielBean implements iBediener, Serializable {
 	public void nextFieldClicked(String position){
 		try{
 			Point pos = stringToPoint(position);
-			System.out.println(pos);
 
 			if(this.fieldClicked != null){
 				try{
@@ -123,7 +123,7 @@ public class SpielBean implements iBediener, Serializable {
 				}catch (Exception e){
 					Logging.globalPointer.addErrorMessage("Sry, some other problems");
 				}finally{
-					this.fieldClicked = null;
+					if(lockFieldClicked == false) this.fieldClicked = null;
 				}
 			}
 			else{
@@ -437,9 +437,13 @@ public class SpielBean implements iBediener, Serializable {
 
 			// Check if figure can jump again
 			if (removed && this.canDestroyOtherFigures(toPoint).size() > 0) {
-
+				this.fieldClicked = toPoint;
+				this.lockFieldClicked = true;
 			}
 			else{
+				this.fieldClicked = null;
+				this.lockFieldClicked = false;
+				
 				this.switchCurrentPlayer();
 			}
 		} else {
@@ -655,18 +659,6 @@ public class SpielBean implements iBediener, Serializable {
 	}
 
 	/**
-	 * Method for creating variable sized board. Gets the size and then creates
-	 * the gameboard.
-	 */
-	private Spielbrett createGameBoard() {
-		// Get gameboard size
-		int fieldCount = getGameboardSize();
-
-		// Create gameboard
-		return new Spielbrett(fieldCount);
-	}
-
-	/**
 	 * Method to convert the current gaming state into a String to save in CSV
 	 * 
 	 * @return returns a String of the current gaming state
@@ -729,6 +721,11 @@ public class SpielBean implements iBediener, Serializable {
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods ( Getter)
 
+	@XmlElement( name = "id")
+	public int getID(){
+		return this.gameID;
+	}
+	
 	@XmlElement( name = "player")
 	public Spieler[] getGamer(){
 		return this.gamer;
@@ -888,14 +885,12 @@ public class SpielBean implements iBediener, Serializable {
 
 		// Define start variable
 		char currentRow = (char) (65 + felder.length - 1);
-		int currentColumn = 1;
 
 		// Create empty line
 		System.out.println("");
 
 		// For every row - DESC
 		for (int i = felder.length - 1; i >= 0; i--) {
-			currentColumn = 1;
 
 			// Write colum name
 			System.out.print(currentRow);
@@ -924,9 +919,6 @@ public class SpielBean implements iBediener, Serializable {
 						System.out.print("S ");
 					}
 				}
-
-				// Increase column value
-				currentColumn++;
 			}
 
 			// End of line
@@ -996,46 +988,5 @@ public class SpielBean implements iBediener, Serializable {
 		}
 
 		return winColor;
-	}
-
-	/**
-	 * This method is used to ask if user wants to start a new game or continue
-	 * playing from a saved game
-	 */
-	@Override
-	public int askNewGame() {
-		// Create help variables
-		int gameType = 0;
-		Scanner sc = new Scanner(System.in);
-
-		// Get gametype
-		for (int i = 0; i <= maxLoopCount; i++) {
-			try {
-				// Ask for new game / load game
-				System.out.print("Create new game (1), restore last game (2) or load game (3): ");
-
-				// Get result
-				gameType = sc.nextInt();
-
-				// Go to next line
-				System.out.println("");
-
-				// Check if result is valid
-				if (gameType == 1 || gameType == 2 || gameType == 3) break;
-
-			} catch (NoSuchElementException | IllegalStateException e) {
-				// Clear input buffer
-				sc.nextLine();
-			} finally {
-				// Check if endless loop
-				if (i == maxLoopCount) {
-					System.out.println("No valid number detected, we will choose 'new game'");
-					gameType = 1;
-				}
-			}
-		}
-
-		// Return result
-		return gameType;
 	}
 }
