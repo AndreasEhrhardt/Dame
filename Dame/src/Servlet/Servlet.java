@@ -54,7 +54,9 @@ public class Servlet extends HttpServlet {
 		if(!this.activeGamer(session, game)) this.reset(session);
 		
 		// Check if game exist or new game should be created -> Show setup site
-		if(game == null || (request.getParameter("NewGame") != null && request.getParameter("NewGame").compareTo("true") == 0 && this.activeGamer(session, game))){
+		if(game == null
+				|| (request.getParameter("NewGame") != null && request.getParameter("NewGame").compareTo("true") == 0 && this.activeGamer(session, game))
+				|| (request.getParameter("NewGame") != null && request.getParameter("NewGame").compareTo("true") == 0 && game.getPlayer(1).getKi() != null && game.getPlayer(2).getKi() != null)){
 			System.out.println("Create new game");
 
 			// Remove game object
