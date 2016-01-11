@@ -1,11 +1,13 @@
 package SavegameManager;
 
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import GameLogic.SpielBean;
 import Interfaces.iDatenzugriff;
@@ -40,8 +42,14 @@ public class DatenzugriffXML implements iDatenzugriff {
 
 	@Override
 	public boolean loadGame(String path, String filename, SpielBean game) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			JAXBContext context = JAXBContext.newInstance(SpielBean.class);
+			Unmarshaller um = context.createUnmarshaller();
+			SpielBean savedGame = (SpielBean) um.unmarshal(new FileReader(filename));
+		} catch (Exception e) {
+			return false;
+		} 
+		return true;
 	}
 
 	@Override
