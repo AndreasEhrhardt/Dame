@@ -13,7 +13,12 @@ import Enumerations.FarbEnum;
 import GameLogic.SpielBean;
 import GameLogic.Spielbrett;
 import GameLogic.Spieler;
+import Interfaces.iDatenzugriff;
 import KI.KI_Dame;
+import SavegameManager.DatenzugriffCSV;
+import SavegameManager.DatenzugriffPDF;
+import SavegameManager.DatenzugriffSerialisiert;
+import SavegameManager.DatenzugriffXML;
 
 /**
  * Servlet implementation class Test
@@ -156,6 +161,43 @@ public class Servlet extends HttpServlet {
 
 			// Add game as paramter
 			request.setAttribute("GAME", game);
+			
+			//save game
+			if (request.getParameter("SaveGame") != null && request.getParameter("SaveGame").compareTo("true") == 0) {
+				request.getRequestDispatcher("/WEB-INF/save.jsp").include(request, response); 
+			}
+			String filetype = "";
+			String filename = "";
+			
+			if(request.getParameter("Filetype") != null) {
+			filetype = request.getParameter("Filetype");
+			}
+			
+			if(request.getParameter("filename") != null) {
+			filename = request.getParameter("filename");
+			}
+			System.out.println(filetype);
+			
+			//save as CSV
+			if(filetype.matches("CSV")){
+				iDatenzugriff csv = new DatenzugriffCSV();
+				csv.saveGame("./", filename, game);
+			}
+			//save as PDF
+			if(filetype.matches("PDF")){
+				iDatenzugriff pdf = new DatenzugriffPDF();
+				pdf.saveGame("./", filename, game);
+			}
+			//save as Serialised
+			if(filetype.matches("Serialised")){
+				iDatenzugriff serialised = new DatenzugriffSerialisiert();
+				serialised.saveGame("./", filename, game);
+			}
+			//save as XML
+			if(filetype.matches("XML")){
+				iDatenzugriff xml = new DatenzugriffXML();
+				xml.saveGame("./", filename + ".xml", game);
+			}
 
 			// Include game-view or winning-view
 			if(game.gameFinished() == null) request.getRequestDispatcher("/WEB-INF/Game.jsp").include(request, response);

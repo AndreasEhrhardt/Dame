@@ -145,6 +145,11 @@
 			<input type="hidden" name="NewGame" value="true" />
 			<button type="submit">New game</button>
 		</form>
+		<form action="">
+			<input type="hidden" name="SaveGame" value="true" />
+			<button type="submit">Save Game</button>
+
+		</form>
 	</div>
 	<div style="clear:both"></div>
 	<script>
