@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 //###########################################################
 //## Class
@@ -14,11 +15,12 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ehrha
  *
  */
+@XmlType(propOrder={"ID", "figure"})
 public class Spielfeld implements Serializable {
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Properties
-
+	
 	private String ID;
 	private Spielfigur figure = null;
 

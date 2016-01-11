@@ -99,12 +99,23 @@ public class Spielbrett implements Serializable  {
 	 */
 	private void setID(){
 		// Define start variable
-		char currentRow = (char)65;
-		int currentColumn = 1;
+		int currentRow = 1;
+		char currentColumn = (char)65;
 
+		for (int i = 0; i < felder.length; i++){
+			currentColumn = (char) 65;
+			for (int j = 0; j < felder[i].length; j++) {
+				String id = String.valueOf(currentColumn);
+				id += String.valueOf(currentRow);
+				currentColumn++;
+				felder[j][i].setID(id);
+			}
+			currentRow++;
+		} 
+		/*
 		// For every row - DESC
 		for(int i = this.felder.length - 1; i >= 0; i--){
-			currentColumn = 1;
+			currentColumn = (char)65;
 
 			// For every column
 			for(int j = 0; j < this.felder[i].length; j++){
@@ -117,12 +128,12 @@ public class Spielbrett implements Serializable  {
 				this.felder[j][i].setID(fieldName.toString());
 
 				// Increase column value
-				currentColumn++;
+				currentRow++;
 			}
 
 			// Increase row value
-			currentRow = currentRow++;
-		}
+			 currentColumn++;
+		}*/
 	}
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -145,6 +156,8 @@ public class Spielbrett implements Serializable  {
 	public Spielfeld getField(int x, int y){
 		return this.felder[x][y];
 	}
+	
+	
 
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//++ Methods ( Setter)

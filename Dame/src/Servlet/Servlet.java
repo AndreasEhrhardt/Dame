@@ -176,7 +176,6 @@ public class Servlet extends HttpServlet {
 			if(request.getParameter("filename") != null) {
 			filename = request.getParameter("filename");
 			}
-			System.out.println(filetype);
 			
 			//save as CSV
 			if(filetype.matches("CSV")){
