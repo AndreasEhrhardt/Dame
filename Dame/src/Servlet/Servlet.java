@@ -64,7 +64,18 @@ public class Servlet extends HttpServlet {
 			// Remove game object
 			this.getServletConfig().getServletContext().removeAttribute("GAME");
 			game = null;
+			
+			//laden csv
+			if(request.getParameter("Path") != null && request.getParameter("Dateiname") != null) {
+				iDatenzugriff csv = new DatenzugriffCSV();
+				game = new SpielBean();
+				csv.loadGame(request.getParameter("Path"), request.getParameter("Dateiname"), game);
 
+				// Output information
+				System.out.println("csvload");
+			}
+				
+			else {
 			String player1 = request.getParameter("PLAYER1");
 			String player2 = request.getParameter("PLAYER2");
 
@@ -94,13 +105,10 @@ public class Servlet extends HttpServlet {
 				else
 					game.setPlayer(2, new Spieler(player2,FarbEnum.weiß));
 
-				//laden csv
-				if (request.getParameter("Path") != null && request.getParameter("Path").compareTo("true")==0)
-					game.load((String)request.getParameter("Path"), (String)request.getParameter("Dateiname"));
-				
+
 				// Set black as current gamer
 				game.setCurrentGamer(FarbEnum.schwarz);
-
+			
 				// Save game in application scope
 				this.getServletConfig().getServletContext().setAttribute("GAME", game);
 
@@ -115,17 +123,17 @@ public class Servlet extends HttpServlet {
 					this.getServletConfig().getServletContext().setAttribute("P2_SESSION", true);
 					session.setAttribute("NAME", player2);
 				}
-
+			
 				// Set gameid
 				if(session.getAttribute("NAME") != null) session.setAttribute("GAME_ID", game.getID());
 
 				// Output information
 				System.out.println("Gameobject created!");
-			}else{
+			} else{
 				// Import start page
 				request.getRequestDispatcher("/WEB-INF/Setting.jsp").include(request, response); 
-			}
-		}
+			} }
+		} 
 
 		// Show gameboard
 		if(game != null){

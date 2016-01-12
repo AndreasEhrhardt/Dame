@@ -53,7 +53,7 @@ public class DatenzugriffCSV implements iDatenzugriff {
 		if(!path.endsWith("/")) path += "/";
 		if(!filename.endsWith(".csv")) filename += ".csv";
 		
-		if(!this.haveSaveGame(path, filename)) return false;
+		//if(!this.haveSaveGame(path, filename)) return false;
 
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(path + filename));
