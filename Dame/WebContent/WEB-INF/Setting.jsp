@@ -18,4 +18,9 @@
 		  	}
 		}
 	</script>
+	<form>
+	<p>Pfad der zu ladenden Datei:<input id="Path" type="text" name="Path" required/></p>
+	<p>            Name der Datei:<input id="Dateiname" type="text" name="Dateiname" required></p>
+	<p><button type="submit">Serialisiert laden...</button></p>	
+	</form>
 </div>

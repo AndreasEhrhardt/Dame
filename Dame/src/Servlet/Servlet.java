@@ -94,6 +94,10 @@ public class Servlet extends HttpServlet {
 				else
 					game.setPlayer(2, new Spieler(player2,FarbEnum.weiß));
 
+				//laden csv
+				if (request.getParameter("Path") != null && request.getParameter("Path").compareTo("true")==0)
+					game.load((String)request.getParameter("Path"), (String)request.getParameter("Dateiname"));
+				
 				// Set black as current gamer
 				game.setCurrentGamer(FarbEnum.schwarz);
 
