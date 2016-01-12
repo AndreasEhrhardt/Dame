@@ -15,10 +15,7 @@ import GameLogic.Spielbrett;
 import GameLogic.Spieler;
 import Interfaces.iDatenzugriff;
 import KI.KI_Dame;
-import SavegameManager.DatenzugriffCSV;
-import SavegameManager.DatenzugriffPDF;
-import SavegameManager.DatenzugriffSerialisiert;
-import SavegameManager.DatenzugriffXML;
+import SavegameManager.*;
 
 /**
  * Servlet implementation class Test
