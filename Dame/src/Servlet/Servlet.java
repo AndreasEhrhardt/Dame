@@ -72,7 +72,29 @@ public class Servlet extends HttpServlet {
 				csv.loadGame(request.getParameter("Path"), request.getParameter("Dateiname"), game);
 
 				// Output information
-				System.out.println("csvload");
+				String player1 = request.getParameter("PLAYER1");
+				String player2 = request.getParameter("PLAYER2");
+				
+				// Save game in application scope
+				this.getServletConfig().getServletContext().setAttribute("GAME", game);
+
+				// Set player as active gamer
+				this.getServletConfig().getServletContext().setAttribute("P1_SESSION", false);
+				this.getServletConfig().getServletContext().setAttribute("P2_SESSION", false);
+				if(game.getPlayer(1).getKi() == null){
+					this.getServletConfig().getServletContext().setAttribute("P1_SESSION", true);
+					session.setAttribute("NAME", player1);
+				}
+				else if(game.getPlayer(2).getKi() == null){
+					this.getServletConfig().getServletContext().setAttribute("P2_SESSION", true);
+					session.setAttribute("NAME", player2);
+				}
+			
+				// Set gameid
+				if(session.getAttribute("NAME") != null) session.setAttribute("GAME_ID", game.getID());
+
+				// Output information
+				System.out.println("Gameobject created!");
 			}
 				
 			else {
