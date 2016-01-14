@@ -205,13 +205,13 @@
 	}
 	
 	#SettingsContainer input{
-		margin-left:50px;
-		margin-right:50px;
+		margin-left:30px;
+		margin-right:30px;
 	}
 	
 	#SettingsHeader{
-		font-size:50px;
-		padding-bottom:50px;
+		font-size:40px;
+		padding-bottom:10px;
 	}
 	
 	/*##################################################*/

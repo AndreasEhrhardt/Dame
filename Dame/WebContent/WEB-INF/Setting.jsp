@@ -19,8 +19,8 @@
 		}
 	</script>
 	<form>
-	<p>Pfad der zu ladenden Datei:<input id="Path" type="text" name="Path" required/></p>
-	<p>            Name der Datei:<input id="Dateiname" type="text" name="Dateiname" required></p>
-	<p><button type="submit">Serialisiert laden...</button></p>	
+	<p>Dateipfad:<input id="Path" type="text" name="Path" required/><input type="radio" name="Laden" value="CSV" />CSV<br></p>
+	<p>Name der Datei:<input id="Dateiname" type="text" name="Dateiname" required><input type="radio" name="Laden" value="Serialisiert" />Serialisiert<br></p>
+	<p><button type="submit">Laden...</button></p>	
 	</form>
 </div>

@@ -67,11 +67,18 @@ public class Servlet extends HttpServlet {
 			
 			//laden csv
 			if(request.getParameter("Path") != null && request.getParameter("Dateiname") != null) {
+				if(request.getParameter("Laden").matches("CSV")){
 				iDatenzugriff csv = new DatenzugriffCSV();
 				game = new SpielBean();
 				csv.loadGame(request.getParameter("Path"), request.getParameter("Dateiname"), game);
-
+				}
+				if(request.getParameter("Laden").matches("Serialisiert")){
+					DatenzugriffSerialisiert ser = new DatenzugriffSerialisiert();
+					game = new SpielBean();
+					ser.loadGame(request.getParameter("Path"), request.getParameter("Dateiname"), game);
+					}
 				// Output information
+				
 				String player1 = request.getParameter("PLAYER1");
 				String player2 = request.getParameter("PLAYER2");
 				
