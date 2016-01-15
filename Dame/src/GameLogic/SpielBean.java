@@ -667,12 +667,12 @@ public class SpielBean implements iBediener, Serializable {
 		// Get gameboard fields
 		Spielfeld felder[][] = this.gameboard.getFields();
 		String gameString = "";
-		for(int i = 0; i < felder.length; i++) {
-			for(int j = 0; j < felder[i].length; j++) {
-				gameString += felder[i][j].getID();
-			}
-			                                           
-		}
+//		for(int i = 0; i < felder.length; i++) {
+//			for(int j = 0; j < felder[i].length; j++) {
+//				gameString += felder[i][j].getID();
+//			}
+//			                                           
+//		}
 
 		// first row: information of player 1
 		gameString += this.getPlayer(1).getName() + ";" + this.getPlayer(1).getColor() + ";";
