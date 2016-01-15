@@ -176,10 +176,15 @@ public class Servlet extends HttpServlet {
 				request.getRequestDispatcher("/WEB-INF/save.jsp").include(request, response); 
 			}
 			String filetype = "";
+			String path = "";
 			String filename = "";
 			
 			if(request.getParameter("Filetype") != null) {
 			filetype = request.getParameter("Filetype");
+			}
+			
+			if(request.getParameter("path") != null) {
+				path = request.getParameter("path");
 			}
 			
 			if(request.getParameter("filename") != null) {
@@ -189,22 +194,25 @@ public class Servlet extends HttpServlet {
 			//save as CSV
 			if(filetype.matches("CSV")){
 				iDatenzugriff csv = new DatenzugriffCSV();
-				csv.saveGame("./", filename, game);
+				csv.saveGame(path, filename, game);
+				
 			}
 			//save as PDF
 			if(filetype.matches("PDF")){
 				iDatenzugriff pdf = new DatenzugriffPDF();
-				pdf.saveGame("./", filename, game);
+				pdf.saveGame(path, filename, game);
+				request.getRequestDispatcher("/WEB-INF/link.jsp").include(request, response); 
+				
 			}
 			//save as Serialised
 			if(filetype.matches("Serialised")){
 				iDatenzugriff serialised = new DatenzugriffSerialisiert();
-				serialised.saveGame("./", filename, game);
+				serialised.saveGame(path, filename, game);
 			}
 			//save as XML
 			if(filetype.matches("XML")){
 				iDatenzugriff xml = new DatenzugriffXML();
-				xml.saveGame("./", filename + ".xml", game);
+				xml.saveGame(path, filename + ".xml", game);
 			}
 
 			// Include game-view or winning-view
