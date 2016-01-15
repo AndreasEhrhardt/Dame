@@ -2,6 +2,7 @@ package Servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -73,14 +74,15 @@ public class Servlet extends HttpServlet {
 				csv.loadGame(request.getParameter("Path"), request.getParameter("Dateiname"), game);
 				}
 				if(request.getParameter("Laden").matches("Serialisiert")){
-					DatenzugriffSerialisiert ser = new DatenzugriffSerialisiert();
+					iDatenzugriff ser = new DatenzugriffSerialisiert();
 					game = new SpielBean();
 					ser.loadGame(request.getParameter("Path"), request.getParameter("Dateiname"), game);
+					boolean x=ser.loadGame(request.getParameter("Path"), request.getParameter("Dateiname"), game);
+					System.out.println(x);
 					}
 				// Output information
-				
-				String player1 = request.getParameter("PLAYER1");
-				String player2 = request.getParameter("PLAYER2");
+				String player1 = game.getPlayer(1).getName();
+				String player2 = game.getPlayer(2).getName();
 				
 				// Save game in application scope
 				this.getServletConfig().getServletContext().setAttribute("GAME", game);
@@ -102,6 +104,9 @@ public class Servlet extends HttpServlet {
 
 				// Output information
 				System.out.println("Gameobject created!");
+				System.out.println(session.getAttribute("NAME"));
+				System.out.println(session.getAttribute("GAME_ID"));
+				System.out.println(this.activeGamer(session, game));
 			}
 				
 			else {
@@ -271,8 +276,9 @@ public class Servlet extends HttpServlet {
 	
 	boolean activeGamer(HttpSession session, SpielBean game){		
 		if(game == null || session == null) return false;
-		if(session.getAttribute("NAME") == null || session.getAttribute("GAME_ID") == null) return false;
-		if((int)session.getAttribute("GAME_ID") != game.getID()) return false;
+		if(session.getAttribute("NAME") == null || session.getAttribute("GAME_ID") == null)return false;
+		if((int)session.getAttribute("GAME_ID") != game.getID())return false;
+	
 		
 		Spieler gamer1 =  game.getPlayer(1);
 		Spieler gamer2 =  game.getPlayer(2);

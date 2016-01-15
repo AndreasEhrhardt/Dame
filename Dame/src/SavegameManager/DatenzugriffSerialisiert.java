@@ -69,14 +69,17 @@ public class DatenzugriffSerialisiert implements iDatenzugriff{
 	 */
 	@Override
 	public boolean loadGame(String path, String filename, SpielBean game) {
+		if(!path.endsWith("/")) path += "/";
+
 		try{
+			
 			// Open file stream
 			FileInputStream f_in = new FileInputStream(path + filename);
 			ObjectInputStream obj_in = new ObjectInputStream (f_in);
-
-			// Read object
+			
+			// Read object hier wird exeption geschmissen?
 			Object obj = obj_in.readObject();
-
+			
 			// Check if object is from same class
 			if(obj.getClass() == SpielBean.class){
 				// Parse object
@@ -88,10 +91,9 @@ public class DatenzugriffSerialisiert implements iDatenzugriff{
 				game.setGameboard(lastGame.getGameboard());
 				game.setCurrentGamer(lastGame.getCurrentGamer().getColor());
 			}
-			
 			// Close file stream
 			f_in.close();
-			
+
 			// Return success state
 			return true;
 		}
