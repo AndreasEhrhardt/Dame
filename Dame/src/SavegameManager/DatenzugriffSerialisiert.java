@@ -98,6 +98,7 @@ public class DatenzugriffSerialisiert implements iDatenzugriff{
 			return true;
 		}
 		catch(IOException | ClassNotFoundException e){
+			System.out.println(e);
 			return false;
 		}
 	}

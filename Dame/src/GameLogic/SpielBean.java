@@ -50,7 +50,7 @@ public class SpielBean implements iBediener, Serializable {
 	private int gameID;
 
 	@SuppressWarnings("unused")
-	private Logging log = new Logging();
+	transient Logging log = new Logging();
 
 	static int maxLoopCount = 10;
 
