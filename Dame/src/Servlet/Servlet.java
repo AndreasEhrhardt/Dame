@@ -77,8 +77,7 @@ public class Servlet extends HttpServlet {
 					iDatenzugriff ser = new DatenzugriffSerialisiert();
 					game = new SpielBean();
 					ser.loadGame(request.getParameter("Path"), request.getParameter("Dateiname"), game);
-					boolean x=ser.loadGame(request.getParameter("Path"), request.getParameter("Dateiname"), game);
-					System.out.println(x);
+					
 					}
 				// Output information
 				String player1 = game.getPlayer(1).getName();
@@ -104,9 +103,6 @@ public class Servlet extends HttpServlet {
 
 				// Output information
 				System.out.println("Gameobject created!");
-				System.out.println(session.getAttribute("NAME"));
-				System.out.println(session.getAttribute("GAME_ID"));
-				System.out.println(this.activeGamer(session, game));
 			}
 				
 			else {
