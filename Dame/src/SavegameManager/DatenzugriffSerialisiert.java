@@ -46,6 +46,7 @@ public class DatenzugriffSerialisiert implements iDatenzugriff{
 	 */
 	@Override
 	public boolean saveGame(String path, String filename, SpielBean game) {
+		if(!path.endsWith("/"))path+="/";
 		try{
 			// Save game state
 			FileOutputStream gameOS = new FileOutputStream(path + filename);

@@ -20,7 +20,8 @@
 	</script>
 	<form>
 	<p>Dateipfad:<input id="Path" type="text" name="Path" required/><input type="radio" name="Laden" value="CSV" />CSV<br></p>
-	<p>Name der Datei:<input id="Dateiname" type="text" name="Dateiname" required><input type="radio" name="Laden" value="Serialisiert" />Serialisiert<br></p>
+	<p>Name der Datei:<input id="Dateiname" type="text" name="Dateiname" required></p>
+	<p><input type="radio" name="Laden" value="Serialisiert" />Serialisiert<br><input type="radio" name="Laden" value="XML" />XML<br></p>
 	<p><button type="submit">Laden...</button></p>	
 	</form>
 </div>

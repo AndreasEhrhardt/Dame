@@ -17,12 +17,14 @@ public class DatenzugriffXML implements iDatenzugriff {
 	@Override
 	public boolean saveGame(String path, String filename, SpielBean game) {
 		FileWriter fw = null;
+		String s= "/";
+		if(!path.endsWith(s))path+=s;
 		try {
 			JAXBContext context = JAXBContext.newInstance(SpielBean.class);
 			Marshaller m = context.createMarshaller();
 			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			m.marshal(game, System.out);
-			fw = new FileWriter(filename);
+			fw = new FileWriter(path+filename);
 			m.marshal(game, fw);
 			
 		} catch (Exception e) {
@@ -42,13 +44,21 @@ public class DatenzugriffXML implements iDatenzugriff {
 
 	@Override
 	public boolean loadGame(String path, String filename, SpielBean game) {
+		String s= "/" ;
+		if(!path.endsWith(s))path+=s;
+		if(!filename.endsWith(".xml"))filename+=".xml";
 		try {
 			JAXBContext context = JAXBContext.newInstance(SpielBean.class);
 			Unmarshaller um = context.createUnmarshaller();
-			SpielBean savedGame = (SpielBean) um.unmarshal(new FileReader(filename));
+			game = (SpielBean) um.unmarshal(new FileReader(path+filename));
+			
+			System.out.println(game.getPlayer(1).getName());
 		} catch (Exception e) {
+			System.out.println(e);
 			return false;
-		} 
+		} finally{
+			System.out.println(filename+" geladen");
+		}
 		return true;
 	}
 

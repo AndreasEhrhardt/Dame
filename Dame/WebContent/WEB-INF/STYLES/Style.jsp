@@ -195,7 +195,7 @@
 	
 	#SettingsContainer{
 		position:relative;
-		top: 100px;
+		top: 50px;
 		
 		text-align:center;
 	}

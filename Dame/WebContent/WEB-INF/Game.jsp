@@ -19,7 +19,7 @@
 			namePlayer1 = "Computer 1";
 		String namePlayer2 = game.getPlayer(2).getName();
 		if (game.getPlayer(2).getKi() != null)
-			namePlayer1 = "Computer 2";
+			namePlayer2 = "Computer 2";
 
 		// Create player
 		out.println("<div id=\"GamePlayer1\" class=\"floatLeft\" style=\"background-color:" + colorPlayer1

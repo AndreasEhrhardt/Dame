@@ -77,8 +77,14 @@ public class Servlet extends HttpServlet {
 					iDatenzugriff ser = new DatenzugriffSerialisiert();
 					game = new SpielBean();
 					ser.loadGame(request.getParameter("Path"), request.getParameter("Dateiname"), game);
-					
 					}
+				if(request.getParameter("Laden").matches("XML")){
+					iDatenzugriff xml = new DatenzugriffXML();
+					game= new SpielBean();
+					xml.loadGame(request.getParameter("Path"), request.getParameter("Dateiname"), game);
+					System.out.println(game.getGameboardSize());
+					System.out.println(game.getCurrentGamer());
+				}
 				// Output information
 				String player1 = game.getPlayer(1).getName();
 				String player2 = game.getPlayer(2).getName();
