@@ -65,53 +65,7 @@ public class Servlet extends HttpServlet {
 			// Remove game object
 			this.getServletConfig().getServletContext().removeAttribute("GAME");
 			game = null;
-			
-			//laden csv
-			if(request.getParameter("Path") != null && request.getParameter("Dateiname") != null) {
-				if(request.getParameter("Laden").matches("CSV")){
-				iDatenzugriff csv = new DatenzugriffCSV();
-				game = new SpielBean();
-				csv.loadGame(request.getParameter("Path"), request.getParameter("Dateiname"), game);
-				}
-				if(request.getParameter("Laden").matches("Serialisiert")){
-					iDatenzugriff ser = new DatenzugriffSerialisiert();
-					game = new SpielBean();
-					ser.loadGame(request.getParameter("Path"), request.getParameter("Dateiname"), game);
-					}
-				if(request.getParameter("Laden").matches("XML")){
-					iDatenzugriff xml = new DatenzugriffXML();
-					game= new SpielBean();
-					xml.loadGame(request.getParameter("Path"), request.getParameter("Dateiname"), game);
-					System.out.println(game.getGameboardSize());
-					System.out.println(game.getCurrentGamer());
-				}
-				// Output information
-				String player1 = game.getPlayer(1).getName();
-				String player2 = game.getPlayer(2).getName();
 				
-				// Save game in application scope
-				this.getServletConfig().getServletContext().setAttribute("GAME", game);
-
-				// Set player as active gamer
-				this.getServletConfig().getServletContext().setAttribute("P1_SESSION", false);
-				this.getServletConfig().getServletContext().setAttribute("P2_SESSION", false);
-				if(game.getPlayer(1).getKi() == null){
-					this.getServletConfig().getServletContext().setAttribute("P1_SESSION", true);
-					session.setAttribute("NAME", player1);
-				}
-				else if(game.getPlayer(2).getKi() == null){
-					this.getServletConfig().getServletContext().setAttribute("P2_SESSION", true);
-					session.setAttribute("NAME", player2);
-				}
-			
-				// Set gameid
-				if(session.getAttribute("NAME") != null) session.setAttribute("GAME_ID", game.getID());
-
-				// Output information
-				System.out.println("Gameobject created!");
-			}
-				
-			else {
 			String player1 = request.getParameter("PLAYER1");
 			String player2 = request.getParameter("PLAYER2");
 
@@ -169,7 +123,7 @@ public class Servlet extends HttpServlet {
 				// Import start page
 				request.getRequestDispatcher("/WEB-INF/Setting.jsp").include(request, response); 
 			} }
-		} 
+		 
 
 		// Show gameboard
 		if(game != null){
@@ -209,47 +163,10 @@ public class Servlet extends HttpServlet {
 			
 			//save game
 			if (request.getParameter("SaveGame") != null && request.getParameter("SaveGame").compareTo("true") == 0) {
-				request.getRequestDispatcher("/WEB-INF/save.jsp").include(request, response); 
-			}
-			String filetype = "";
-			String path = "";
-			String filename = "";
-			
-			if(request.getParameter("Filetype") != null) {
-			filetype = request.getParameter("Filetype");
+				response.sendRedirect(request.getContextPath() + "/SaveServlet");
+				//request.getRequestDispatcher("/SaveServlet").include(request, response); 
 			}
 			
-			if(request.getParameter("path") != null) {
-				path = request.getParameter("path");
-			}
-			
-			if(request.getParameter("filename") != null) {
-			filename = request.getParameter("filename");
-			}
-			
-			//save as CSV
-			if(filetype.matches("CSV")){
-				iDatenzugriff csv = new DatenzugriffCSV();
-				csv.saveGame(path, filename, game);
-				
-			}
-			//save as PDF
-			if(filetype.matches("PDF")){
-				iDatenzugriff pdf = new DatenzugriffPDF();
-				pdf.saveGame(path, filename, game);
-				request.getRequestDispatcher("/WEB-INF/link.jsp").include(request, response); 
-				
-			}
-			//save as Serialised
-			if(filetype.matches("Serialised")){
-				iDatenzugriff serialised = new DatenzugriffSerialisiert();
-				serialised.saveGame(path, filename, game);
-			}
-			//save as XML
-			if(filetype.matches("XML")){
-				iDatenzugriff xml = new DatenzugriffXML();
-				xml.saveGame(path, filename + ".xml", game);
-			}
 
 			// Include game-view or winning-view
 			if(game.gameFinished() == null) request.getRequestDispatcher("/WEB-INF/Game.jsp").include(request, response);

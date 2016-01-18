@@ -53,6 +53,8 @@ public class DatenzugriffXML implements iDatenzugriff {
 			game = (SpielBean) um.unmarshal(new FileReader(path+filename));
 			
 			System.out.println(game.getPlayer(1).getName());
+			System.out.println(game.getGameboardSize());
+			System.out.println(game.getCurrentGamer());
 		} catch (Exception e) {
 			System.out.println(e);
 			return false;

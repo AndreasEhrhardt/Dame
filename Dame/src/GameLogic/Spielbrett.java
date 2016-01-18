@@ -31,7 +31,7 @@ public class Spielbrett implements Serializable  {
 	 */
 	public Spielbrett(){
 		// Create a 8x8 game-board
-		this.createField(8);
+		//this.createField(8);
 	}
 
 	/**

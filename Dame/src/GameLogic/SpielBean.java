@@ -41,8 +41,11 @@ public class SpielBean implements iBediener, Serializable {
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Properties
 
+	
 	private Spielbrett gameboard;
+	@XmlElement
 	private Spieler gamer[];
+	@XmlElement
 	private Spieler currentGamer;
 	private boolean isTemporary = false;
 	private Point fieldClicked = null;
@@ -56,7 +59,8 @@ public class SpielBean implements iBediener, Serializable {
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Constructor
-
+	
+	
 	/**
 	 * Constructor
 	 */
@@ -65,7 +69,7 @@ public class SpielBean implements iBediener, Serializable {
 		
 		gameID = (new Random()).nextInt((99999999 - 1) + 1) + 1;
 
-		this.gameboard = new Spielbrett();
+		this.gameboard = new Spielbrett();	
 	}
 
 	/**
@@ -727,12 +731,12 @@ public class SpielBean implements iBediener, Serializable {
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// ++ Methods ( Getter)
 
-	@XmlElement( name = "id")
+
 	public int getID(){
 		return this.gameID;
 	}
 	
-	@XmlElement( name = "player")
+
 	public Spieler[] getGamer(){
 		return this.gamer;
 	}
@@ -741,7 +745,7 @@ public class SpielBean implements iBediener, Serializable {
 		return this.fieldClicked;
 	}
 
-	@XmlElement (name = "gameboard")
+
 	public Spielbrett getGameboard() {
 		return this.gameboard;
 	}
@@ -762,7 +766,7 @@ public class SpielBean implements iBediener, Serializable {
 		return this.gamer[playerID - 1];
 	}
 
-	@XmlElement (name = "currentGamer")
+	
 	public Spieler getCurrentGamer() {
 		if (this.currentGamer == null) return null;
 
@@ -875,6 +879,7 @@ public class SpielBean implements iBediener, Serializable {
 	 * Forces the user to enter game board size and checks if number is even. If
 	 * user fails to enter valid size multiple times, the size is set to 8x8
 	 */
+	@XmlElement (name = "gameboardSize")
 	@Override
 	public int getGameboardSize() {
 		return this.gameboard.felder.length;

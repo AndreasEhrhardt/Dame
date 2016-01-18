@@ -32,7 +32,7 @@ public class Spielfigur implements Serializable  {
 	// ++ Constructor
 
 	private Spielfigur(){
-		this.setDame(false);
+		//this.setDame(false);
 	}
 	
 	/**

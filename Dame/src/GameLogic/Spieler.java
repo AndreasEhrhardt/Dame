@@ -35,7 +35,7 @@ public class Spieler implements Serializable {
 	 * 
 	 */
 	public Spieler() {
-		this.setName("");
+		//this.setName("");
 	}
 
 	/**
