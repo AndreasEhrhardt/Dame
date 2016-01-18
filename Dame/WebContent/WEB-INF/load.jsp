@@ -6,8 +6,8 @@
 	<p><input type="radio" name="Laden" value="CSV" />CSV<br>
 	<input type="radio" name="Laden" value="Serialisiert" />Serialisiert<br>
 	<input type="radio" name="Laden" value="XML" />XML<br></p>
-	<p><input type="hidden" name="LoadGame" value="true" />
-	<button type="submit">Load Game</button></p>
+	<p>
+	<button type="submit" name = "LoadGame" value = "true">Load Game</button></p>
 
 
 </form>

@@ -41,7 +41,7 @@ public class SettingServlet extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/loadOrStart.jsp").include(request, response);
 	
 		if (request.getParameter("LoadGame") != null && request.getParameter("LoadGame").compareTo("true") == 0) {
-			request.getRequestDispatcher("/LoadServlet").include(request, response);
+			response.sendRedirect(request.getContextPath() + "/LoadServlet");
 		} else if (request.getParameter("NewGame") != null && request.getParameter("NewGame").compareTo("true") == 0) {
 			response.sendRedirect(request.getContextPath() + "/Dame");
 			
