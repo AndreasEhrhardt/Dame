@@ -35,21 +35,83 @@ public class LoadServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Get Sessions
 		HttpSession session = request.getSession(true);
-
-		// Include CSS
-		request.getRequestDispatcher("/WEB-INF/STYLES/Style.jsp").include(request, response);;
-
-		// Create header
+		request.getRequestDispatcher("/WEB-INF/STYLES/Style.jsp").include(request, response);
 		request.getRequestDispatcher("/WEB-INF/Header.jsp").include(request, response);
 		request.getRequestDispatcher("/WEB-INF/load.jsp").include(request, response);
-
-	
-		if (request.getParameter("LoadGame") != null && request.getParameter("LoadGame").compareTo("true") == 0) {
-				if(request.getParameter("Path") != null && request.getParameter("Dateiname") != null) {
-					System.out.println("blaaa");
-					request.getRequestDispatcher("/LoadGameServlet").include(request, response);
+		
+		SpielBean game = (SpielBean)this.getServletConfig().getServletContext().getAttribute("GAME");
+		this.getServletConfig().getServletContext().removeAttribute("GAME");
+		game = null;
+		
+		String filetype = "";
+		String path = "";
+		String filename = "";
+		
+		if(request.getParameter("Laden") != null) {
+		filetype = request.getParameter("Laden");
 		}
-	}
+		
+		if(request.getParameter("Path") != null) {
+			path = request.getParameter("Path");
+		}
+		
+		if(request.getParameter("Dateiname") != null) {
+		filename = request.getParameter("Dateiname");
+		}
+		
+	System.out.println(filetype);
+	System.out.println(path);
+	System.out.println(filename);
+			if(filetype.matches("CSV")){
+				System.out.println("inIfabfrage");
+			try  {
+			
+			iDatenzugriff csv = new DatenzugriffCSV();
+			game = new SpielBean();
+			csv.loadGame(path, filename, game);
+			
+			} catch (Exception e)
+			{
+				System.out.println(e);
+				e.printStackTrace();
+				System.out.println("CsvTest");
+			}
+			// Output information
+			String player1 = game.getPlayer(1).getName();
+			String player2 = game.getPlayer(2).getName();
+			
+			// Save game in application scope
+			this.getServletConfig().getServletContext().setAttribute("GAME", game);
+
+			// Set player as active gamer
+			this.getServletConfig().getServletContext().setAttribute("P1_SESSION", false);
+			this.getServletConfig().getServletContext().setAttribute("P2_SESSION", false);
+			if(game.getPlayer(1).getKi() == null){
+				this.getServletConfig().getServletContext().setAttribute("P1_SESSION", true);
+				session.setAttribute("NAME", player1);
+			}
+			else if(game.getPlayer(2).getKi() == null){
+				this.getServletConfig().getServletContext().setAttribute("P2_SESSION", true);
+				session.setAttribute("NAME", player2);
+			}
+		
+			// Set gameid
+			if(session.getAttribute("NAME") != null) session.setAttribute("GAME_ID", game.getID());
+
+			// Output information
+			System.out.println("Gameobject created!");
+			
+			session.setAttribute("GAME", game);
+			response.sendRedirect(request.getContextPath() + "/BacktoGameServlet");
+		
+			}
+		
+		
+		
+		
+		
+		request.getRequestDispatcher("/WEB-INF/Footer.jsp").include(request, response);
+
 	}
 
 	/**

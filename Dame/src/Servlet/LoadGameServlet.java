@@ -36,56 +36,7 @@ public class LoadGameServlet extends HttpServlet {
 		// Get Sessions
 		HttpSession session = request.getSession(true);
 
-		// Get active game object
-		SpielBean game = (SpielBean)session.getServletContext().getAttribute("GAME");
-		System.out.println("test");
-		if(request.getParameter("Laden").matches("CSV")){
-			System.out.println("csvladen");
-			iDatenzugriff csv = new DatenzugriffCSV();
-			game = new SpielBean();
-			csv.loadGame(request.getParameter("Path"), request.getParameter("Dateiname"), game);
-		}
-		if(request.getParameter("Laden").matches("Serialisiert")){
-				iDatenzugriff ser = new DatenzugriffSerialisiert();
-				game = new SpielBean();
-				ser.loadGame(request.getParameter("Path"), request.getParameter("Dateiname"), game);
-		}
-		if(request.getParameter("Laden").matches("XML")){
-				iDatenzugriff xml = new DatenzugriffXML();
-				game= new SpielBean();
-				xml.loadGame(request.getParameter("Path"), request.getParameter("Dateiname"), game);
-				System.out.println(game.getGameboardSize());
-				System.out.println(game.getCurrentGamer());
-		}
-			// Output information
-			String player1 = game.getPlayer(1).getName();
-			String player2 = game.getPlayer(2).getName();
-			
-			// Save game in application scope
-			this.getServletConfig().getServletContext().setAttribute("GAME", game);
-
-			// Set player as active gamer
-			this.getServletConfig().getServletContext().setAttribute("P1_SESSION", false);
-			this.getServletConfig().getServletContext().setAttribute("P2_SESSION", false);
-			if(game.getPlayer(1).getKi() == null){
-				this.getServletConfig().getServletContext().setAttribute("P1_SESSION", true);
-				session.setAttribute("NAME", player1);
-			}
-			else if(game.getPlayer(2).getKi() == null){
-				this.getServletConfig().getServletContext().setAttribute("P2_SESSION", true);
-				session.setAttribute("NAME", player2);
-			}
-		
-			// Set gameid
-			if(session.getAttribute("NAME") != null) session.setAttribute("GAME_ID", game.getID());
-
-			// Output information
-			System.out.println("Gameobject created!");
-		session.setAttribute("GAME", game);
-		
-		//response.sendRedirect(request.getContextPath() + "/Dame");
-		request.getRequestDispatcher("/Dame").include(request, response);
-	}
+}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
