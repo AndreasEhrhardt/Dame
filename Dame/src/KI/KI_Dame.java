@@ -82,7 +82,7 @@ public class KI_Dame extends KI implements Serializable {
 		for(int i = 0; i < felder.length; i++){
 			for(int j = 0; j < felder[i].length; j++){
 				Spielfigur currentFigure = felder[i][j].getFigure();
-				if(currentFigure != null && currentFigure.getColor() == player.getColor()){
+				if(currentFigure != null && currentFigure.getColor() == game.getCurrentGamer().getColor()){
 					Point currentPosition = new Point(i,j);
 					if(game.canDestroyOtherFigures(currentPosition).size() > 0) blowable.add(currentPosition);
 				}
@@ -111,7 +111,7 @@ public class KI_Dame extends KI implements Serializable {
 			for(int i = 0; i < felder.length; i++){
 				for(int j = 0; j < felder[i].length; j++){
 					Spielfigur currentFigure = felder[i][j].getFigure();
-					if(currentFigure != null && currentFigure.getColor() == player.getColor()){
+					if(currentFigure != null && currentFigure.getColor() == game.getCurrentGamer().getColor()){
 						Point currentPosition = new Point(i,j);
 						validFigures.add(currentPosition);
 					}
@@ -172,7 +172,7 @@ public class KI_Dame extends KI implements Serializable {
 					ArrayList < moveScenario > best = new ArrayList<>();
 					for(moveScenario move : validSaveToPosition){
 
-						if(this.player.getColor() == FarbEnum.schwarz){
+						if(game.getCurrentGamer().getColor() == FarbEnum.schwarz){
 							if(choosenScenario == null || move.getFrom().getY() < choosenScenario.getFrom().getY()){
 								choosenScenario = move;
 								best.clear();

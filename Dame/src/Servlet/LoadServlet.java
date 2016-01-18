@@ -78,7 +78,7 @@ public class LoadServlet extends HttpServlet {
 			game= new SpielBean();
 			xml.loadGame(path, filename, game);
 		}
-
+		if (filetype.matches("CSV")||filetype.matches("XML")||filetype.matches("Serialisiert")){
 		// Output information
 		String player1 = game.getPlayer(1).getName();
 		String player2 = game.getPlayer(2).getName();
@@ -107,7 +107,7 @@ public class LoadServlet extends HttpServlet {
 
 		request.getRequestDispatcher("/WEB-INF/Footer.jsp").include(request, response);
 
-	}
+	}}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse

@@ -88,6 +88,7 @@ public class DatenzugriffSerialisiert implements iDatenzugriff{
 
 				// Get game-data
 				game.setPlayer(1, lastGame.getPlayer(1));
+				System.out.println(lastGame.getPlayer(1));
 				game.setPlayer(2, lastGame.getPlayer(2));
 				game.setGameboard(lastGame.getGameboard());
 				game.setCurrentGamer(lastGame.getCurrentGamer().getColor());
