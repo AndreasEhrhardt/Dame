@@ -75,6 +75,14 @@ public class LoadServlet extends HttpServlet {
 			game = new SpielBean();
 			ser.loadGame(path, filename, game);
 		}
+		
+		if(filetype.matches("XML")){
+			iDatenzugriff xml = new DatenzugriffXML();
+			game= new SpielBean();
+			xml.loadGame(path, filename, game);
+			System.out.println(game.getGameboardSize());
+			System.out.println(game.getCurrentGamer());
+		}
 
 		// Output information
 		String player1 = game.getPlayer(1).getName();
