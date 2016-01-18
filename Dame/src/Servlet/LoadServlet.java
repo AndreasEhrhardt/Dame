@@ -61,9 +61,6 @@ public class LoadServlet extends HttpServlet {
 			filename = request.getParameter("Dateiname");
 		}
 
-		System.out.println(filetype);
-		System.out.println(path);
-		System.out.println(filename);
 		if (filetype.matches("CSV")) {
 			iDatenzugriff csv = new DatenzugriffCSV();
 			game = new SpielBean();
@@ -80,8 +77,6 @@ public class LoadServlet extends HttpServlet {
 			iDatenzugriff xml = new DatenzugriffXML();
 			game= new SpielBean();
 			xml.loadGame(path, filename, game);
-			System.out.println(game.getGameboardSize());
-			System.out.println(game.getCurrentGamer());
 		}
 
 		// Output information
@@ -106,8 +101,6 @@ public class LoadServlet extends HttpServlet {
 		if (session.getAttribute("NAME") != null)
 			session.setAttribute("GAME_ID", game.getID());
 
-		// Output information
-		System.out.println("Gameobject created!");
 
 		session.setAttribute("GAME", game);
 		response.sendRedirect(request.getContextPath() + "/BacktoGameServlet");
