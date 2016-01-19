@@ -160,12 +160,6 @@ public class KI_Dame extends KI implements Serializable {
 			try{
 				moveScenario choosenScenario = null;
 
-				System.out.println();
-				System.out.println("Save: " + validSaveToPosition.size());
-				System.out.println("Unsafe: " + validToPosition.size());
-				System.out.println("Save (Dame): " + validSaveToPositionDame.size());
-				System.out.println("Unsafe (Dame): " + validToPositionDame.size());
-				System.out.println();
 
 				// Choose one of those move-scenarios
 				if(validSaveToPosition.size() > 0){
@@ -207,7 +201,6 @@ public class KI_Dame extends KI implements Serializable {
 					game.move(choosenScenario.from, choosenScenario.to);
 				}
 			}catch (Exception e){
-				System.out.println("Unexpected exception: " + e);
 				throw new RuntimeException();
 			}
 		}
