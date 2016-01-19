@@ -37,8 +37,6 @@ public class DatenzugriffSerialisiert implements iDatenzugriff{
 	
 	public static void deleteSaveGame(String path, String filename){
 		File file = new File(path + filename);
-		System.out.println(path + filename);
-		System.out.println(file.delete());
 	}
 	
 	/* (non-Javadoc)
@@ -88,7 +86,6 @@ public class DatenzugriffSerialisiert implements iDatenzugriff{
 
 				// Get game-data
 				game.setPlayer(1, lastGame.getPlayer(1));
-				System.out.println(lastGame.getPlayer(1));
 				game.setPlayer(2, lastGame.getPlayer(2));
 				game.setGameboard(lastGame.getGameboard());
 				game.setCurrentGamer(lastGame.getCurrentGamer().getColor());
@@ -100,7 +97,7 @@ public class DatenzugriffSerialisiert implements iDatenzugriff{
 			return true;
 		}
 		catch(IOException | ClassNotFoundException e){
-			System.out.println(e);
+
 			return false;
 		}
 	}

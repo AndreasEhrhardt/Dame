@@ -36,7 +36,7 @@ public class DatenzugriffCSV implements iDatenzugriff {
 
 			// Write string to CSV
 			pw.write((String)game.csvString());
-			System.out.println((String)game.csvString());
+			
 		} catch (IOException e) {
 			return false;
 		} finally {

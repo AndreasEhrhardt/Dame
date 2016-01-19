@@ -73,6 +73,7 @@ public class SaveServlet extends HttpServlet {
 		//save as PDF
 		if(filetype.matches("PDF")){
 			iDatenzugriff pdf = new DatenzugriffPDF();
+			//String path1 = "C:\\Users\\Adina\\Documents\\Dame\\Dame\\WebContent\\";
 			pdf.saveGame(path, filename, game);
 			request.getRequestDispatcher("/WEB-INF/link.jsp").include(request, response); 
 			

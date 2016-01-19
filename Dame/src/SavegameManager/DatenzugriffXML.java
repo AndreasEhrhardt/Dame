@@ -28,14 +28,13 @@ public class DatenzugriffXML implements iDatenzugriff {
 			m.marshal(game, fw);
 			
 		} catch (Exception e) {
-			System.out.println(e);
+			
 			return false;
 		} 
 		finally {
 			try {
 				fw.close();
 			} catch (Exception e) {
-				System.out.println(e);
 				return false;
 			}
 		}
@@ -52,14 +51,8 @@ public class DatenzugriffXML implements iDatenzugriff {
 			Unmarshaller um = context.createUnmarshaller();
 			game = (SpielBean) um.unmarshal(new FileReader(path+filename));
 			
-			System.out.println(game.getPlayer(1).getName());
-			System.out.println(game.getGameboardSize());
-			System.out.println(game.getCurrentGamer());
 		} catch (Exception e) {
-			System.out.println(e);
 			return false;
-		} finally{
-			System.out.println(filename+" geladen");
 		}
 		return true;
 	}

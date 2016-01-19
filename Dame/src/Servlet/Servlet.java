@@ -60,7 +60,7 @@ public class Servlet extends HttpServlet {
 		if(game == null
 				|| (request.getParameter("NewGame") != null && request.getParameter("NewGame").compareTo("true") == 0 && this.activeGamer(session, game))
 				|| (request.getParameter("NewGame") != null && request.getParameter("NewGame").compareTo("true") == 0 && game.getPlayer(1).getKi() != null && game.getPlayer(2).getKi() != null)){
-			System.out.println("Create new game");
+		
 
 			// Remove game object
 			this.getServletConfig().getServletContext().removeAttribute("GAME");
@@ -117,8 +117,6 @@ public class Servlet extends HttpServlet {
 				// Set gameid
 				if(session.getAttribute("NAME") != null) session.setAttribute("GAME_ID", game.getID());
 
-				// Output information
-				System.out.println("Gameobject created!");
 			} else{
 				// Import start page
 				request.getRequestDispatcher("/WEB-INF/Setting.jsp").include(request, response); 
@@ -155,8 +153,6 @@ public class Servlet extends HttpServlet {
 				}
 			}
 
-			// Output information
-			System.out.println("Gameobject found");
 
 			// Add game as paramter
 			request.setAttribute("GAME", game);
